@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: ucenter
+  profiles:
+    active: dev
+  messages:
+    basename: messages/messages
+  redis:
+    jedis:
+      pool:
+        max-active:
+        max-idle:
+        max-wait:
+        min-idle:
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.xuexingdong.x.ucenter.model

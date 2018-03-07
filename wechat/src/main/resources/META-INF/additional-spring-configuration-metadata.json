@@ -1,0 +1,25 @@
+{
+  "properties": [
+    {
+      "name": "wechat.appid",
+      "type": "java.lang.String",
+      "description": "Description for wechat.appid."
+    },
+    {
+      "name": "wechat.token",
+      "type": "java.lang.String",
+      "description": "Description for wechat.token."
+    },
+    {
+      "name": "wechat.encrypt-mode",
+      "type": "java.lang.Enum<com.xuexingdong.x.wechat.sdk.constant.WechatEncryptMode>",
+      "defaultValue": "CLEAR",
+      "description": "Description for wechat.encrypt-mode."
+    },
+    {
+      "name": "wechat.aeskey",
+      "type": "java.lang.String",
+      "description": "Description for wechat.aeskey."
+    }
+  ]
+}

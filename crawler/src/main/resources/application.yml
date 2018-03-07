@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: crawler
+  profiles:
+    active: dev
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.xuexingdong.crawler.model
