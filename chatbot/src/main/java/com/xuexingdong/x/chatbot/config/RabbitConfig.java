@@ -7,9 +7,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
+    public static final String RECEIVE_QUEUE = "chatbot.receive";
+
+    public static final String SEND_QUEUE = "chatbot.send";
+
     @Bean
     Queue queue() {
-        return new Queue("chatbot.receive", false);
+        return new Queue(RECEIVE_QUEUE, false);
     }
 }
 
