@@ -10,4 +10,6 @@ import reactor.core.publisher.Flux;
 public interface ChatRepository extends ReactiveMongoRepository<Chat, String> {
 
     Flux<Chat> findAllBy(Pageable pageable);
+
+    Flux<Chat> findAllByNickname(String nickname, Pageable pageable);
 }

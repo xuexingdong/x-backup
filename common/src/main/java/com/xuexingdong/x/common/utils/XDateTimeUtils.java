@@ -1,6 +1,7 @@
 package com.xuexingdong.x.common.utils;
 
 import java.time.Clock;
+import java.time.LocalTime;
 
 public final class XDateTimeUtils {
 
@@ -20,4 +21,13 @@ public final class XDateTimeUtils {
         return String.valueOf(get13Timestamp());
     }
 
+    public static boolean isInRange(LocalTime time, LocalTime one, LocalTime another) {
+        if (one.equals(another)) {
+            return time.equals(one);
+        }
+        if (one.isBefore(another)) {
+            return time.isAfter(one) && time.isBefore(another);
+        }
+        return time.isAfter(one) || time.isBefore(another);
+    }
 }

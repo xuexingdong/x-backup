@@ -12,6 +12,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_STREAM_JSON;
 
@@ -33,10 +35,14 @@ public class ChatHandler {
     }
 
     public Mono<ServerResponse> listChat(ServerRequest request) {
+        Optional<String> nickname = request.queryParam("nickname");
+        if (!nickname.isPresent()) {
+            return ServerResponse.badRequest().build();
+        }
         Integer page = request.queryParam("page").map(Integer::valueOf).orElse(1);
         Integer size = request.queryParam("size").map(Integer::valueOf).orElse(10);
         Pageable pageable = PageRequest.of(page, size);
-        Flux<Chat> chats = repository.findAllBy(pageable);
+        Flux<Chat> chats = repository.findAllByNickname(nickname.get(), pageable);
         return ServerResponse.ok().contentType(APPLICATION_STREAM_JSON).body(chats, Chat.class);
     }
 

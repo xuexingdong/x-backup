@@ -36,10 +36,5 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.xuexingdong.x</groupId>
-            <artifactId>common</artifactId>
-            <version>${x.version}</version>
-        </dependency>
     </dependencies>
 </project>

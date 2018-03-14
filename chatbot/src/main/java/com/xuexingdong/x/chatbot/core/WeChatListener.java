@@ -2,9 +2,11 @@ package com.xuexingdong.x.chatbot.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xuexingdong.x.chatbot.config.RabbitConfig;
 import com.xuexingdong.x.chatbot.webwx.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -27,20 +29,19 @@ public class WeChatListener {
 
     private static final Logger logger = LoggerFactory.getLogger(WeChatListener.class);
 
-    private static final String RECEIVE_QUEUE = "chatbot.receive";
-
-    private static final String SEND_QUEUE = "chatbot.send";
-
     private final AmqpTemplate amqpTemplate;
 
     private final ObjectMapper objectMapper;
 
     private List<ChatbotPlugin> chatBotPlugins;
 
+    private final AmqpAdmin admin;
+
     @Autowired
-    public WeChatListener(AmqpTemplate amqpTemplate, ObjectMapper objectMapper) {
+    public WeChatListener(AmqpTemplate amqpTemplate, ObjectMapper objectMapper, AmqpAdmin admin) {
         this.amqpTemplate = amqpTemplate;
         this.objectMapper = objectMapper;
+        this.admin = admin;
     }
 
     @Autowired
@@ -48,7 +49,7 @@ public class WeChatListener {
         this.chatBotPlugins = chatBotPlugins;
     }
 
-    @RabbitListener(queues = RECEIVE_QUEUE)
+    @RabbitListener(queues = RabbitConfig.RECEIVE_QUEUE)
     @RabbitHandler
     public void process(@Payload Message message) {
         String msg = new String(message.getBody(), Charset.forName("UTF-8"));
@@ -96,13 +97,14 @@ public class WeChatListener {
         }
         response.ifPresent(r -> {
             // NOTE 测试
-            // r.setToUsername(wxMessage.getToUsername());
+            // r.setToUsername("filehelper");
             // 文本消息追加机器人后缀
             if (r.getMsgType() == MsgType.TEXT) {
                 r.setContent(r.getContent() + "\n(response by 🤖)");
             }
+            logger.info("向用户【{}】发送消息: {}", r.getToUsername(), r.getContent());
             try {
-                amqpTemplate.convertAndSend(SEND_QUEUE, objectMapper.writeValueAsString(r));
+                amqpTemplate.convertAndSend(RabbitConfig.SEND_QUEUE, objectMapper.writeValueAsString(r));
             } catch (JsonProcessingException e) {
                 logger.error("json处理错误: {}", e);
             }
@@ -129,5 +131,10 @@ public class WeChatListener {
     @PostConstruct
     public void init() {
         chatBotPlugins = chatBotPlugins.stream().sorted(Comparator.comparingInt(ChatbotPlugin::order).reversed()).collect(Collectors.toList());
+    }
+
+    @PostConstruct
+    public void clearQueue() {
+        admin.purgeQueue(RabbitConfig.RECEIVE_QUEUE, false);
     }
 }

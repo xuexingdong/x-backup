@@ -1,6 +1,5 @@
 package com.xuexingdong.x.chatbot.handler;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +29,15 @@ public class AuthHandler {
     }
 
     public Mono<ServerResponse> auth(ServerRequest request) {
+        Optional<String> nickname = request.queryParam("nickname");
         Optional<String> secretKey = request.queryParam("secretKey");
+        if (!nickname.isPresent()) {
+            logger.warn("昵称不能为空");
+            return ServerResponse.badRequest().body(BodyInserters.fromObject("昵称不能为空"));
+        }
         if (!secretKey.isPresent()) {
-            logger.warn("密码不能为空");
-            return ServerResponse.badRequest().body(BodyInserters.fromObject("密码不能为空"));
+            logger.warn("秘钥不能为空");
+            return ServerResponse.badRequest().body(BodyInserters.fromObject("秘钥不能为空"));
         }
         Mono<String> fromUsername = template.opsForValue().get(secretKey.get().toLowerCase());
         return ServerResponse.ok().body(BodyInserters.fromPublisher(fromUsername, String.class));

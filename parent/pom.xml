@@ -119,6 +119,15 @@
             <artifactId>commons-lang3</artifactId>
             <version>${common-lang3.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.xuexingdong.x</groupId>
+            <artifactId>common</artifactId>
+            <version>${x.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
