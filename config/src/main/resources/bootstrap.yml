@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: config
+  profiles:
+    active: dev
+  cloud:
+      config:
+        server:
+          git:
+            uri: https://github.com/xuexingdong/x-config.git
