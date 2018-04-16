@@ -11,10 +11,15 @@
 
     <modules>
         <module>parent</module>
-        <module>chatbot</module>
+        <module>registry</module>
+        <module>config</module>
+
         <module>common</module>
-        <module>crawler</module>
+
         <module>ucenter</module>
+
+        <module>crawler</module>
+        <module>chatbot</module>
         <module>wishwall</module>
         <module>wechat</module>
     </modules>
