@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: wish
+  jackson:
+    serialization:
+      WRITE_ENUMS_USING_TO_STRING: true
+    deserialization:
+      READ_ENUMS_USING_TO_STRING: true
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
+  profiles:
+    active: dev
+
+server:
+  port: 9999

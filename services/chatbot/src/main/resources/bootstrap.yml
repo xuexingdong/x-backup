@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: chatbot
+  profiles:
+    active: dev

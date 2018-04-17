@@ -15,7 +15,7 @@
     <artifactId>parent</artifactId>
     <name>parent</name>
     <description>Project X</description>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${x.version}</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -24,8 +24,8 @@
         <java.source.version>1.8</java.source.version>
         <java.target.version>1.8</java.target.version>
 
-        <springcloud.version>Finchley.M9</springcloud.version>
-        <springboot.version>2.0.1.RELEASE</springboot.version>
+        <spring-cloud.version>Finchley.M9</spring-cloud.version>
+        <spring-boot.version>2.0.1.RELEASE</spring-boot.version>
         <jsr305.version>3.0.2</jsr305.version>
 
         <x.version>1.0.0-SNAPSHOT</x.version>
@@ -44,7 +44,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${springcloud.version}</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -81,17 +81,17 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-webflux</artifactId>
-                <version>${springboot.version}</version>
+                <version>${spring-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
-                <version>${springboot.version}</version>
+                <version>${spring-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
-                <version>${springboot.version}</version>
+                <version>${spring-boot.version}</version>
             </dependency>
             <!--other-->
             <dependency>
@@ -114,7 +114,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
-                <version>${springboot.version}</version>
+                <version>${spring-boot.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
