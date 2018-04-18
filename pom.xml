@@ -15,13 +15,13 @@
         <module>basic/gateway</module>
         <module>basic/config</module>
 
-        <module>common</module>
+        <module>common/entity</module>
+        <module>common/util</module>
 
         <module>services/ucenter</module>
         <module>services/crawler</module>
         <module>services/chatbot</module>
         <module>services/wishwall</module>
         <module>services/wechat</module>
-        <module>entity</module>
     </modules>
 </project>
