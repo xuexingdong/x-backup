@@ -1,3 +1,5 @@
+package com.xuexingdong.x.gateway;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 

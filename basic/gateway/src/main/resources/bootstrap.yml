@@ -3,3 +3,5 @@ spring:
     name: gateway
   profiles:
     active: dev
+server:
+  port: 8088
