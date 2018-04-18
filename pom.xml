@@ -18,6 +18,8 @@
         <module>common/entity</module>
         <module>common/util</module>
 
+        <module>services/service-parent</module>
+
         <module>services/ucenter</module>
         <module>services/crawler</module>
         <module>services/chatbot</module>

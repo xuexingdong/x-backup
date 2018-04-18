@@ -1,6 +1,6 @@
 *.idea
 *.iml
-application-*.yml
+application-prod.yml
 log/
 logs/
 target/

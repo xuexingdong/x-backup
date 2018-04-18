@@ -1,6 +1,5 @@
 package com.xuexingdong.x.ucenter.vo;
 
-
 import com.xuexingdong.x.entity.User;
 
 public class UserVO {
