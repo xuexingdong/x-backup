@@ -20,7 +20,7 @@ import java.util.Objects;
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
     @NotEmpty
-    @Value("${token.secret-key}")
+    @Value("${jwt.secret-key}")
     private String secretKey;
 
     @Override

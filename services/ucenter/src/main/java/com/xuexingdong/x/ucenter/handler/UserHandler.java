@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -28,21 +29,12 @@ public class UserHandler {
     }
 
     public Mono<ServerResponse> register(ServerRequest request) {
-        Mono<UserDTO> userDTOMono = request.bodyToMono(UserDTO.class);
-        String userId = request.headers().asHttpHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        UserVO userVO = userService.getById(userId);
-        if (Objects.isNull(userVO)) {
-            return ServerResponse.notFound().build();
-        }
-        return ServerResponse.ok().body(Mono.justOrEmpty(userVO), UserVO.class);
-    }
+        return userService.register(request.bodyToMono(UserDTO.class)).flatMap(success -> {
+            if (!success) {
+                return ServerResponse.ok().build();
+            }
+            return ServerResponse.ok().build();
+        });
 
-    public Mono<ServerResponse> login(ServerRequest request) {
-        String userId = request.headers().asHttpHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        UserVO userVO = userService.getById(userId);
-        if (Objects.isNull(userVO)) {
-            return ServerResponse.notFound().build();
-        }
-        return ServerResponse.ok().body(Mono.justOrEmpty(userVO), UserVO.class);
     }
 }

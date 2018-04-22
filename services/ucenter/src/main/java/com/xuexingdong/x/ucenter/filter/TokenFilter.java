@@ -39,7 +39,9 @@ public class TokenFilter {
                 Claims claims = Jwts.parser()
                         .setSigningKey(key)
                         .parseClaimsJws(authorization).getBody();
-                logger.info("User {} login", claims.getSubject());
+                String userId = claims.getSubject();
+                request.attributes().put("uid", userId);
+                logger.info("User {} findOne", userId);
                 return next.handle(request);
             } catch (SignatureException | ExpiredJwtException e) {
                 logger.error("JWT exception: {}", e);

@@ -2,6 +2,7 @@ package com.xuexingdong.x.ucenter.router;
 
 import com.xuexingdong.x.ucenter.filter.TokenFilter;
 import com.xuexingdong.x.ucenter.handler.UserHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -13,10 +14,19 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @Configuration
 public class UserRouter {
 
+    private final UserHandler userHandler;
+
+    private final TokenFilter tokenFilter;
+
+    @Autowired
+    public UserRouter(TokenFilter tokenFilter, UserHandler userHandler) {
+        this.tokenFilter = tokenFilter;
+        this.userHandler = userHandler;
+    }
+
     @Bean
-    public RouterFunction<?> userRoutes(UserHandler userHandler, TokenFilter tokenFilter) {
-        return route(POST("/ucenter/users/"), userHandler::register)
-                .andRoute(GET("/ucenter/users/{id}"), userHandler::login)
+    public RouterFunction<?> routerFunction() {
+        return route(POST("/users"), userHandler::register)
                 .filter(tokenFilter::filter);
     }
 }

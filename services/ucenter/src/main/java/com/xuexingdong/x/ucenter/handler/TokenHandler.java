@@ -7,7 +7,6 @@ import com.xuexingdong.x.ucenter.service.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -26,12 +25,7 @@ public class TokenHandler {
     }
 
     public Mono<ServerResponse> generateToken(ServerRequest request) {
-        return request.bodyToMono(UserDTO.class).flatMap(userDTO -> {
-            if (userDTO == null) {
-                return ServerResponse.badRequest().build();
-            }
-            Token token = tokenService.generateToken(userDTO);
-            return ServerResponse.badRequest().body(Mono.just(token), Token.class);
-        });
+        Mono<Token> tokenMono = tokenService.generateToken(request.bodyToMono(UserDTO.class));
+        return ServerResponse.ok().body(tokenMono, Token.class);
     }
 }

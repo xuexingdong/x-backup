@@ -4,23 +4,26 @@
 
 五花八门，应有尽有
 
-## common
-自用工具类封装
+## basic
+基础组件
+- config：配置中心
+- gateway：网关
+- registry：注册中心
 
-## config
-配置中心
+## common
+公共
+
+## parent
+父项目
+
+## services
+具体服务
 
 ## crawler
 爬虫项目后台
 
 目前支持以下爬虫
 1. 天猫商品价格监控
-
-## parent
-父项目
-
-## registry
-注册中心
 
 ## ucenter
 网站用户中心

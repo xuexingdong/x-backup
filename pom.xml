@@ -25,5 +25,6 @@
         <module>services/chatbot</module>
         <module>services/wishwall</module>
         <module>services/wechat</module>
+        <module>services/buyme</module>
     </modules>
 </project>

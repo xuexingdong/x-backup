@@ -1,4 +1,4 @@
-package com.xuexingdong.x.ucenter;
+package com.xuexingdong.x.ucenter.handler;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,17 +13,14 @@ import org.springframework.web.reactive.function.BodyInserters;
 @RunWith(SpringRunner.class)
 @AutoConfigureWebTestClient
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TokenTest {
+public class UserTest {
 
     @Autowired
     private WebTestClient webClient;
 
     @Test
-    public void testExample() {
-        webClient.post().uri("/ucenter/tokens").contentType(MediaType.APPLICATION_JSON)
-                .exchange().expectStatus().isBadRequest().expectBody(String.class).isEqualTo("用户名/密码不能为空");
-        webClient.post().uri("/ucenter/tokens").contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromFormData("username", "1").with("password", "1"))
-                .exchange().expectBody(String.class).isEqualTo("");
+    public void testRegister() {
+        webClient.post().uri("/users").contentType(MediaType.APPLICATION_JSON)
+                .exchange().expectStatus().isOk();
     }
 }

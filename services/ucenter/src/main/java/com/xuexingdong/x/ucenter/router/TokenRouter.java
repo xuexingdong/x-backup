@@ -13,6 +13,6 @@ public class TokenRouter {
 
     @Bean
     public RouterFunction<?> tokenRoutes(TokenHandler tokenHandler) {
-        return route(POST("/ucenter/tokens"), tokenHandler::generateToken);
+        return route(POST("/tokens"), tokenHandler::generateToken);
     }
 }

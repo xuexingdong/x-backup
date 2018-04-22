@@ -2,10 +2,11 @@ package com.xuexingdong.x.ucenter.service;
 
 import com.xuexingdong.x.ucenter.dto.UserDTO;
 import com.xuexingdong.x.ucenter.vo.UserVO;
+import reactor.core.publisher.Mono;
 
 public interface UserService {
 
-    void register(UserDTO userDTO);
+    Mono<Boolean> register(Mono<UserDTO> userDTOMono);
 
-    UserVO getById(String id);
+    Mono<UserVO> getById(String id);
 }
