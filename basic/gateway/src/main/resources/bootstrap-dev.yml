@@ -4,6 +4,8 @@ spring:
       discovery:
         service-id: config
         enabled: true
+      username: xuexingdong
+      password: 123456
       label: 1.0.0
     service-registry:
       auto-registration:

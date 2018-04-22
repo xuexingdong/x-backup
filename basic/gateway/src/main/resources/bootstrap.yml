@@ -3,5 +3,10 @@ spring:
     name: gateway
   profiles:
     active: dev
+  cloud:
+    config:
+      discovery:
+        service-id: config
+        enabled: true
 server:
   port: 8088
