@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          username: xuexingdong
+          password: 654321
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka/
