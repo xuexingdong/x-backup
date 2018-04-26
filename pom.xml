@@ -17,6 +17,7 @@
 
         <module>common/entity</module>
         <module>common/util</module>
+        <module>common/dao</module>
 
         <module>services/service-parent</module>
 

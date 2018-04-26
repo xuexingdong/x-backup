@@ -15,7 +15,7 @@
     <artifactId>parent</artifactId>
     <name>parent</name>
     <description>Project X</description>
-    <version>${x.version}</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -35,7 +35,6 @@
         <jjwt.version>0.9.0</jjwt.version>
         <guava.version>24.0-jre</guava.version>
         <HikariCP.version>3.1.0</HikariCP.version>
-        <mybatis-spring-boot.version>1.3.2</mybatis-spring-boot.version>
         <junit.version>4.12</junit.version>
     </properties>
 
