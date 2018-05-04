@@ -1,3 +1,4 @@
+# named prd because *-prod.yml is ignored
 spring:
   cloud:
     config:
