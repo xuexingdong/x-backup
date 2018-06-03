@@ -1,10 +1,9 @@
 package com.xuexingdong.x.mapper;
 
 import com.xuexingdong.x.entity.Activity;
-import com.xuexingdong.x.entity.User;
+import com.xuexingdong.x.enumeration.AuditStatus;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -17,5 +16,5 @@ public interface ActivityMapper {
 
     List<Activity> findAllByUserId(String userId);
 
-    int audit(@Param("id") int id, @Param("audit_status") boolean audit_status);
+    boolean audit(@Param("id") String id, @Param("audit_status") AuditStatus audit_status);
 }

@@ -1,5 +1,7 @@
 package com.xuexingdong.x.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -7,11 +9,15 @@ import java.time.LocalDateTime;
 public class ActivityDTO {
     @NotEmpty
     private String name;
-    @NotEmpty
+    @NotNull
     private String description;
+
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startDateTime;
+
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endDateTime;
 
     public String getName() {

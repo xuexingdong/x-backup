@@ -43,9 +43,15 @@ public class GlobalExceptionHandler {
         return ex.getMessage();
     }
 
+    @ExceptionHandler(BusinessException.class)
+    public String error(BusinessException ex) {
+        logger.error("{}", ex.getMessage());
+        return ex.getMessage();
+    }
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RuntimeException.class)
-    public String badRequest(RuntimeException ex) {
+    public String serverError(RuntimeException ex) {
         logger.error("{}", ex.getMessage());
         return "系统错误";
     }

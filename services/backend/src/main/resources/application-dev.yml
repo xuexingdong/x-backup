@@ -12,4 +12,4 @@ spring:
 
 jwt:
   secret-key: xuexingdong
-  expiration: 1m
+  expiration: 1d

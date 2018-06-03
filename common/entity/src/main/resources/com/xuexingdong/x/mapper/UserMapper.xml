@@ -7,14 +7,33 @@
         insert into "user" (id, username, password, salt, created_at)
         values (#{id}, #{username}, #{password}, #{salt}, now());
     </insert>
+
     <update id="updatePointsByOpenid">
         update "user"
         set points = points#{points}
         where openid = #{openid};
     </update>
+
+    <select id="findByUsername" resultType="User">
+        select *
+        from "user"
+        where deleted = false and username = #{username};
+
+    </select>
     <select id="findByOpenid" resultType="User">
         select *
         from "user"
-        where openid = #{openid};
+        where deleted = false and openid = #{openid};
+    </select>
+    <select id="findById" resultType="User">
+        select *
+        from "user"
+        where deleted = false and id = #{id};
+    </select>
+
+    <select id="findByUsernameAndPassword" resultType="com.xuexingdong.x.entity.User">
+        select *
+        from "user"
+        where deleted = false and username = #{username} and password = #{password};
     </select>
 </mapper>

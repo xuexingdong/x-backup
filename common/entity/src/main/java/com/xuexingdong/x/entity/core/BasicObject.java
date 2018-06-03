@@ -3,10 +3,10 @@ package com.xuexingdong.x.entity.core;
 import java.time.LocalDateTime;
 
 public abstract class BasicObject {
-    private LocalDateTime createdAt;
-    private String createdBy;
-    private LocalDateTime updatedAt;
-    private String updatedBy;
+    protected LocalDateTime createdAt;
+    protected String createdBy;
+    protected LocalDateTime updatedAt;
+    protected String updatedBy;
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

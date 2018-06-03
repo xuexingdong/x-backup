@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(UserDTO userDTO) {
-        if (Objects.nonNull(userMapper.findOneByUsername(userDTO.getUsername()))) {
+        if (Objects.nonNull(userMapper.findByUsername(userDTO.getUsername()))) {
             throw new BusinessException("用户已存在");
         }
         String salt = RandomStringUtils.randomAlphanumeric(16);

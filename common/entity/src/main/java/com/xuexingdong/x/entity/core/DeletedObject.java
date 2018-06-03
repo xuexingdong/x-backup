@@ -4,10 +4,10 @@ import java.time.LocalDateTime;
 
 public class DeletedObject extends BasicObject {
 
-    private Boolean deleted;
-    private LocalDateTime deletedAt;
-    private String deletedBy;
-    private String deletedToken;
+    protected Boolean deleted;
+    protected LocalDateTime deletedAt;
+    protected String deletedBy;
+    protected String deletedToken;
 
     public Boolean getDeleted() {
         return deleted;

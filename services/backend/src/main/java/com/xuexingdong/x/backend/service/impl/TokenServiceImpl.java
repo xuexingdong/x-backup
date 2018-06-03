@@ -2,9 +2,11 @@ package com.xuexingdong.x.backend.service.impl;
 
 import com.xuexingdong.x.backend.config.JwtConfig;
 import com.xuexingdong.x.backend.dto.UserDTO;
+import com.xuexingdong.x.backend.exception.BusinessException;
 import com.xuexingdong.x.backend.model.Token;
 import com.xuexingdong.x.backend.service.JwtService;
 import com.xuexingdong.x.backend.service.TokenService;
+import com.xuexingdong.x.common.crypto.XCrypto;
 import com.xuexingdong.x.entity.User;
 import com.xuexingdong.x.mapper.UserMapper;
 import io.jsonwebtoken.JwtBuilder;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
+import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -39,12 +42,16 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Token generate(UserDTO userDTO) {
-        User user = userMapper.findOneByUsernameAndPassword(userDTO.getUsername(), userDTO.getPassword());
-        Objects.requireNonNull(user, "账号密码错误");
+        User user = userMapper.findByUsername(userDTO.getUsername());
+        boolean success = XCrypto.BCrypt.encrypt(userDTO.getPassword(), user.getSalt()).equals(user.getPassword());
+        if (!success) {
+            throw new BusinessException("账号密码错误");
+        }
         byte[] encodedKey = Base64.getEncoder().encode(jwtConfig.getSecretKey().getBytes());
         SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
         JwtBuilder builder = Jwts.builder()
-                .setSubject(userDTO.getUsername())
+                .setSubject(user.getId())
+                .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS512, key);
         Token token = new Token();
         token.setToken(builder.compact());

@@ -1,23 +1,25 @@
 package com.xuexingdong.x.entity;
 
 import com.xuexingdong.x.entity.core.DeletedObject;
-import com.xuexingdong.x.enumeration.ActivityStatus;
+import com.xuexingdong.x.entity.core.Identifiable;
+import com.xuexingdong.x.enumeration.AuditStatus;
 
 import java.time.LocalDateTime;
 
-public class Activity extends DeletedObject {
-    private Integer id;
+public class Activity extends DeletedObject implements Identifiable<String> {
+    private String id;
     private String name;
     private String description;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-    private ActivityStatus status;
+    private AuditStatus auditStatus;
 
-    public Integer getId() {
+    @Override
+    public String getId() {
         return id;
     }
 
-    public Activity setId(Integer id) {
+    public Activity setId(String id) {
         this.id = id;
         return this;
     }
@@ -58,12 +60,12 @@ public class Activity extends DeletedObject {
         return this;
     }
 
-    public ActivityStatus getStatus() {
-        return status;
+    public AuditStatus getAuditStatus() {
+        return auditStatus;
     }
 
-    public Activity setStatus(ActivityStatus status) {
-        this.status = status;
+    public Activity setAuditStatus(AuditStatus auditStatus) {
+        this.auditStatus = auditStatus;
         return this;
     }
 }

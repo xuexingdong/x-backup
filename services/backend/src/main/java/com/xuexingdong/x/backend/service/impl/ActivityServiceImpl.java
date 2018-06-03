@@ -4,8 +4,9 @@ import com.xuexingdong.x.backend.dto.ActivityDTO;
 import com.xuexingdong.x.backend.service.ActivityService;
 import com.xuexingdong.x.backend.service.JwtService;
 import com.xuexingdong.x.backend.vo.ActivityVO;
+import com.xuexingdong.x.common.utils.XRandomUtils;
 import com.xuexingdong.x.entity.Activity;
-import com.xuexingdong.x.enumeration.ActivityStatus;
+import com.xuexingdong.x.enumeration.AuditStatus;
 import com.xuexingdong.x.enumeration.Role;
 import com.xuexingdong.x.mapper.ActivityMapper;
 import com.xuexingdong.x.mapper.RoleMapper;
@@ -31,44 +32,61 @@ public class ActivityServiceImpl implements ActivityService {
     private RoleMapper roleMapper;
 
     @Override
-    public void apply(ActivityDTO activityDTO) {
+    public ActivityVO apply(ActivityDTO activityDTO) {
         String userId = jwtService.getCurrentUserId();
         Activity activity = new Activity();
+        activity.setId(XRandomUtils.randomUUID());
         BeanUtils.copyProperties(activityDTO, activity);
-        activity.setStatus(ActivityStatus.WAITING);
+        activity.setAuditStatus(AuditStatus.WAITING);
         activity.setCreatedBy(userId);
         activityMapper.insert(activity);
+        ActivityVO activityVO = new ActivityVO();
+        BeanUtils.copyProperties(activity, activityVO);
+        return activityVO;
     }
 
     @Override
     public List<ActivityVO> getAll() {
-        List<Activity> activities = activityMapper.findAll();
-        List<ActivityVO> activityVOs = activities.stream().map(activity -> {
-            ActivityVO activityVO = new ActivityVO();
-            BeanUtils.copyProperties(activityVO, activity);
-            return activityVO;
-        }).collect(Collectors.toList());
-        return activityVOs;
-    }
-
-    public List<ActivityVO> getAll(int currentPage, int pageSize) {
-        return null;
-    }
-
-    @Override
-    public List<ActivityVO> getAllByUserId(String userId) {
-        return null;
-    }
-
-    @Override
-    public boolean audit(int id, boolean audit_status) {
         String userId = jwtService.getCurrentUserId();
         List<String> roles = roleMapper.findAllByUserId(userId);
         // 非管理员
         if (roles.stream().noneMatch(role -> role.equals(Role.ADMIN.name()))) {
             throw new HttpServerErrorException(HttpStatus.FORBIDDEN, "非管理员");
         }
-        return activityMapper.audit(id, audit_status) == 1;
+        List<Activity> activities = activityMapper.findAll();
+        List<ActivityVO> activityVOs = activities.stream().map(activity -> {
+            ActivityVO activityVO = new ActivityVO();
+            BeanUtils.copyProperties(activity, activityVO);
+            return activityVO;
+        }).collect(Collectors.toList());
+        return activityVOs;
     }
 
+    @Override
+    public List<ActivityVO> getAllByUserId(String userId) {
+        List<Activity> activities = activityMapper.findAllByUserId(userId);
+        List<ActivityVO> activityVOs = activities.stream().map(activity -> {
+            ActivityVO activityVO = new ActivityVO();
+            BeanUtils.copyProperties(activity, activityVO);
+            return activityVO;
+        }).collect(Collectors.toList());
+        return activityVOs;
+    }
+
+    @Override
+    public boolean audit(String id, boolean audit_status) {
+        String userId = jwtService.getCurrentUserId();
+        List<String> roles = roleMapper.findAllByUserId(userId);
+        // 非管理员
+        if (roles.stream().noneMatch(role -> role.equals(Role.ADMIN.name()))) {
+            throw new HttpServerErrorException(HttpStatus.FORBIDDEN, "非管理员");
+        }
+        AuditStatus status;
+        if (audit_status) {
+            status = AuditStatus.ACCEPTED;
+        } else {
+            status = AuditStatus.REJECTED;
+        }
+        return activityMapper.audit(id, status);
+    }
 }
