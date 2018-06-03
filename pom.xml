@@ -11,21 +11,15 @@
 
     <modules>
         <module>parent</module>
-        <module>basic/registry</module>
-        <module>basic/gateway</module>
-        <module>basic/config</module>
 
         <module>common/entity</module>
         <module>common/util</module>
-        <module>common/dao</module>
 
         <module>services/service-parent</module>
 
-        <module>services/ucenter</module>
+        <module>services/backend</module>
         <module>services/crawler</module>
         <module>services/chatbot</module>
-        <module>services/wishwall</module>
         <module>services/wechat</module>
-        <module>services/buyme</module>
     </modules>
 </project>

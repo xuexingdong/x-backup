@@ -12,11 +12,13 @@ import org.dom4j.Element;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class WechatPlugin {
+public interface WechatPlugin {
 
-    public abstract int order();
+    default int order() {
+        return 0;
+    }
 
-    public final Optional<? extends WechatResponseMessage> handle(Document document) {
+    default Optional<? extends WechatResponseMessage> handle(Document document) {
         String xml = document.asXML();
         Element root = document.getRootElement();
         String msgTypeStr = String.valueOf(root.element("MsgType").getData());
@@ -73,39 +75,39 @@ public abstract class WechatPlugin {
         return Optional.empty();
     }
 
-    Optional<? extends WechatResponseMessage> handleLink(LinkMessage linkMessage) {
+    default Optional<? extends WechatResponseMessage> handleLink(LinkMessage linkMessage) {
         return Optional.empty();
     }
 
-    Optional<? extends WechatResponseMessage> handleLocation(LocationMessage locationMessage) {
+    default Optional<? extends WechatResponseMessage> handleLocation(LocationMessage locationMessage) {
         return Optional.empty();
     }
 
-    Optional<? extends WechatResponseMessage> handleShortVideo(ShortVideoMessage shortVideoMessage) {
+    default Optional<? extends WechatResponseMessage> handleShortVideo(ShortVideoMessage shortVideoMessage) {
         return Optional.empty();
     }
 
-    Optional<? extends WechatResponseMessage> handleSubscribe(SubscribeEvent event) {
+    default Optional<? extends WechatResponseMessage> handleSubscribe(SubscribeEvent event) {
         return Optional.empty();
     }
 
-    Optional<? extends WechatResponseMessage> handleText(TextMessage textMessage) {
+    default Optional<? extends WechatResponseMessage> handleText(TextMessage textMessage) {
         return Optional.empty();
     }
 
-    Optional<? extends WechatResponseMessage> handleImage(ImageMessage imageMessage) {
+    default Optional<? extends WechatResponseMessage> handleImage(ImageMessage imageMessage) {
         return Optional.empty();
     }
 
-    Optional<? extends WechatResponseMessage> handleVideo(VideoMessage videoMessage) {
+    default Optional<? extends WechatResponseMessage> handleVideo(VideoMessage videoMessage) {
         return Optional.empty();
     }
 
-    Optional<? extends WechatResponseMessage> handleVoice(VoiceMessage voiceMessage) {
+    default Optional<? extends WechatResponseMessage> handleVoice(VoiceMessage voiceMessage) {
         return Optional.empty();
     }
 
-    Optional<? extends WechatResponseMessage> handleRecognitionVoice(RecognitionVoiceMessage recognitionVoiceMessage) {
+    default Optional<? extends WechatResponseMessage> handleRecognitionVoice(RecognitionVoiceMessage recognitionVoiceMessage) {
         return Optional.empty();
     }
 }

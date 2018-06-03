@@ -3,11 +3,9 @@ package com.xuexingdong.x.wechat;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
-
 @SpringBootApplication
 public class WechatApplication {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         SpringApplication.run(WechatApplication.class, args);
     }
 }

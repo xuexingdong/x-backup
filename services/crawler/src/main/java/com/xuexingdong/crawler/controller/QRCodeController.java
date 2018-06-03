@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/qrcode")
+@RequestMapping("qrcode")
 public class QRCodeController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class QRCodeController {
         return XMonoResp.data(qrCode);
     }
 
-    @GetMapping("/scan_status")
+    @GetMapping("scan_status")
     public XMonoResp<QRCodeScanStatus> getQRCodeScanStatus(@RequestParam QRCodeType type, @RequestParam String token) {
         QRCodeScanStatus scanStatus = null;
         switch (type) {
@@ -53,7 +53,7 @@ public class QRCodeController {
         return XMonoResp.data(scanStatus);
     }
 
-    @GetMapping("/redirect_uri")
+    @GetMapping("redirect_uri")
     public XMonoResp<String> getQRCodeRedirectUri(@RequestParam QRCodeType type, @RequestParam String token) {
         Optional<String> username = Optional.empty();
         switch (type) {

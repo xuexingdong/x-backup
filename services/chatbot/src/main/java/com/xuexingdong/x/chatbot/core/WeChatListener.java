@@ -12,12 +12,14 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -37,11 +39,14 @@ public class WeChatListener {
 
     private final AmqpAdmin admin;
 
+    private final StringRedisTemplate stringRedisTemplate;
+
     @Autowired
-    public WeChatListener(AmqpTemplate amqpTemplate, ObjectMapper objectMapper, AmqpAdmin admin) {
+    public WeChatListener(AmqpTemplate amqpTemplate, ObjectMapper objectMapper, AmqpAdmin admin, StringRedisTemplate stringRedisTemplate) {
         this.amqpTemplate = amqpTemplate;
         this.objectMapper = objectMapper;
         this.admin = admin;
+        this.stringRedisTemplate = stringRedisTemplate;
     }
 
     @Autowired
@@ -52,24 +57,36 @@ public class WeChatListener {
     @RabbitListener(queues = RabbitConfig.RECEIVE_QUEUE)
     @RabbitHandler
     public void process(@Payload Message message) {
-        String msg = new String(message.getBody(), Charset.forName("UTF-8"));
-        Optional<WebWXResponse> response;
+        String msg = new String(message.getBody(), StandardCharsets.UTF_8);
+        List<WebWxResponse> responses = new ArrayList<>();
         try {
-            WebWXMessage wxMessage = objectMapper.readValue(msg, WebWXMessage.class);
+            WebWxMessage wxMessage = objectMapper.readValue(msg, WebWxMessage.class);
             switch (wxMessage.getMsgType()) {
                 case TEXT:
-                    WebWXTextMessage textMessage = objectMapper.readValue(msg, WebWXTextMessage.class);
+                    WebWxTextMessage textMessage = objectMapper.readValue(msg, WebWxTextMessage.class);
                     // 替换emoji表情代码
                     textMessage.setContent(replaceEmoji(textMessage.getContent()));
                     logger.info("收到用户【{}】的文本消息: {}", textMessage.getFromUsername(), textMessage.getContent());
-                    response = chatBotPlugins.stream().map(chatBotPlugin -> chatBotPlugin.handleText(textMessage))
-                            .filter(Optional::isPresent).findFirst().orElse(Optional.empty());
+                    for (ChatbotPlugin chatBotPlugin : chatBotPlugins) {
+                        Optional<WebWxResponse> responseOptional = chatBotPlugin.handleText(textMessage);
+                        if (responseOptional.isPresent()) {
+                            responses.add(responseOptional.get());
+                            if (chatBotPlugin.isExclusive()) {
+                                break;
+                            }
+                        }
+                    }
                     break;
                 case IMAGE:
-                    WebWXImageMessage imageMessage = objectMapper.readValue(msg, WebWXImageMessage.class);
+                    WebWxImageMessage imageMessage = objectMapper.readValue(msg, WebWxImageMessage.class);
                     logger.info("收到用户【{}】的图片消息: {}", imageMessage.getFromUsername(), imageMessage.getCreateTime());
-                    response = chatBotPlugins.stream().map(chatBotPlugin -> chatBotPlugin.handleImage(imageMessage))
-                            .filter(Optional::isPresent).findFirst().orElse(Optional.empty());
+                    for (ChatbotPlugin chatBotPlugin : chatBotPlugins) {
+                        Optional<WebWxResponse> responseOptional = chatBotPlugin.handleImage(imageMessage);
+                        responseOptional.ifPresent(responses::add);
+                        if (chatBotPlugin.isExclusive()) {
+                            break;
+                        }
+                    }
                     break;
                 case VOICE:
                     break;
@@ -98,9 +115,8 @@ public class WeChatListener {
             logger.error("json转换错误: {}", e);
             return;
         }
-        response.ifPresent(r -> {
-            // NOTE 测试
-            // r.setToUsername("filehelper");
+        responses.forEach(r -> {
+            r.setToUsername("filehelper");
             // 文本消息追加机器人后缀
             if (r.getMsgType() == MsgType.TEXT) {
                 r.setContent(r.getContent() + "\n(response by 🤖)");
@@ -114,7 +130,7 @@ public class WeChatListener {
         });
     }
 
-    public String replaceEmoji(String content) {
+    private String replaceEmoji(String content) {
         // 表情符号
         StringBuffer sb = new StringBuffer(content.length());
         Matcher m = Patterns.EMOJI_PATTERN.matcher(content);
@@ -133,11 +149,12 @@ public class WeChatListener {
 
     @PostConstruct
     public void init() {
-        chatBotPlugins = chatBotPlugins.stream().sorted(Comparator.comparingInt(ChatbotPlugin::order).reversed()).collect(Collectors.toList());
-    }
-
-    @PostConstruct
-    public void clearQueue() {
+        // 清空redis
+        stringRedisTemplate.delete("chatbot:*");
+        // 清空消息队列
         admin.purgeQueue(RabbitConfig.RECEIVE_QUEUE, false);
+        admin.purgeQueue(RabbitConfig.SEND_QUEUE, false);
+        // 按照order倒序排序
+        chatBotPlugins = chatBotPlugins.stream().sorted(Comparator.comparingInt(ChatbotPlugin::order).reversed()).collect(Collectors.toList());
     }
 }

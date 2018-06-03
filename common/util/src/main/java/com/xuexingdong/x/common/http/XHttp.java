@@ -5,7 +5,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -15,23 +14,23 @@ import java.util.Map;
 public class XHttp {
 
 
-    public static String get(@Nonnull String url) throws IOException {
+    public static String get(String url) throws IOException {
         return request(url).body().string();
     }
 
-    public static String post(@Nonnull String url) throws IOException {
+    public static String post(String url) throws IOException {
         return request(url).body().string();
     }
 
-    public static String body(@Nonnull String url) throws IOException {
+    public static String body(String url) throws IOException {
         return request(url).body().string();
     }
 
-    public static Headers headers(@Nonnull String url) throws IOException {
+    public static Headers headers(String url) throws IOException {
         return request(url).headers();
     }
 
-    public static Map<String, String> cookies(@Nonnull String url) throws IOException {
+    public static Map<String, String> cookies(String url) throws IOException {
         Headers headers = headers(url);
         Map<String, String> map = new HashMap<>();
         List<String> cookies = headers.values("Set-Cookie");
@@ -47,7 +46,8 @@ public class XHttp {
         }
         return map;
     }
-    public static Response request(@Nonnull String url) throws IOException {
+
+    public static Response request(String url) throws IOException {
         OkHttpClient client = OkHttpClientFactory.getIgnoreSSLClient();
         Request request = new Request.Builder()
                 .url(url)

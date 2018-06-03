@@ -11,7 +11,7 @@ public class TmallItemController {
     @Autowired
     private TmallItemService tmallItemService;
 
-    @GetMapping("/search/tmall/items")
+    @GetMapping("search/tmall/items")
     public String search(String name) {
         tmallItemService.search(name);
         return "!";

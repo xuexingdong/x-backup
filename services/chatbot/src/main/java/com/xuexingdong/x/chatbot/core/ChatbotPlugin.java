@@ -1,8 +1,8 @@
 package com.xuexingdong.x.chatbot.core;
 
-import com.xuexingdong.x.chatbot.webwx.WebWXImageMessage;
-import com.xuexingdong.x.chatbot.webwx.WebWXResponse;
-import com.xuexingdong.x.chatbot.webwx.WebWXTextMessage;
+import com.xuexingdong.x.chatbot.webwx.WebWxImageMessage;
+import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
+import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 
 import java.util.Optional;
 
@@ -12,23 +12,27 @@ public interface ChatbotPlugin {
         return Integer.MAX_VALUE;
     }
 
-    default Optional<WebWXResponse> handleText(WebWXTextMessage textMessage) {
+    default boolean isExclusive() {
+        return true;
+    }
+
+    default Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
         return Optional.empty();
     }
 
-    default Optional<WebWXResponse> handleImage(WebWXImageMessage imageMessage) {
+    default Optional<WebWxResponse> handleImage(WebWxImageMessage imageMessage) {
         return Optional.empty();
     }
 
-    default Optional<WebWXResponse> handleVoice(WebWXTextMessage textMessage) {
+    default Optional<WebWxResponse> handleVoice(WebWxTextMessage textMessage) {
         return Optional.empty();
     }
 
-    default Optional<WebWXResponse> handleVideo(WebWXTextMessage textMessage) {
+    default Optional<WebWxResponse> handleVideo(WebWxTextMessage textMessage) {
         return Optional.empty();
     }
 
-    default Optional<WebWXResponse> handleLocation(WebWXTextMessage textMessage) {
+    default Optional<WebWxResponse> handleLocation(WebWxTextMessage textMessage) {
         return Optional.empty();
     }
 }

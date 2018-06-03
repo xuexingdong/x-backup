@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/qrcode")
+@RequestMapping("qrcode")
 public class QRCodeController {
 
     public static final String QRCODE_GENERATE_URL = "https://qrlogin.taobao.com/qrcodelogin/generateQRCode4Login.do";

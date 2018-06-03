@@ -1,10 +1,10 @@
 package com.xuexingdong.x.wechat.aop;
 
 import com.xuexingdong.x.common.utils.XDateTimeUtils;
-import com.xuexingdong.x.common.utils.XRandomUtils;
 import com.xuexingdong.x.wechat.config.WechatConfig;
 import com.xuexingdong.x.wechat.sdk.aes.AesException;
 import com.xuexingdong.x.wechat.sdk.aes.WXBizMsgCrypt;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -69,7 +69,7 @@ public class WechatAESAspect {
         result = (String) point.proceed(args);
 
         timestamp = XDateTimeUtils.get10TimestampStr();
-        nonce = XRandomUtils.nextString(6);
+        nonce = RandomStringUtils.randomAlphabetic(6);
         try {
             result = pc.encryptMsg(result, timestamp, nonce);
         } catch (AesException e) {

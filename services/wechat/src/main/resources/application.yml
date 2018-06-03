@@ -1,5 +1,19 @@
 spring:
+  application:
+    name: chatbot
   profiles:
-    active: test
+    active: prod
+  jackson:
+    serialization:
+      WRITE_ENUMS_USING_TO_STRING: true
+    deserialization:
+      READ_ENUMS_USING_TO_STRING: true
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
 
-
+plugin:
+  functions:
+    - 帮助：查看功能列表。
+    - 绑定：先绑定，先绑定，先绑定，要不其他都没得玩。
+    - 积分：查看积分，积分可以在其他功能中使用。
+    - 签到：每天可签到一次，获取积分。

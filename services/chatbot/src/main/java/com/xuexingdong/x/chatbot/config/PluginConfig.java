@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@ConfigurationProperties("plugins")
+@ConfigurationProperties("plugin")
 public class PluginConfig {
 
     private List<String> functions = new ArrayList<>();

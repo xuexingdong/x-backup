@@ -4,7 +4,7 @@ package com.xuexingdong.x.wechat.sdk.message.request;
 import java.time.Clock;
 
 public abstract class WechatMessage {
-
+    
     private String toUserName;
     private String fromUserName;
     private long createTime = Math.floorDiv(Clock.systemDefaultZone().millis(), 1000L);

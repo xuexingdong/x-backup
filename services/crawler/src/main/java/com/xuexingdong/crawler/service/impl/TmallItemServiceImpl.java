@@ -1,6 +1,5 @@
 package com.xuexingdong.crawler.service.impl;
 
-import com.xuexingdong.crawler.common.Page;
 import com.xuexingdong.crawler.mapper.TmallItemMapper;
 import com.xuexingdong.crawler.model.TmallItem;
 import com.xuexingdong.crawler.service.TmallItemService;

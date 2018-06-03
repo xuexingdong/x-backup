@@ -1,6 +1,5 @@
 package com.xuexingdong.crawler.mapper;
 
-import com.xuexingdong.crawler.common.Page;
 import com.xuexingdong.crawler.model.TmallItem;
 import org.apache.ibatis.annotations.Mapper;
 

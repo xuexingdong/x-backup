@@ -1,7 +1,7 @@
 package com.xuexingdong.x.wechat.sdk.message.request.common;
 
-import com.xuexingdong.x.wechat.sdk.message.request.WechatMessage;
 import com.xuexingdong.x.wechat.sdk.constant.MsgType;
+import com.xuexingdong.x.wechat.sdk.message.request.WechatMessage;
 
 public abstract class CommonMessage extends WechatMessage {
     protected String msgId;
