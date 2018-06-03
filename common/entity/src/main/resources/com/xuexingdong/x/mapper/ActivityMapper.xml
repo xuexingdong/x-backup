@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuexingdong.x.mapper.ActivityMapper">
+    <insert id="insert">
+        insert into "activity" (name, description, startDateTime, endDateTime, audit_status, created_at, created_by)
+        values (#{name}, #{description}, #{startDateTime}, #{endDateTime}, #{auditStatus}, now(), #{createdBy});
+    </insert>
+
+    <select id="findAll">
+        select *
+        from "activity"
+        where deleted = false
+    </select>
+
+    <select id="findAllByUserId">
+        select *
+        from "activity"
+        where deleted = false and created_by = #{userId}
+    </select>
+
+    <update id="audit">
+        update "activity"
+        set audit_status = #{audit_status}
+        --             NOTE 注意只能审核一次
+        where id = #{id} AND audit_status = 0
+    </update>
+</mapper>

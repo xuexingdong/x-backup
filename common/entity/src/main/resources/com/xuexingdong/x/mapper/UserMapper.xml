@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuexingdong.x.mapper.UserMapper">
+    <insert id="insert">
+        insert into "user" (id, username, password, salt, created_at)
+        values (#{id}, #{username}, #{password}, #{salt}, now());
+    </insert>
+    <update id="updatePointsByOpenid">
+        update "user"
+        set points = points#{points}
+        where openid = #{openid};
+    </update>
+    <select id="findByOpenid" resultType="User">
+        select *
+        from "user"
+        where openid = #{openid};
+    </select>
+</mapper>

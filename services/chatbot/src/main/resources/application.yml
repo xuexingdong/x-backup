@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: chatbot
+  profiles:
+    active: dev
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+      WRITE_ENUMS_USING_TO_STRING: true
+    deserialization:
+      READ_ENUMS_USING_TO_STRING: true
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
+mybatis:
+  mapper-locations: classpath:com/xuexingdong/x/mapper/*Mapper.xml
+  type-aliases-package: com.xuexingdong.x.entity
