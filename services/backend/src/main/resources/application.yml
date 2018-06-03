@@ -7,10 +7,6 @@ spring:
     property-naming-strategy: SNAKE_CASE
   messages:
     basename: i18n/messages/messages
-  security:
-    user:
-      name: xxd
-      password: 123456
 mybatis:
   mapper-locations: classpath:com/xuexingdong/x/mapper/*Mapper.xml
   type-aliases-package: com.xuexingdong.x.entity
