@@ -1,6 +1,6 @@
 package com.xuexingdong.x.backend.config;
 
-import com.xuexingdong.x.backend.interceptor.AuthInterceptor;
+import com.xuexingdong.x.jwt.AuthInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor).addPathPatterns("/**")
-                .excludePathPatterns("/users")
+                .excludePathPatterns("/users/register")
                 .excludePathPatterns("/tokens/generate");
     }
 

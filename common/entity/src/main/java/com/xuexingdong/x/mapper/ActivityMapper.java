@@ -12,9 +12,13 @@ public interface ActivityMapper {
 
     boolean insert(Activity activity);
 
+    long countAll();
+
     List<Activity> findAll();
+
+    long countAllByUserId(String userId);
 
     List<Activity> findAllByUserId(String userId);
 
-    boolean audit(@Param("id") String id, @Param("audit_status") AuditStatus audit_status);
+    boolean audit(@Param("id") Integer id, @Param("audit_status") AuditStatus audit_status);
 }

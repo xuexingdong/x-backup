@@ -1,75 +1,88 @@
 package com.xuexingdong.x.backend.service.impl;
 
-import com.xuexingdong.x.backend.dto.BindDTO;
-import com.xuexingdong.x.backend.dto.UserDTO;
+import com.xuexingdong.x.backend.dto.RegisterDTO;
 import com.xuexingdong.x.backend.exception.BusinessException;
-import com.xuexingdong.x.backend.service.JwtService;
+import com.xuexingdong.x.backend.exception.Exceptions;
 import com.xuexingdong.x.backend.service.UserService;
 import com.xuexingdong.x.backend.vo.UserVO;
 import com.xuexingdong.x.common.crypto.XCrypto;
 import com.xuexingdong.x.common.utils.XRandomUtils;
 import com.xuexingdong.x.entity.User;
 import com.xuexingdong.x.mapper.UserMapper;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.amqp.core.AmqpTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private AmqpTemplate amqpTemplate;
-
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserMapper userMapper;
 
+    @Value("${point.register}")
+    private int registerPoint;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
     @Override
-    public User register(UserDTO userDTO) {
-        if (Objects.nonNull(userMapper.findByUsername(userDTO.getUsername()))) {
-            throw new BusinessException("用户已存在");
+    @Transactional
+    public boolean register(RegisterDTO registerDTO) {
+        String chatId = registerDTO.getChatId();
+        // 未知好友，禁止注册
+        if (BooleanUtils.isNotTrue(stringRedisTemplate.opsForSet().isMember("chatbot:chatids", chatId))) {
+            throw new BusinessException("未知好友不许注册");
         }
+        // 这个chatid已经注册过
+        if (stringRedisTemplate.opsForHash().hasKey("backend:chatid_userid_mapping", chatId)) {
+            throw new BusinessException("不允许重复注册");
+        }
+        // 用户名已存在
+        if (Objects.nonNull(userMapper.findByUsername(registerDTO.getUsername()))) {
+            throw Exceptions.USER_ALREADY_EXISTS;
+        }
+        // 密码加盐
         String salt = RandomStringUtils.randomAlphanumeric(16);
+        String userId = XRandomUtils.randomUUID();
         User user = new User()
-                .setId(XRandomUtils.randomUUID())
-                .setUsername(userDTO.getUsername())
-                .setPassword(XCrypto.BCrypt.encrypt(userDTO.getPassword(), salt))
+                .setId(userId)
+                .setUsername(registerDTO.getUsername())
+                .setPassword(XCrypto.BCrypt.encrypt(registerDTO.getPassword(), salt))
                 .setSalt(salt);
-        try {
-            userMapper.insert(user);
-        } catch (DuplicateKeyException e) {
-            throw new BusinessException("注册失败");
+        boolean insertSuccess = userMapper.insert(user);
+        if (!insertSuccess) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return false;
         }
-        return user;
+        // 注册送50积分
+        boolean addSuccess = userMapper.plusPoints(userId, registerPoint);
+        if (!addSuccess) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return false;
+        }
+        // 存储chatId与userId的关系
+        stringRedisTemplate.opsForHash().put("backend:chatid_userid_mapping", chatId, userId);
+        logger.info("User {} registered with chatId {}", userId, chatId);
+        return true;
     }
 
     @Override
     public UserVO getById(String id) {
         User user = userMapper.findById(id);
-        if (Objects.nonNull(user)) {
-            UserVO userVO = new UserVO();
-            BeanUtils.copyProperties(user, userVO);
-            return userVO;
-        }
-        throw new BusinessException("用户不存在");
-    }
-
-    @Override
-    public UserVO getByOpenid(String openid) {
-        User user = userMapper.findByOpenid(openid);
         if (Objects.isNull(user)) {
-            throw new BusinessException("用户不存在");
+            throw Exceptions.USER_NOT_EXIST;
         }
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
@@ -77,33 +90,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void bind(BindDTO bindDTO) {
-        // String redisKey = "chatbot:secret_key:" + bindDTO.getSecretKey();
-        // // 密钥校验不通过
-        // if (BooleanUtils.isNotTrue(stringRedisTemplate.hasKey(redisKey))) {
-        //     throw new ServerException("密钥错误");
-        // }
-        // User user = new User()
-        //         .setId(XRandomUtils.randomUUID())
-        //         .setOpenid(bindDTO.getOpenid())
-        //         .setCreatedAt(LocalDateTime.now());
-        // try {
-        //     userMapper.insert(user);
-        // } catch (DuplicateKeyException e) {
-        //     throw new ServerException("绑定失败");
-        // }
-        // // 存储openid与备注的映射
-        // stringRedisTemplate.opsForHash().put("chatbot:openid_username_mapping", bindDTO.getOpenid(), bindDTO.getRemarkName());
-        // // 存储备注与openid的映射
-        // stringRedisTemplate.opsForHash().put("chatbot:username_openid_mapping", bindDTO.getRemarkName(), bindDTO.getOpenid());
+    public UserVO getByOpenid(String openid) {
+        User user = userMapper.findByOpenid(openid);
+        if (Objects.isNull(user)) {
+            throw Exceptions.USER_NOT_EXIST;
+        }
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return userVO;
     }
 
     @Override
-    public void reBind(BindDTO bindDTO) {
-
-    }
-
-    @Override
-    public void unBind(String userId) {
+    public boolean bindOpenid(String userId, String openid) {
+        return userMapper.setOpenidById(userId, openid);
     }
 }

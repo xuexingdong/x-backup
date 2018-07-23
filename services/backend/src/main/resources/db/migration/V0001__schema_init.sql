@@ -2,9 +2,11 @@
 DROP TABLE IF EXISTS "public"."user";
 CREATE TABLE "public"."user" (
   "id"            char(32) COLLATE "pg_catalog"."default"     NOT NULL,
+  "openid"        varchar(255) COLLATE "pg_catalog"."default",
   "username"      varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "password"      varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "salt"          varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "points"        int4                                        NOT NULL default 0,
   "created_at"    timestamp(6)                                NOT NULL,
   "updated_at"    timestamp(6),
   "deleted"       bool                                        NOT NULL default false,

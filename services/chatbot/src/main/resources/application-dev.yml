@@ -3,3 +3,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/x
     username: xuexingdong
     password: 123456
+  data:
+    mongodb:
+      database: crawler
+
+server:
+  port: 8082
+
+siteurl: 192.168.31.107:9000

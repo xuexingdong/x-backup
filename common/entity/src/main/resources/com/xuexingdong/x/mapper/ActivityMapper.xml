@@ -4,12 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xuexingdong.x.mapper.ActivityMapper">
     <insert id="insert">
-        insert into "activity" (id, name, description, start_date_time, end_date_time, audit_status, created_at, created_by)
-        values (#{id}, #{name}, #{description}, #{startDateTime}, #{endDateTime}, #{auditStatus}, now(), #{createdBy});
+        insert into "activity" (name, description, start_date_time, end_date_time, audit_status, created_at, created_by)
+        values (#{name}, #{description}, #{startDateTime}, #{endDateTime}, #{auditStatus}, now(), #{createdBy});
     </insert>
 
     <select id="findAll" resultType="Activity">
         select *
+        from "activity"
+        where deleted = false;
+    </select>
+
+    <select id="countAll" resultType="long">
+        select count(1)
         from "activity"
         where deleted = false;
     </select>
@@ -20,9 +26,16 @@
         where deleted = false and created_by = #{userId};
     </select>
 
+    <select id="countAllByUserId" resultType="long">
+        select count(1)
+        from "activity"
+        where deleted = false and created_by = #{userId};
+    </select>
+
     <update id="audit">
         update "activity"
-        set audit_status = #{audit_status}
+        set audit_status = #{audit_status},
+            updated_at   = now()
         where deleted = false and id = #{id} AND audit_status = 'WAITING';
     </update>
 </mapper>

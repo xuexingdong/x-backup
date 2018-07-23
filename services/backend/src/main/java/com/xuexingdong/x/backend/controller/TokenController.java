@@ -1,8 +1,9 @@
 package com.xuexingdong.x.backend.controller;
 
-import com.xuexingdong.x.backend.dto.UserDTO;
+import com.xuexingdong.x.backend.dto.LoginDTO;
 import com.xuexingdong.x.backend.model.Token;
 import com.xuexingdong.x.backend.service.TokenService;
+import com.xuexingdong.x.common.http.XMonoResp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -11,12 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("tokens")
 public class TokenController {
 
+    private final TokenService tokenService;
+
     @Autowired
-    private TokenService tokenService;
+    public TokenController(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     @PostMapping("generate")
-    public Token generate(@Validated @RequestBody UserDTO userDTO) {
-        return tokenService.generate(userDTO);
+    public XMonoResp<Token> generate(@Validated @RequestBody LoginDTO loginDTO) {
+        return XMonoResp.data(tokenService.generate(loginDTO));
     }
 
     @DeleteMapping

@@ -12,7 +12,6 @@ public class Activity extends DeletedObject implements Identifiable<String> {
     private String description;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-    private AuditStatus auditStatus;
 
     @Override
     public String getId() {
@@ -57,15 +56,6 @@ public class Activity extends DeletedObject implements Identifiable<String> {
 
     public Activity setEndDateTime(LocalDateTime endDateTime) {
         this.endDateTime = endDateTime;
-        return this;
-    }
-
-    public AuditStatus getAuditStatus() {
-        return auditStatus;
-    }
-
-    public Activity setAuditStatus(AuditStatus auditStatus) {
-        this.auditStatus = auditStatus;
         return this;
     }
 }

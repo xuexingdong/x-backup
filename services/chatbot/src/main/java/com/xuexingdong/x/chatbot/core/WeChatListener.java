@@ -116,7 +116,6 @@ public class WeChatListener {
             return;
         }
         responses.forEach(r -> {
-            r.setToUsername("filehelper");
             // 文本消息追加机器人后缀
             if (r.getMsgType() == MsgType.TEXT) {
                 r.setContent(r.getContent() + "\n(response by 🤖)");

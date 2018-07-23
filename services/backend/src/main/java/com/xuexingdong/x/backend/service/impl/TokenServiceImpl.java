@@ -1,13 +1,14 @@
 package com.xuexingdong.x.backend.service.impl;
 
-import com.xuexingdong.x.backend.config.JwtConfig;
-import com.xuexingdong.x.backend.dto.UserDTO;
+import com.xuexingdong.x.backend.dto.LoginDTO;
 import com.xuexingdong.x.backend.exception.BusinessException;
+import com.xuexingdong.x.backend.exception.Exceptions;
 import com.xuexingdong.x.backend.model.Token;
-import com.xuexingdong.x.backend.service.JwtService;
 import com.xuexingdong.x.backend.service.TokenService;
 import com.xuexingdong.x.common.crypto.XCrypto;
 import com.xuexingdong.x.entity.User;
+import com.xuexingdong.x.jwt.JwtConfig;
+import com.xuexingdong.x.jwt.JwtService;
 import com.xuexingdong.x.mapper.UserMapper;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -41,9 +42,13 @@ public class TokenServiceImpl implements TokenService {
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public Token generate(UserDTO userDTO) {
-        User user = userMapper.findByUsername(userDTO.getUsername());
-        boolean success = XCrypto.BCrypt.encrypt(userDTO.getPassword(), user.getSalt()).equals(user.getPassword());
+    public Token generate(LoginDTO loginDTO) {
+        User user = userMapper.findByUsername(loginDTO.getUsername());
+        if (Objects.isNull(user)) {
+            throw Exceptions.USER_NOT_EXIST;
+        }
+
+        boolean success = XCrypto.BCrypt.encrypt(loginDTO.getPassword(), user.getSalt()).equals(user.getPassword());
         if (!success) {
             throw new BusinessException("账号密码错误");
         }

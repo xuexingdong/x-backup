@@ -13,8 +13,12 @@ import java.util.Optional;
 @Component
 public class TestPlugin implements ChatbotPlugin {
 
+    private final StringRedisTemplate stringRedisTemplate;
+
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    public TestPlugin(StringRedisTemplate stringRedisTemplate) {
+        this.stringRedisTemplate = stringRedisTemplate;
+    }
 
     @Override
     public int order() {
@@ -23,12 +27,13 @@ public class TestPlugin implements ChatbotPlugin {
 
     @Override
     public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
-        // 不是自己，就退出
-        String self = stringRedisTemplate.opsForValue().get("chatbot:my_from_username");
-        if (!textMessage.getFromUsername().equals(self)) {
+        // 不是发给filehelper的消息不会触发该测试
+        String self = stringRedisTemplate.opsForValue().get("chatbot:self_chatid");
+        if (!textMessage.getToUsername().equals(self)) {
             return Optional.empty();
         }
         WebWxResponse response = new WebWxResponse();
+        // 测试消息一律转回到filehelper
         response.setToUsername("filehelper");
         switch (textMessage.getContent()) {
             case "测试":

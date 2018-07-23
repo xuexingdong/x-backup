@@ -17,5 +17,9 @@ public interface UserMapper {
 
     boolean insert(User user);
 
-    boolean updatePointsByOpenid(String openid, int points);
+    boolean setOpenidById(@Param("id") String id, @Param("openid") String openid);
+
+    boolean plusPoints(@Param("id") String id, @Param("points") int points);
+
+    boolean minusPoints(@Param("id") String id, @Param("points") int points);
 }

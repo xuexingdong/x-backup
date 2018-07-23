@@ -13,3 +13,9 @@ spring:
 jwt:
   secret-key: xuexingdong
   expiration: 1d
+
+point:
+  register: 50
+
+server:
+  port: 8081

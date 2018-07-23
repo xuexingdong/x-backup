@@ -7,9 +7,11 @@ import java.time.LocalDateTime;
 public class User implements Identifiable<String> {
 
     private String id;
+    private String openid;
     private String username;
     private transient String password;
     private transient String salt;
+    private Integer points;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Boolean deleted;
@@ -24,6 +26,15 @@ public class User implements Identifiable<String> {
 
     public User setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public String getOpenid() {
+        return openid;
+    }
+
+    public User setOpenid(String openid) {
+        this.openid = openid;
         return this;
     }
 
@@ -51,6 +62,15 @@ public class User implements Identifiable<String> {
 
     public User setSalt(String salt) {
         this.salt = salt;
+        return this;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public User setPoints(Integer points) {
+        this.points = points;
         return this;
     }
 

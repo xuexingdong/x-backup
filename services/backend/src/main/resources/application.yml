@@ -12,3 +12,11 @@ mybatis:
   type-aliases-package: com.xuexingdong.x.entity
   configuration:
     map-underscore-to-camel-case: true
+
+pagehelper:
+  reasonable: true
+  params: count=countSql
+
+server:
+  servlet:
+    context-path: /api

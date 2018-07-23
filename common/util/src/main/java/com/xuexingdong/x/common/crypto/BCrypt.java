@@ -25,8 +25,4 @@ public class BCrypt implements EncryptionWithSalt {
         System.arraycopy(salt.getBytes(), 0, saltBytes, 0, saltBytes.length);
         return OpenBSDBCrypt.generate(src.toCharArray(), salt.getBytes(), COST);
     }
-
-    public static void main(String[] args) {
-        System.out.println(new BCrypt().encrypt("xuexingdong", "xuexingdong"));
-    }
 }
