@@ -17,13 +17,13 @@ public final class XRegexUtils {
     }
 
     public static Optional<String> findOne(String src, String regex) {
-        List<String> results = findAll(src, regex);
+        var results = findAll(src, regex);
         return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }
 
     public static List<String> findAll(String src, String regex) {
         Pattern pattern = Pattern.compile(regex);
-        List<String> results = new ArrayList<>();
+        var results = new ArrayList<String>();
         Matcher matcher = pattern.matcher(src);
         while (matcher.find()) {
             results.add(matcher.group());
@@ -32,7 +32,7 @@ public final class XRegexUtils {
     }
 
     public static List<Optional<String>> findBatch(String src, String... regexs) {
-        List<Optional<String>> results = new ArrayList<>();
+        var results = new ArrayList<Optional<String>>();
         for (String regex : regexs) {
             results.add(findOne(src, regex));
         }

@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS "public"."activity_application";
 CREATE TABLE "public"."activity_application" (
   "id"              serial4                                     NOT NULL,
-  "name"            varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "name"            varchar(255) default NOT NULL,
   "description"     varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
   "start_date_time" timestamp(6)                                NOT NULL,
   "end_date_time"   timestamp(6)                                NOT NULL,

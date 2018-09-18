@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/x
-    username: xuexingdong
+    url: jdbc:mysql://localhost/x
+    username: root
     password: 123456
   data:
     mongodb:
@@ -10,4 +10,8 @@ spring:
 server:
   port: 8082
 
-siteurl: 192.168.31.107:9000
+siteurl: 10.0.0.32:9000
+
+logging:
+  level:
+    com.xuexingdong.x: DEBUG

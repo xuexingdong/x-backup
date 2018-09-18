@@ -11,6 +11,7 @@ import com.xuexingdong.x.mapper.UserMapper;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Objects;
@@ -44,12 +46,8 @@ public class TokenServiceImpl implements TokenService {
         User user = userMapper.findByUsername(userDTO.getUsername());
 
         boolean success = XCrypto.BCrypt.encrypt(userDTO.getPassword(), user.getSalt()).equals(user.getPassword());
-        byte[] encodedKey = Base64.getEncoder().encode(jwtConfig.getSecretKey().getBytes());
-        SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
-        JwtBuilder builder = Jwts.builder()
-                .setSubject(user.getId())
-                .setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS512, key);
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        JwtBuilder builder = Jwts.builder().setSubject(user.getId()).signWith(key);
         Token token = new Token();
         token.setToken(builder.compact());
         token.setExpiration(jwtConfig.getExpiration().getSeconds());

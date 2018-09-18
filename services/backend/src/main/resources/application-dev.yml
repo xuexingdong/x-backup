@@ -1,8 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/x
-    username: xuexingdong
+    url: jdbc:mysql://localhost/x
+    username: root
     password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
   rabbitmq:
       host: localhost
       port: 5672
@@ -16,6 +17,7 @@ jwt:
 
 point:
   register: 50
+  create-activity: -100
 
 server:
   port: 8081

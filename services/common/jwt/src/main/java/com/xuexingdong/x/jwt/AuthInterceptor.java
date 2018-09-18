@@ -1,6 +1,7 @@
 package com.xuexingdong.x.jwt;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import org.apache.commons.lang3.BooleanUtils;
@@ -18,6 +19,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Key;
 import java.util.Base64;
 
 @Component
@@ -45,18 +47,18 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
         String token = authorization.substring(7);
         byte[] encodedKey = Base64.getEncoder().encode(jwtConfig.getSecretKey().getBytes());
-        SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
-        Claims claims;
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        Jws<Claims> claims;
         try {
             claims = Jwts.parser()
                     .setSigningKey(key)
-                    .parseClaimsJws(token).getBody();
+                    .parseClaimsJws(token);
         } catch (JwtException e) {
             logger.error("JWT exception: {}", e.getMessage());
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return false;
         }
-        String userId = claims.getSubject();
+        String userId = claims.getBody().getSubject();
         if (BooleanUtils.isNotTrue(stringRedisTemplate.hasKey("backend:jwt:" + userId))) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return false;

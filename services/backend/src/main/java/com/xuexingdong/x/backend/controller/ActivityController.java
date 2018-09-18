@@ -5,6 +5,7 @@ import com.xuexingdong.x.backend.vo.ActivityVO;
 import com.xuexingdong.x.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,10 +34,12 @@ public class ActivityController {
     }
 
     @GetMapping("activities/self")
-    public List<ActivityVO> getByUserId(@RequestParam(defaultValue = "1") Integer page,
-                                        @RequestParam(name = "per_page", defaultValue = "10") Integer perPage) {
+    public List<ActivityVO> getByUserId(@RequestParam(required = false) String q,
+                                        @RequestParam(defaultValue = "1") Integer page,
+                                        @RequestParam(name = "per_page", defaultValue = "10") Integer perPage,
+                                        @RequestParam(required = false) Sort sort) {
         String userId = jwtService.getCurrentUserId();
-        activityService.getAllByUserId(userId, PageRequest.of(page, perPage));
+        activityService.getAllByUserId(userId, PageRequest.of(page, perPage, sort));
         return null;
     }
 }

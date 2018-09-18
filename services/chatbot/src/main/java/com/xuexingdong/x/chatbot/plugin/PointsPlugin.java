@@ -55,12 +55,12 @@ public class PointsPlugin implements ChatbotPlugin {
             // 对方的chatId
             String otherChatId;
             // 判断当前是接收者还是发送者
-            if (selfChatId.equals(textMessage.getToUsername())) {
+            if (selfChatId.equals(textMessage.getFromUsername())) {
                 currentChatStatus = "SEND";
-                otherChatId = textMessage.getFromUsername();
+                otherChatId = textMessage.getToUsername();
             } else {
                 currentChatStatus = "RECEIVE";
-                otherChatId = textMessage.getToUsername();
+                otherChatId = textMessage.getFromUsername();
             }
             // 获取与对方上条消息的收发状态
             String lastChatStatus = stringRedisTemplate.opsForValue().get("chatbot:last_chat_status:" + otherChatId);
@@ -82,7 +82,6 @@ public class PointsPlugin implements ChatbotPlugin {
             }
             // 记录和这个人的消息收发情况
             stringRedisTemplate.opsForValue().set("chatbot:last_chat_status:" + otherChatId, currentChatStatus, 30, TimeUnit.MINUTES);
-            logger.debug("Last chat status with {} is {}", otherChatId, currentChatStatus);
         }
         return Optional.empty();
     }

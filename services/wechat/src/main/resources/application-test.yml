@@ -18,6 +18,6 @@ wechat:
   appid: wxee0ca058e61580f3
   appsecret: 090de7f06fc16808627e1fa3b1218163
   token: xxd
-  encrypt-mode: CLEAR
+  encrypt-mode: CIPHER
 
-hostname: e098ece4.ngrok.io
+hostname: dd

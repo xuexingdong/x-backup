@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         String chatId = registerDTO.getChatId();
         // 未知好友，禁止注册
         if (BooleanUtils.isNotTrue(stringRedisTemplate.opsForSet().isMember("chatbot:chatids", chatId))) {
-            throw new BusinessException("未知好友不许注册");
+            throw new BusinessException("未知好友不允许注册");
         }
         // 这个chatid已经注册过
         if (stringRedisTemplate.opsForHash().hasKey("backend:chatid_userid_mapping", chatId)) {
