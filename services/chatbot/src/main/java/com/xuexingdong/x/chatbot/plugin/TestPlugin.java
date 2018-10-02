@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xuexingdong.x.chatbot.config.RabbitConfig;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
+import com.xuexingdong.x.chatbot.util.GPSUtil;
 import com.xuexingdong.x.chatbot.webwx.MsgType;
 import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
 import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
@@ -44,7 +45,7 @@ public class TestPlugin implements ChatbotPlugin {
     public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
         // 不是发给filehelper的消息不会触发该测试
         String self = stringRedisTemplate.opsForValue().get("chatbot:self_chatid");
-        if (!textMessage.getToUsername().equals(self)) {
+        if (!textMessage.getFromUsername().equals(self)) {
             return Optional.empty();
         }
         WebWxResponse response = new WebWxResponse();

@@ -1,5 +1,7 @@
 package com.xuexingdong.x.backend.controller;
 
+import com.xuexingdong.x.backend.dto.DynamicLoginDTO;
+import com.xuexingdong.x.backend.dto.PasswordLoginDTO;
 import com.xuexingdong.x.backend.dto.RegisterDTO;
 import com.xuexingdong.x.backend.model.Token;
 import com.xuexingdong.x.backend.service.UserService;

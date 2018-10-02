@@ -1,5 +1,6 @@
 package com.xuexingdong.x.chatbot.plugin;
 
+import com.xuexingdong.x.chatbot.component.RedisDataComponent;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
 import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
@@ -26,6 +27,9 @@ public class PointsPlugin implements ChatbotPlugin {
     private static final int CHAT_POINTS = 1;
 
     @Autowired
+    private RedisDataComponent component;
+
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
@@ -45,7 +49,7 @@ public class PointsPlugin implements ChatbotPlugin {
     public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
         // 私聊才会加分
         if (WebWxUtils.isPerson(textMessage.getFromUsername()) && WebWxUtils.isPerson(textMessage.getToUsername())) {
-            String selfChatId = stringRedisTemplate.opsForValue().get("chatbot:self_chatid");
+            String selfChatId = component.getSelfUsername();
             if (StringUtils.isEmpty(selfChatId)) {
                 logger.warn("Self chat id is empty");
                 return Optional.empty();
