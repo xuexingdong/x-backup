@@ -39,22 +39,22 @@ public class LocationPlugin implements ChatbotPlugin {
     @Value("${gaode-key}")
     private String gaodeKey;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     private static final DecimalFormat GEO_DF = new DecimalFormat("#.000000");
 
     @Autowired
-    public LocationPlugin(LocationRepository locationRepository, RestTemplate restTemplate) {
+    public LocationPlugin(LocationRepository locationRepository, RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.locationRepository = locationRepository;
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @Override
     public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
         // 必须是个人号
         if (WebWxUtils.isPerson(textMessage.getFromUsername())
-                && "你在哪".equals(textMessage.getContent())) {
+                && "#定位".equals(textMessage.getContent())) {
             Optional<Location> locationOptional = locationRepository.findAll(PageRequest.of(1, 1,
                     Sort.by(Sort.Order.desc("created_at")))).stream().findFirst();
             WebWxResponse response = new WebWxResponse();
@@ -81,7 +81,7 @@ public class LocationPlugin implements ChatbotPlugin {
                     return Optional.empty();
                 }
                 String address = node.get("regeocode").get("formatted_address").asText();
-                response.setContent("主人的地理位置为: \n" + address + "\n最后更新于\n"
+                response.setContent("主人所在地理位置为: \n" + address + "\n最后更新于\n"
                         + location.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             }
             return Optional.of(response);
