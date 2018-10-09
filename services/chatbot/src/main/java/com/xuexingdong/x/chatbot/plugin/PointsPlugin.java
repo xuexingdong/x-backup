@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -48,6 +49,14 @@ public class PointsPlugin implements ChatbotPlugin {
 
     @Override
     public void init() {
+        // chatid user_id mapping init
+        List<User> users = userMapper.findAll();
+        for (User user : users) {
+            String username = chatbotClientComponent.getUsernameByRemarkName(user.getUsername());
+            if (StringUtils.isNotEmpty(username)) {
+                stringRedisTemplate.opsForHash().put("chatbot:server:chatid_user_id_mapping", username, user.getId());
+            }
+        }
 
     }
 
@@ -75,12 +84,12 @@ public class PointsPlugin implements ChatbotPlugin {
         String otherChatId;
         String otherRemarkName;
         if (selfChatId.equals(textMessage.getFromUsername())) {
-            // 由我发出
+            // send by me
             currentChatStatus = ChatStatus.SEND;
             otherChatId = textMessage.getToUsername();
             otherRemarkName = textMessage.getToRemarkName();
         } else {
-            // 发给我的
+            // send to me
             currentChatStatus = ChatStatus.RECEIVE;
             otherChatId = textMessage.getFromUsername();
             otherRemarkName = textMessage.getFromRemarkName();
@@ -89,33 +98,33 @@ public class PointsPlugin implements ChatbotPlugin {
         if (StringUtils.isEmpty(otherRemarkName)) {
             return Optional.empty();
         }
-        // 获取与对方上条消息的收发状态
         Optional<ChatStatus> lastChatStatusOpt = getLastChatStatusByChatId(otherChatId);
         // 如果上条消息状态与此次相反，则代表产生了一次对话，可以加积分
         if (lastChatStatusOpt.isPresent() && lastChatStatusOpt.get() != currentChatStatus) {
-            String otherUserId = (String) stringRedisTemplate.opsForHash().get("backend:chatid_user_id_mapping", otherChatId);
+            String otherUserId = (String) stringRedisTemplate.opsForHash().get("chatbot:server:chatid_user_id_mapping", otherChatId);
             // 未注册用户
             if (StringUtils.isEmpty(otherUserId)) {
                 String userId = XRandomUtils.randomUUID();
                 User user = new User()
                         .setId(userId)
                         // 默认用户名是昵称
-                        .setUsername(textMessage.getFromRemarkName())
+                        .setUsername(otherRemarkName)
                         .setPassword("")
                         .setSalt("")
                         .setPoints(initPoint + chatPoint);
-                userMapper.insert(user);
-                boolean insertSuccess = userMapper.insert(user);
-                if (!insertSuccess) {
+                try {
+                    userMapper.insert(user);
+                } catch (Exception ex) {
                     logger.error("Insert user {} failed", textMessage.getFromRemarkName());
                     return Optional.empty();
                 }
+
                 otherUserId = userId;
                 // 存储chatId与userId的关系
-                stringRedisTemplate.opsForHash().put("chatbot-server:chatid_user_id_mapping", otherUserId, userId);
+                stringRedisTemplate.opsForHash().put("chatbot:server:chatid_user_id_mapping", otherChatId, userId);
                 logger.info("User {} registered with chatId {}", userId, otherUserId);
             }
-            boolean success = userMapper.plusPointsToUsername(otherUserId, chatPoint);
+            boolean success = userMapper.plusPointsToUser(otherUserId, chatPoint);
             // 更新失败
             if (!success) {
                 logger.debug("User {} add points failed", otherUserId);
@@ -129,7 +138,7 @@ public class PointsPlugin implements ChatbotPlugin {
     }
 
     private Optional<ChatStatus> getLastChatStatusByChatId(String chatId) {
-        String lastChatStatusText = stringRedisTemplate.opsForValue().get("chatbot:last_chat_status:" + chatId);
+        String lastChatStatusText = stringRedisTemplate.opsForValue().get("chatbot:server:last_chat_status:" + chatId);
         if (StringUtils.isEmpty(lastChatStatusText)) {
             return Optional.empty();
         }
@@ -137,6 +146,6 @@ public class PointsPlugin implements ChatbotPlugin {
     }
 
     private void setLastChatStatusToChatId(String chatId, ChatStatus chatStatus) {
-        stringRedisTemplate.opsForValue().set("chatbot:last_chat_status:" + chatId, chatStatus.name(), 10, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set("chatbot:server:last_chat_status:" + chatId, chatStatus.name(), 10, TimeUnit.MINUTES);
     }
 }

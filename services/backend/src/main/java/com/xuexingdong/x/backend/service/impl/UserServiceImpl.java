@@ -63,11 +63,7 @@ public class UserServiceImpl implements UserService {
                 .setUsername(registerDTO.getUsername())
                 .setPassword(XCrypto.BCrypt.encrypt(registerDTO.getPassword(), salt))
                 .setSalt(salt);
-        boolean insertSuccess = userMapper.insert(user);
-        if (!insertSuccess) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return false;
-        }
+        userMapper.insert(user);
         // 注册送50积分
         boolean addSuccess = userMapper.plusPoints(userId, registerPoint);
         if (!addSuccess) {
@@ -89,21 +85,5 @@ public class UserServiceImpl implements UserService {
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
         return userVO;
-    }
-
-    @Override
-    public UserVO getByOpenid(String openid) {
-        User user = userMapper.findByOpenid(openid);
-        if (Objects.isNull(user)) {
-            throw Exceptions.USER_NOT_EXIST;
-        }
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
-        return userVO;
-    }
-
-    @Override
-    public boolean bindOpenid(String userId, String openid) {
-        return userMapper.setOpenidById(userId, openid);
     }
 }

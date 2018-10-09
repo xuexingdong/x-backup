@@ -4,61 +4,60 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xuexingdong.x.mapper.UserMapper">
     <insert id="insert">
-        insert into "user" (id, username, password, openid, salt, created_at)
-        values (#{id}, #{username}, #{password}, #{openid}, #{salt}, now());
+        insert into user (id, username, password, salt, points, created_at)
+        values (#{id}, #{username}, #{password}, #{salt}, #{points}, now());
     </insert>
 
-    <update id="setOpenidById">
-        update "user"
-        set openid = #{openid}
-        where deleted = false and id = #{id};
-    </update>
-
     <update id="plusPoints">
-        update "user"
+        update user
         set points = points + #{points}
-        where deleted = false and id = #{id};
+        where id = #{id};
     </update>
 
     <update id="minusPoints">
-        update "user"
+        update user
         set points = points - #{points}
-        where deleted = false and id = #{id};
+        where id = #{id};
     </update>
 
-    <update id="plusPointsToUsername">
-        update "user"
+    <update id="plusPointsToUser">
+        update user
         set points = points + #{points}
-        where deleted = false and username = #{username};
+        where id = #{userId};
     </update>
 
-    <update id="minusPointsToUsername">
-        update "user"
+    <update id="minusPointsToUser">
+        update user
         set points = points - #{points}
-        where deleted = false and username = #{username};
+        where id = #{userId};
     </update>
 
     <select id="findByUsername" resultType="User">
         select *
-        from "user"
-        where deleted = false and username = #{username};
+        from user
+        where username = #{username};
     </select>
 
     <select id="findByOpenid" resultType="User">
         select *
-        from "user"
-        where deleted = false and openid = #{openid};
+        from user
+        where openid = #{openid};
     </select>
 
     <select id="findById" resultType="User">
         select *
-        from "user"
-        where deleted = false and id = #{id};
+        from user
+        where id = #{id};
     </select>
 
-    <select id="findByUsernameAndPassword" resultType="com.xuexingdong.x.entity.User">
+    <select id="findByUsernameAndPassword" resultType="User">
         select *
-        from "user"
-        where deleted = false and username = #{username} and password = #{password};
+        from user
+        where username = #{username}
+          and password = #{password};
+    </select>
+    <select id="findAll" resultType="User">
+        select id, username, password, salt, points, created_at
+        from user
     </select>
 </mapper>

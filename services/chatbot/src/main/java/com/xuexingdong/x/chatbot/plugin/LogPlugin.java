@@ -20,7 +20,7 @@ public class LogPlugin implements ChatbotPlugin {
 
     @Override
     public int order() {
-        return -9999;
+        return Integer.MIN_VALUE;
     }
 
     @Override

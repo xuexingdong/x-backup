@@ -4,6 +4,8 @@ import com.xuexingdong.x.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
 
@@ -15,7 +17,7 @@ public interface UserMapper {
 
     User findByOpenid(String openid);
 
-    boolean insert(User user);
+    void insert(User user);
 
     boolean setOpenidById(@Param("id") String id, @Param("openid") String openid);
 
@@ -23,8 +25,9 @@ public interface UserMapper {
 
     boolean minusPoints(@Param("id") String id, @Param("points") int points);
 
-    boolean plusPointsToUsername(@Param("username") String username, @Param("points") int points);
+    boolean plusPointsToUser(@Param("userId") String userId, @Param("points") int points);
 
-    boolean minusPointsToUsername(@Param("username") String username, @Param("points") int points);
+    boolean minusPointsToUser(@Param("userId") String userId, @Param("points") int points);
 
+    List<User> findAll();
 }

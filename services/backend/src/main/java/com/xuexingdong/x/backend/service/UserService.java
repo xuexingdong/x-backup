@@ -8,8 +8,4 @@ public interface UserService {
     boolean register(RegisterDTO registerDTO);
 
     UserVO getById(String id);
-
-    UserVO getByOpenid(String openid);
-
-    boolean bindOpenid(String userId, String openid);
 }
