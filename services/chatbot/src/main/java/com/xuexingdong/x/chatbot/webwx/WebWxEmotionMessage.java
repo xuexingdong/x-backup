@@ -1,6 +1,6 @@
 package com.xuexingdong.x.chatbot.webwx;
 
-public class WebWxImageMessage extends WebWxMessage {
+public class WebWxEmotionMessage extends WebWxMessage {
     private String url;
 
     public String getUrl() {

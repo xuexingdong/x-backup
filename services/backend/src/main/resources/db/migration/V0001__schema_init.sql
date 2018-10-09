@@ -1,36 +1,38 @@
--- 用户表
-DROP TABLE IF EXISTS "user";
-CREATE TABLE "public"."user" (
-  "id"            char(32) COLLATE def                    NOT NULL,
-  "openid"        varchar(255),
-  "username"      varchar(255)                            NOT NULL,
-  "password"      varchar(255)                            NOT NULL,
-  "salt"          varchar(255)                            NOT NULL,
-  "points"        int4                                    NOT NULL default 0,
-  "created_at"    timestamp(6)                            NOT NULL,
-  "updated_at"    timestamp(6),
-  "deleted"       bool                                    NOT NULL default false,
-  "deleted_at"    timestamp(6),
-  "deleted_by"    char(32) COLLATE "pg_catalog"."default",
-  "deleted_token" char(32) COLLATE "pg_catalog"."default" NOT NULL default ''
-);
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
-ALTER TABLE "public"."user"
-  ADD CONSTRAINT "unq_username" UNIQUE ("username", "deleted_token");
+-- ----------------------------
+-- Table structure for rel_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `rel_user_role`;
+CREATE TABLE `rel_user_role` (
+  `id`      int(10) unsigned                        NOT NULL AUTO_INCREMENT,
+  `user_id` char(32) COLLATE utf8mb4_unicode_ci     NOT NULL,
+  `role`    varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_user_id_role` (`user_id`, `role`) USING HASH,
+  KEY `idx_user_id` (`user_id`) USING BTREE
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
 
-ALTER TABLE "public"."user"
-  ADD CONSTRAINT "user_pkey" PRIMARY KEY ("id");
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id`         char(32) COLLATE utf8mb4_unicode_ci     NOT NULL,
+  `username`   varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password`   varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `salt`       varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `points`     int(10) unsigned                        NOT NULL DEFAULT '0',
+  `created_at` datetime                                NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_username` (`username`) USING BTREE
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci;
 
--- 用户角色表
-DROP TABLE IF EXISTS "rel_user_role";
-CREATE TABLE "rel_user_role" (
-  "id"      serial4      NOT NULL,
-  "user_id" char(32)     NOT NULL,
-  "role"    varchar(255) NOT NULL
-);
-
-ALTER TABLE "rel_user_role"
-  ADD CONSTRAINT "unq_user_role" UNIQUE ("user_id", "role");
-
-ALTER TABLE "rel_user_role"
-  ADD CONSTRAINT "user_role_pkey" PRIMARY KEY ("id");
+SET FOREIGN_KEY_CHECKS = 1;

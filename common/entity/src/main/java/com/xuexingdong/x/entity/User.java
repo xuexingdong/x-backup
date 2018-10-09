@@ -13,11 +13,6 @@ public class User implements Identifiable<String> {
     private transient String salt;
     private Integer points;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private Boolean deleted;
-    private LocalDateTime deletedAt;
-    private String deletedBy;
-    private String deletedToken;
 
     @Override
     public String getId() {
@@ -80,51 +75,6 @@ public class User implements Identifiable<String> {
 
     public User setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-        return this;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public User setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-        return this;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public User setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-        return this;
-    }
-
-    public LocalDateTime getDeletedAt() {
-        return deletedAt;
-    }
-
-    public User setDeletedAt(LocalDateTime deletedAt) {
-        this.deletedAt = deletedAt;
-        return this;
-    }
-
-    public String getDeletedBy() {
-        return deletedBy;
-    }
-
-    public User setDeletedBy(String deletedBy) {
-        this.deletedBy = deletedBy;
-        return this;
-    }
-
-    public String getDeletedToken() {
-        return deletedToken;
-    }
-
-    public User setDeletedToken(String deletedToken) {
-        this.deletedToken = deletedToken;
         return this;
     }
 }

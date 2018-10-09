@@ -12,6 +12,11 @@ spring:
       READ_ENUMS_USING_TO_STRING: true
     mapper:
       ACCEPT_CASE_INSENSITIVE_ENUMS: true
+
 mybatis:
   mapper-locations: classpath:com/xuexingdong/x/mapper/*Mapper.xml
   type-aliases-package: com.xuexingdong.x.entity
+
+point:
+  init: 50
+  chat: 1

@@ -8,21 +8,34 @@
         values (#{id}, #{username}, #{password}, #{openid}, #{salt}, now());
     </insert>
 
+    <update id="setOpenidById">
+        update "user"
+        set openid = #{openid}
+        where deleted = false and id = #{id};
+    </update>
+
     <update id="plusPoints">
         update "user"
         set points = points + #{points}
         where deleted = false and id = #{id};
     </update>
 
-    <update id="setOpenidById">
-        update "user"
-        set openid = #{openid}
-        where deleted = false and id = #{id};
-    </update>
     <update id="minusPoints">
         update "user"
         set points = points - #{points}
         where deleted = false and id = #{id};
+    </update>
+
+    <update id="plusPointsToUsername">
+        update "user"
+        set points = points + #{points}
+        where deleted = false and username = #{username};
+    </update>
+
+    <update id="minusPointsToUsername">
+        update "user"
+        set points = points - #{points}
+        where deleted = false and username = #{username};
     </update>
 
     <select id="findByUsername" resultType="User">

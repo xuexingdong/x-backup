@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -42,7 +43,8 @@ public class UserServiceImpl implements UserService {
     public boolean register(RegisterDTO registerDTO) {
         String chatId = registerDTO.getChatId();
         // 未知好友，禁止注册
-        if (BooleanUtils.isNotTrue(stringRedisTemplate.opsForSet().isMember("chatbot:chatids", chatId))) {
+        Set<Object> chatIds = stringRedisTemplate.opsForHash().keys("chatbot:username_remark_name_mapping");
+        if (!chatIds.contains(chatId)) {
             throw new BusinessException("未知好友不允许注册");
         }
         // 这个chatid已经注册过

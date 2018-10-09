@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Emotion {
 
-    public static final Set<String> EMOTION_SET = new HashSet<String>() {{
+    private static final Set<String> EMOTION_SET = new HashSet<String>() {{
         add("微笑");
         add("撇嘴");
         add("色");

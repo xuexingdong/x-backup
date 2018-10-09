@@ -4,14 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xuexingdong.x.chatbot.config.RabbitConfig;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
-import com.xuexingdong.x.chatbot.util.GPSUtil;
 import com.xuexingdong.x.chatbot.webwx.MsgType;
 import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
 import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -29,7 +27,6 @@ public class TestPlugin implements ChatbotPlugin {
 
     private final ObjectMapper objectMapper;
 
-    @Autowired
     public TestPlugin(StringRedisTemplate stringRedisTemplate, AmqpTemplate amqpTemplate, ObjectMapper objectMapper) {
         this.stringRedisTemplate = stringRedisTemplate;
         this.amqpTemplate = amqpTemplate;
@@ -49,16 +46,20 @@ public class TestPlugin implements ChatbotPlugin {
             return Optional.empty();
         }
         WebWxResponse response = new WebWxResponse();
-        // 测试消息一律转回到filehelper
+        // send test message to filehelper
         response.setToUsername("filehelper");
         switch (textMessage.getContent()) {
             case "测试":
                 response.setMsgType(MsgType.TEXT);
-                response.setContent("测试类型: 文字,图片,文件");
+                response.setContent("测试类型: 文字,emoji,图片,文件");
                 break;
             case "测试文字":
                 response.setMsgType(MsgType.TEXT);
                 response.setContent(textMessage.getFromUsername());
+                break;
+            case "测试emoji":
+                response.setMsgType(MsgType.TEXT);
+                response.setContent("😍");
                 break;
             case "测试图片":
                 response.setMsgType(MsgType.IMAGE);
@@ -74,7 +75,12 @@ public class TestPlugin implements ChatbotPlugin {
         return Optional.of(response);
     }
 
-    @Scheduled(fixedRate = 30 * 1000)
+    /**
+     * 10分钟一次 心跳检测
+     *
+     * @throws JsonProcessingException
+     */
+    @Scheduled(fixedRate = 10 * 60 * 1000)
     public void heartbeat() throws JsonProcessingException {
         WebWxResponse response = new WebWxResponse();
         response.setToUsername("filehelper");

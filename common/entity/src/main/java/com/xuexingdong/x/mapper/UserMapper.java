@@ -22,4 +22,9 @@ public interface UserMapper {
     boolean plusPoints(@Param("id") String id, @Param("points") int points);
 
     boolean minusPoints(@Param("id") String id, @Param("points") int points);
+
+    boolean plusPointsToUsername(@Param("username") String username, @Param("points") int points);
+
+    boolean minusPointsToUsername(@Param("username") String username, @Param("points") int points);
+
 }

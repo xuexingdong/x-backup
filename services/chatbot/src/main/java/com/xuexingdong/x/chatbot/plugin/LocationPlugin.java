@@ -55,7 +55,7 @@ public class LocationPlugin implements ChatbotPlugin {
         // 必须是个人号
         if (WebWxUtils.isPerson(textMessage.getFromUsername())
                 && "#定位".equals(textMessage.getContent())) {
-            Optional<Location> locationOptional = locationRepository.findAll(PageRequest.of(1, 1,
+            Optional<Location> locationOptional = locationRepository.findAll(PageRequest.of(0, 1,
                     Sort.by(Sort.Order.desc("created_at")))).stream().findFirst();
             WebWxResponse response = new WebWxResponse();
             response.setToUsername(textMessage.getFromUsername());
