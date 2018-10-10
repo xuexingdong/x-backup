@@ -7,10 +7,11 @@ import com.xuexingdong.x.chatbot.webwx.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -27,7 +28,7 @@ public class WeChatListener {
 
     private static final Logger logger = LoggerFactory.getLogger(WeChatListener.class);
 
-    private final AmqpTemplate amqpTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     private final ObjectMapper objectMapper;
 
@@ -38,8 +39,8 @@ public class WeChatListener {
     private final StringRedisTemplate stringRedisTemplate;
 
     @Autowired
-    public WeChatListener(AmqpTemplate amqpTemplate, ObjectMapper objectMapper, AmqpAdmin admin, StringRedisTemplate stringRedisTemplate) {
-        this.amqpTemplate = amqpTemplate;
+    public WeChatListener(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper, AmqpAdmin admin, StringRedisTemplate stringRedisTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
         this.objectMapper = objectMapper;
         this.admin = admin;
         this.stringRedisTemplate = stringRedisTemplate;
@@ -127,7 +128,7 @@ public class WeChatListener {
             }
             logger.info("向用户【{}】发送消息: {}", r.getToUsername(), r.getContent());
             try {
-                amqpTemplate.convertAndSend(RabbitConfig.SEND_QUEUE, objectMapper.writeValueAsString(r));
+                rabbitTemplate.convertAndSend(RabbitConfig.SEND_QUEUE, objectMapper.writeValueAsString(r));
             } catch (JsonProcessingException e) {
                 logger.error("json处理错误: {}", e);
             }
@@ -141,6 +142,8 @@ public class WeChatListener {
         if (keys != null && !keys.isEmpty()) {
             stringRedisTemplate.delete(keys);
         }
+        admin.declareQueue(new Queue(RabbitConfig.RECEIVE_QUEUE));
+        admin.declareQueue(new Queue(RabbitConfig.SEND_QUEUE));
         // 清空消息队列
         admin.purgeQueue(RabbitConfig.RECEIVE_QUEUE, false);
         admin.purgeQueue(RabbitConfig.SEND_QUEUE, false);

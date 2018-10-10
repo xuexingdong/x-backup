@@ -9,7 +9,7 @@ import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
 import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -23,13 +23,13 @@ public class TestPlugin implements ChatbotPlugin {
 
     private final StringRedisTemplate stringRedisTemplate;
 
-    private final AmqpTemplate amqpTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     private final ObjectMapper objectMapper;
 
-    public TestPlugin(StringRedisTemplate stringRedisTemplate, AmqpTemplate amqpTemplate, ObjectMapper objectMapper) {
+    public TestPlugin(StringRedisTemplate stringRedisTemplate, RabbitTemplate rabbitTemplate, ObjectMapper objectMapper) {
         this.stringRedisTemplate = stringRedisTemplate;
-        this.amqpTemplate = amqpTemplate;
+        this.rabbitTemplate = rabbitTemplate;
         this.objectMapper = objectMapper;
     }
 
@@ -85,7 +85,7 @@ public class TestPlugin implements ChatbotPlugin {
         WebWxResponse response = new WebWxResponse();
         response.setToUsername("filehelper");
         response.setContent("心跳检测");
-        amqpTemplate.convertAndSend(RabbitConfig.SEND_QUEUE, objectMapper.writeValueAsString(response));
+        rabbitTemplate.convertAndSend(RabbitConfig.SEND_QUEUE, objectMapper.writeValueAsString(response));
         logger.info("心跳检测");
     }
 }
