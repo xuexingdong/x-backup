@@ -142,8 +142,8 @@ public class WeChatListener {
         if (keys != null && !keys.isEmpty()) {
             stringRedisTemplate.delete(keys);
         }
-        admin.declareQueue(new Queue(RabbitConfig.RECEIVE_QUEUE));
-        admin.declareQueue(new Queue(RabbitConfig.SEND_QUEUE));
+        admin.declareQueue(new Queue(RabbitConfig.RECEIVE_QUEUE, true));
+        admin.declareQueue(new Queue(RabbitConfig.SEND_QUEUE, true));
         // 清空消息队列
         admin.purgeQueue(RabbitConfig.RECEIVE_QUEUE, false);
         admin.purgeQueue(RabbitConfig.SEND_QUEUE, false);
