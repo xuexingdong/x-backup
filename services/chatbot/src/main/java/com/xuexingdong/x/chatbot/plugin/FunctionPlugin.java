@@ -52,7 +52,7 @@ public class FunctionPlugin implements ChatbotPlugin {
                 response.setContent("积分: " + user.getPoints());
                 break;
             default:
-                response.setContent("没有该功能");
+                return Optional.of(response);
         }
         return Optional.of(response);
 
