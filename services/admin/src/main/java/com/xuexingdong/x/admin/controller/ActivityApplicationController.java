@@ -3,6 +3,7 @@ package com.xuexingdong.x.admin.controller;
 import com.xuexingdong.x.admin.service.ActivityApplicationService;
 import com.xuexingdong.x.admin.vo.ActivityApplicationVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class ActivityApplicationController {
     }
 
     @GetMapping("activity_applications")
-    public List<ActivityApplicationVO> getAll(@RequestParam(defaultValue = "1") Integer page,
+    public Page<ActivityApplicationVO> getAll(@RequestParam(defaultValue = "1") Integer page,
                                               @RequestParam(defaultValue = "10") Integer size) {
         return activityApplicationService.getAll(PageRequest.of(page, size));
     }

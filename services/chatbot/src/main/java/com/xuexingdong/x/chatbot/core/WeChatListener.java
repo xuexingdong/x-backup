@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,14 +52,16 @@ public class WeChatListener {
 
     @RabbitListener(queues = RabbitConfig.RECEIVE_QUEUE)
     @RabbitHandler
-    public void process(@Payload String msg) {
+    public void process(@Payload Message message) {
         List<WebWxResponse> responses = new ArrayList<>();
         WebWxMessage wxMessage;
+        String msg = new String(message.getBody(), StandardCharsets.UTF_8);
         try {
             wxMessage = objectMapper.readValue(msg, WebWxMessage.class);
             switch (wxMessage.getMsgType()) {
                 case TEXT:
-                    WebWxTextMessage textMessage = objectMapper.readValue(msg, WebWxTextMessage.class);
+                    WebWxTextMessage textMessage = objectMapper.readValue(
+                            msg, WebWxTextMessage.class);
                     for (ChatbotPlugin chatBotPlugin : chatBotPlugins) {
                         Optional<WebWxResponse> responseOptional = chatBotPlugin.handleText(textMessage);
                         if (responseOptional.isPresent()) {
@@ -140,8 +144,8 @@ public class WeChatListener {
         // 清空消息队列
         admin.purgeQueue(RabbitConfig.RECEIVE_QUEUE, false);
         admin.purgeQueue(RabbitConfig.SEND_QUEUE, false);
-        // 插件按照order倒序排序
-        chatBotPlugins = chatBotPlugins.stream().sorted(Comparator.comparingInt(ChatbotPlugin::order).reversed()).collect(Collectors.toList());
+        // 插件按照order从小到大排序
+        chatBotPlugins = chatBotPlugins.stream().sorted(Comparator.comparingInt(ChatbotPlugin::order)).collect(Collectors.toList());
         for (ChatbotPlugin chatBotPlugin : chatBotPlugins) {
             chatBotPlugin.init();
         }

@@ -67,7 +67,7 @@ public class TestPlugin implements ChatbotPlugin {
                 break;
             case "测试文件":
                 response.setMsgType(MsgType.FILE);
-                response.setContent("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2665386746,1443186566&fm=27&gp=0.jpg");
+                response.setContent("https://github.com/xuexingdong/chatbot/blob/master/README.md");
                 break;
             default:
                 return Optional.empty();

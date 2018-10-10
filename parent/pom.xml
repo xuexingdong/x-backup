@@ -54,7 +54,7 @@
             <!--x-->
             <dependency>
                 <groupId>com.xuexingdong.x</groupId>
-                <artifactId>common</artifactId>
+                <artifactId>util</artifactId>
                 <version>${x.version}</version>
             </dependency>
             <!--jwt-->

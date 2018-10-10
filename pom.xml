@@ -15,6 +15,7 @@
         <module>common/entity</module>
         <module>common/util</module>
 
+        <module>services/common/jwt</module>
         <module>services/service-parent</module>
         <module>services/admin</module>
         <module>services/backend</module>

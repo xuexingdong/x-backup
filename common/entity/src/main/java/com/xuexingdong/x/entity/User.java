@@ -9,6 +9,7 @@ public class User implements Identifiable<String> {
     private String id;
     private String openid;
     private String username;
+    private String remarkName;
     private transient String password;
     private transient String salt;
     private Integer points;
@@ -39,6 +40,15 @@ public class User implements Identifiable<String> {
 
     public User setUsername(String username) {
         this.username = username;
+        return this;
+    }
+
+    public String getRemarkName() {
+        return remarkName;
+    }
+
+    public User setRemarkName(String remarkName) {
+        this.remarkName = remarkName;
         return this;
     }
 

@@ -60,7 +60,8 @@ public class UserServiceImpl implements UserService {
         String userId = XRandomUtils.randomUUID();
         User user = new User()
                 .setId(userId)
-                .setUsername(registerDTO.getUsername())
+                .setUsername("")
+                .setRemarkName(registerDTO.getUsername())
                 .setPassword(XCrypto.BCrypt.encrypt(registerDTO.getPassword(), salt))
                 .setSalt(salt);
         userMapper.insert(user);

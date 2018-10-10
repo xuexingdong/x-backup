@@ -2,16 +2,23 @@ package com.xuexingdong.x.chatbot.plugin;
 
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.webwx.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class LogPlugin implements ChatbotPlugin {
 
-    private static final Logger logger = LoggerFactory.getLogger(TestPlugin.class);
+    private static final Logger logger = LoggerFactory.getLogger(LogPlugin.class);
 
     @Override
     public boolean isExclusive() {
@@ -31,7 +38,15 @@ public class LogPlugin implements ChatbotPlugin {
 
     @Override
     public Optional<WebWxResponse> handleImage(WebWxImageMessage imageMessage) {
-        logger.info("【{}】->【{}】, type: 【{}】, url: 【{}】", imageMessage.getFromUsername(), imageMessage.getToUsername(), imageMessage.getMsgType(), imageMessage.getUrl());
+        byte[] base64Content = Base64.getDecoder().decode(imageMessage.getBase64Content());
+        String filename = "data/" + UUID.randomUUID().toString() + ".jpg";
+        try {
+            FileUtils.writeByteArrayToFile(new File(filename), base64Content);
+        } catch (IOException e) {
+            logger.error("Write image file error");
+            return Optional.empty();
+        }
+        logger.info("【{}】->【{}】, type: 【{}】, path: 【{}】", imageMessage.getFromUsername(), imageMessage.getToUsername(), imageMessage.getMsgType(), filename);
         return Optional.empty();
     }
 

@@ -6,6 +6,7 @@ import com.xuexingdong.x.chatbot.enumeration.ChatStatus;
 import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
 import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 import com.xuexingdong.x.chatbot.webwx.WebWxUtils;
+import com.xuexingdong.x.common.utils.XDateTimeUtils;
 import com.xuexingdong.x.common.utils.XRandomUtils;
 import com.xuexingdong.x.entity.User;
 import com.xuexingdong.x.mapper.UserMapper;
@@ -57,7 +58,6 @@ public class PointsPlugin implements ChatbotPlugin {
                 stringRedisTemplate.opsForHash().put("chatbot:server:chatid_user_id_mapping", username, user.getId());
             }
         }
-
     }
 
     @Override
@@ -107,8 +107,8 @@ public class PointsPlugin implements ChatbotPlugin {
                 String userId = XRandomUtils.randomUUID();
                 User user = new User()
                         .setId(userId)
-                        // 默认用户名是昵称
-                        .setUsername(otherRemarkName)
+                        .setUsername("用户" + XDateTimeUtils.get13TimestampStr())
+                        .setRemarkName(otherRemarkName)
                         .setPassword("")
                         .setSalt("")
                         .setPoints(initPoint + chatPoint);
