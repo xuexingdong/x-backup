@@ -52,9 +52,9 @@ public class FunctionPlugin implements ChatbotPlugin {
                 response.setContent("积分: " + user.getPoints());
                 break;
             default:
-                return Optional.of(response);
+                return Optional.empty();
         }
-        return Optional.of(response);
+        return Optional.empty();
 
     }
 }
