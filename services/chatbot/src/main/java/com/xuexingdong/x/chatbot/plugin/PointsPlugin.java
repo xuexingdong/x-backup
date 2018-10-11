@@ -53,7 +53,7 @@ public class PointsPlugin implements ChatbotPlugin {
         // chatid user_id mapping init
         List<User> users = userMapper.findAll();
         for (User user : users) {
-            String username = chatbotClientComponent.getUsernameByRemarkName(user.getUsername());
+            String username = chatbotClientComponent.getUsernameByRemarkName(user.getRemarkName());
             if (StringUtils.isNotEmpty(username)) {
                 stringRedisTemplate.opsForHash().put("chatbot:server:chatid_user_id_mapping", username, user.getId());
             }
