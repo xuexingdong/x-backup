@@ -1,16 +1,17 @@
 package com.xuexingdong.x.chatbot.plugin;
 
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
-import com.xuexingdong.x.chatbot.webwx.*;
+import com.xuexingdong.x.chatbot.webwx.WebWxEmotionMessage;
+import com.xuexingdong.x.chatbot.webwx.WebWxImageMessage;
+import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
+import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Optional;
 import java.util.UUID;

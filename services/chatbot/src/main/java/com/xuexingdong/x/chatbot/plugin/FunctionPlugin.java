@@ -54,7 +54,7 @@ public class FunctionPlugin implements ChatbotPlugin {
             default:
                 return Optional.empty();
         }
-        return Optional.empty();
+        return Optional.of(response);
 
     }
 }
