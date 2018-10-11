@@ -56,10 +56,12 @@
         where username = #{username}
           and password = #{password};
     </select>
+
     <select id="findAll" resultType="User">
-        select id, username, password, salt, points, created_at
+        select *
         from user
     </select>
+
     <select id="findByRemarkName" resultType="User">
         select *
         from user
