@@ -30,4 +30,6 @@ public interface UserMapper {
     boolean minusPointsToUser(@Param("userId") String userId, @Param("points") int points);
 
     List<User> findAll();
+
+    User findByRemarkName(String remarkName);
 }

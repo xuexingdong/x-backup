@@ -45,7 +45,7 @@ public class FunctionPlugin implements ChatbotPlugin {
                 response.setContent(sb.toString());
                 break;
             case "积分":
-                User user = userMapper.findByUsername(textMessage.getFromRemarkName());
+                User user = userMapper.findByRemarkName(textMessage.getFromRemarkName());
                 if (Objects.isNull(user)) {
                     return Optional.empty();
                 }

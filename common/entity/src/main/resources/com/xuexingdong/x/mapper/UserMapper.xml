@@ -60,4 +60,9 @@
         select id, username, password, salt, points, created_at
         from user
     </select>
+    <select id="findByRemarkName" resultType="User">
+        select *
+        from user
+        where remark_name = #{remarkName};
+    </select>
 </mapper>
