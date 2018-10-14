@@ -9,9 +9,6 @@ import java.util.Optional;
 
 public interface ChatbotPlugin {
 
-    default void init() {
-    }
-
     default int order() {
         return Integer.MAX_VALUE;
     }

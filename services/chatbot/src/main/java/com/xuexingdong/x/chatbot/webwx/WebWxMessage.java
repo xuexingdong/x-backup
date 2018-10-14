@@ -1,20 +1,15 @@
 package com.xuexingdong.x.chatbot.webwx;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDateTime;
-
 public class WebWxMessage {
     private String msgId;
     private String fromUsername;
     private String toUsername;
-    private String fromNickName;
-    private String toNickName;
+    private String fromNickname;
+    private String toNickname;
     private String fromRemarkName;
     private String toRemarkName;
     private MsgType msgType;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
+    private int createTime;
 
     public String getMsgId() {
         return msgId;
@@ -40,20 +35,20 @@ public class WebWxMessage {
         this.toUsername = toUsername;
     }
 
-    public String getFromNickName() {
-        return fromNickName;
+    public String getFromNickname() {
+        return fromNickname;
     }
 
-    public void setFromNickName(String fromNickName) {
-        this.fromNickName = fromNickName;
+    public void setFromNickname(String fromNickname) {
+        this.fromNickname = fromNickname;
     }
 
-    public String getToNickName() {
-        return toNickName;
+    public String getToNickname() {
+        return toNickname;
     }
 
-    public void setToNickName(String toNickName) {
-        this.toNickName = toNickName;
+    public void setToNickname(String toNickname) {
+        this.toNickname = toNickname;
     }
 
     public String getFromRemarkName() {
@@ -80,11 +75,11 @@ public class WebWxMessage {
         this.msgType = msgType;
     }
 
-    public LocalDateTime getCreateTime() {
+    public int getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(int createTime) {
         this.createTime = createTime;
     }
 }

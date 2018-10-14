@@ -13,6 +13,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -28,27 +29,27 @@ public class WeChatListener {
 
     private static final Logger logger = LoggerFactory.getLogger(WeChatListener.class);
 
-    private final RabbitTemplate rabbitTemplate;
-
-    private final ObjectMapper objectMapper;
-
-    private List<ChatbotPlugin> chatBotPlugins;
-
-    private final AmqpAdmin admin;
-
-    private final StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public WeChatListener(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper, AmqpAdmin admin, StringRedisTemplate stringRedisTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-        this.objectMapper = objectMapper;
-        this.admin = admin;
-        this.stringRedisTemplate = stringRedisTemplate;
-    }
+    private ObjectMapper objectMapper;
 
     @Autowired
-    public void setChatBotPlugins(List<ChatbotPlugin> chatBotPlugins) {
-        this.chatBotPlugins = chatBotPlugins;
+    private List<ChatbotPlugin> chatbotPlugins;
+
+    @Autowired
+    private AmqpAdmin admin;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    @Autowired
+    public void setChatbotPlugins(List<ChatbotPlugin> chatbotPlugins) {
+        this.chatbotPlugins = chatbotPlugins;
     }
 
     @RabbitListener(queues = RabbitConfig.RECEIVE_QUEUE)
@@ -57,13 +58,15 @@ public class WeChatListener {
         List<WebWxResponse> responses = new ArrayList<>();
         WebWxMessage wxMessage;
         String msg = new String(message.getBody(), StandardCharsets.UTF_8);
+        // persist chat record
+        mongoTemplate.insert(msg, "chat_record");
         try {
             wxMessage = objectMapper.readValue(msg, WebWxMessage.class);
             switch (wxMessage.getMsgType()) {
                 case TEXT:
                     WebWxTextMessage textMessage = objectMapper.readValue(
                             msg, WebWxTextMessage.class);
-                    for (ChatbotPlugin chatBotPlugin : chatBotPlugins) {
+                    for (ChatbotPlugin chatBotPlugin : chatbotPlugins) {
                         Optional<WebWxResponse> responseOptional = chatBotPlugin.handleText(textMessage);
                         if (responseOptional.isPresent()) {
                             responses.add(responseOptional.get());
@@ -75,7 +78,7 @@ public class WeChatListener {
                     break;
                 case IMAGE:
                     WebWxImageMessage imageMessage = objectMapper.readValue(msg, WebWxImageMessage.class);
-                    for (ChatbotPlugin chatBotPlugin : chatBotPlugins) {
+                    for (ChatbotPlugin chatBotPlugin : chatbotPlugins) {
                         Optional<WebWxResponse> responseOptional = chatBotPlugin.handleImage(imageMessage);
                         responseOptional.ifPresent(responses::add);
                         if (chatBotPlugin.isExclusive()) {
@@ -89,7 +92,7 @@ public class WeChatListener {
                     break;
                 case EMOTION:
                     WebWxEmotionMessage emotionMessage = objectMapper.readValue(msg, WebWxEmotionMessage.class);
-                    for (ChatbotPlugin chatBotPlugin : chatBotPlugins) {
+                    for (ChatbotPlugin chatBotPlugin : chatbotPlugins) {
                         Optional<WebWxResponse> responseOptional = chatBotPlugin.handleEmotion(emotionMessage);
                         if (responseOptional.isPresent()) {
                             responses.add(responseOptional.get());
@@ -148,9 +151,6 @@ public class WeChatListener {
         admin.purgeQueue(RabbitConfig.RECEIVE_QUEUE, false);
         admin.purgeQueue(RabbitConfig.SEND_QUEUE, false);
         // 插件按照order从小到大排序
-        chatBotPlugins = chatBotPlugins.stream().sorted(Comparator.comparingInt(ChatbotPlugin::order)).collect(Collectors.toList());
-        for (ChatbotPlugin chatBotPlugin : chatBotPlugins) {
-            chatBotPlugin.init();
-        }
+        chatbotPlugins = chatbotPlugins.stream().sorted(Comparator.comparingInt(ChatbotPlugin::order)).collect(Collectors.toList());
     }
 }

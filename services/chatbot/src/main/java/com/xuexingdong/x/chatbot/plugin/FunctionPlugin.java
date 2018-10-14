@@ -36,6 +36,7 @@ public class FunctionPlugin implements ChatbotPlugin {
         response.setToUsername(textMessage.getFromUsername());
         String keyword = textMessage.getContent().substring(1);
         StringBuilder sb = new StringBuilder();
+        User user = userMapper.findByRemarkName(textMessage.getFromRemarkName());
         switch (keyword) {
             case "帮助":
                 sb.append("功能列表如下\n");
@@ -45,7 +46,6 @@ public class FunctionPlugin implements ChatbotPlugin {
                 response.setContent(sb.toString());
                 break;
             case "积分":
-                User user = userMapper.findByRemarkName(textMessage.getFromRemarkName());
                 if (Objects.isNull(user)) {
                     return Optional.empty();
                 }
@@ -58,3 +58,5 @@ public class FunctionPlugin implements ChatbotPlugin {
 
     }
 }
+
+

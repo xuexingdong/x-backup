@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,8 +39,6 @@ public class LocationPlugin implements ChatbotPlugin {
     private String gaodeKey;
 
     private final ObjectMapper objectMapper;
-
-    private static final DecimalFormat GEO_DF = new DecimalFormat("#.000000");
 
     @Autowired
     public LocationPlugin(LocationRepository locationRepository, RestTemplate restTemplate, ObjectMapper objectMapper) {
@@ -65,27 +62,40 @@ public class LocationPlugin implements ChatbotPlugin {
                 Location location = locationOptional.get();
                 // 谷歌卫星到高德的坐标转换
                 double[] transformedLocation = GPSUtil.gps84_To_Gcj02(location.getLatitude(), location.getLongitude());
-                Map<String, String> params = new HashMap<>();
-                params.put("key", gaodeKey);
-                params.put("location", transformedLocation[1] + "," + transformedLocation[0]);
-                String resp = restTemplate.getForObject(GAODE_API, String.class, params);
-                JsonNode node;
-                try {
-                    node = objectMapper.readTree(resp);
-                } catch (IOException e) {
-                    logger.error("访问高德出错");
-                    return Optional.empty();
-                }
-                if (!"1".equals(node.get("status").asText())) {
-                    logger.error("高德API错误");
-                    return Optional.empty();
-                }
-                String address = node.get("regeocode").get("formatted_address").asText();
-                response.setContent("主人所在地理位置为: \n" + address + "\n最后更新于\n"
-                        + location.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                getAddressText(transformedLocation[1], transformedLocation[0]).ifPresent(address ->
+                        response.setContent("主人所在地理位置为: \n" + address + "\n最后更新于\n"
+                                + location.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
+
             }
             return Optional.of(response);
         }
         return Optional.empty();
+    }
+
+
+    /**
+     * Get address text use gaode regeo API
+     * @param lat
+     * @param lng
+     * @return
+     */
+    private Optional<String> getAddressText(double lat, double lng) {
+        Map<String, String> params = new HashMap<>();
+        params.put("key", gaodeKey);
+        params.put("location", lng + "," + lat);
+        String resp = restTemplate.getForObject(GAODE_API, String.class, params);
+        JsonNode node;
+        try {
+            node = objectMapper.readTree(resp);
+        } catch (IOException e) {
+            logger.error("访问高德出错");
+            return Optional.empty();
+        }
+        if (!"1".equals(node.get("status").asText())) {
+            logger.error("高德API错误");
+            return Optional.empty();
+        }
+        String address = node.get("regeocode").get("formatted_address").asText();
+        return Optional.of(address);
     }
 }

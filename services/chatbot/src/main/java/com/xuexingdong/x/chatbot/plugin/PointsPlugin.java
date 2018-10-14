@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Optional;
@@ -49,20 +50,8 @@ public class PointsPlugin implements ChatbotPlugin {
     private UserMapper userMapper;
 
     @Override
-    public void init() {
-        // chatid user_id mapping init
-        List<User> users = userMapper.findAll();
-        for (User user : users) {
-            String username = chatbotClientComponent.getUsernameByRemarkName(user.getRemarkName());
-            if (StringUtils.isNotEmpty(username)) {
-                stringRedisTemplate.opsForHash().put("chatbot:server:chatid_user_id_mapping", username, user.getId());
-            }
-        }
-    }
-
-    @Override
     public int order() {
-        return 0;
+        return -1;
     }
 
     @Override
@@ -98,9 +87,9 @@ public class PointsPlugin implements ChatbotPlugin {
         if (StringUtils.isEmpty(otherRemarkName)) {
             return Optional.empty();
         }
-        Optional<ChatStatus> lastChatStatusOpt = getLastChatStatusByChatId(otherChatId);
+        Optional<ChatStatus> lastChatStatusOptional = getLastChatStatusByChatId(otherChatId);
         // 如果上条消息状态与此次相反，则代表产生了一次对话，可以加积分
-        if (lastChatStatusOpt.isPresent() && lastChatStatusOpt.get() != currentChatStatus) {
+        if (lastChatStatusOptional.isPresent() && lastChatStatusOptional.get() != currentChatStatus) {
             String otherUserId = (String) stringRedisTemplate.opsForHash().get("chatbot:server:chatid_user_id_mapping", otherChatId);
             // 未注册用户
             if (StringUtils.isEmpty(otherUserId)) {
@@ -148,4 +137,17 @@ public class PointsPlugin implements ChatbotPlugin {
     private void setLastChatStatusToChatId(String chatId, ChatStatus chatStatus) {
         stringRedisTemplate.opsForValue().set("chatbot:server:last_chat_status:" + chatId, chatStatus.name(), 10, TimeUnit.MINUTES);
     }
+
+    @PostConstruct
+    public void init() {
+        // chatid user_id mapping init
+        List<User> users = userMapper.findAll();
+        for (User user : users) {
+            String username = chatbotClientComponent.getUsernameByRemarkName(user.getRemarkName());
+            if (StringUtils.isNotEmpty(username)) {
+                stringRedisTemplate.opsForHash().put("chatbot:server:chatid_user_id_mapping", username, user.getId());
+            }
+        }
+    }
 }
+
