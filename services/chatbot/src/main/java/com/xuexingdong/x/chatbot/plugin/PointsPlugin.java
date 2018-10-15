@@ -22,6 +22,7 @@ import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -140,6 +141,11 @@ public class PointsPlugin implements ChatbotPlugin {
 
     @PostConstruct
     public void init() {
+        // 清空redis
+        Set<String> keys = stringRedisTemplate.keys("chatbot:server:*");
+        if (keys != null && !keys.isEmpty()) {
+            stringRedisTemplate.delete(keys);
+        }
         // chatid user_id mapping init
         List<User> users = userMapper.findAll();
         for (User user : users) {

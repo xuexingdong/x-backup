@@ -1,10 +1,7 @@
 package com.xuexingdong.x.chatbot.plugin;
 
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
-import com.xuexingdong.x.chatbot.webwx.WebWxEmotionMessage;
-import com.xuexingdong.x.chatbot.webwx.WebWxImageMessage;
-import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
-import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
+import com.xuexingdong.x.chatbot.webwx.*;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,5 +52,10 @@ public class LogPlugin implements ChatbotPlugin {
     public Optional<WebWxResponse> handleEmotion(WebWxEmotionMessage emotionMessage) {
         logger.info("【{}】->【{}】, type: 【{}】, url: 【{}】", emotionMessage.getFromUsername(), emotionMessage.getToUsername(), emotionMessage.getMsgType(), emotionMessage.getUrl());
         return Optional.empty();
+    }
+
+    @Override
+    public Optional<WebWxResponse> handleLocation(WebWxLocationMessage locationMessage) {
+        return handleImage(locationMessage);
     }
 }

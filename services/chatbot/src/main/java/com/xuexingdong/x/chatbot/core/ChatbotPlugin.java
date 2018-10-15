@@ -1,9 +1,6 @@
 package com.xuexingdong.x.chatbot.core;
 
-import com.xuexingdong.x.chatbot.webwx.WebWxEmotionMessage;
-import com.xuexingdong.x.chatbot.webwx.WebWxImageMessage;
-import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
-import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
+import com.xuexingdong.x.chatbot.webwx.*;
 
 import java.util.Optional;
 
@@ -33,7 +30,7 @@ public interface ChatbotPlugin {
         return Optional.empty();
     }
 
-    default Optional<WebWxResponse> handleLocation(WebWxTextMessage textMessage) {
+    default Optional<WebWxResponse> handleLocation(WebWxLocationMessage locationMessage) {
         return Optional.empty();
     }
 

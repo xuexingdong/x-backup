@@ -14,7 +14,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
@@ -40,9 +39,6 @@ public class WeChatListener {
 
     @Autowired
     private AmqpAdmin admin;
-
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -107,6 +103,16 @@ public class WeChatListener {
                 case CALL:
                     break;
                 case LOCATION:
+                    WebWxLocationMessage locationMessage = objectMapper.readValue(msg, WebWxLocationMessage.class);
+                    for (ChatbotPlugin chatBotPlugin : chatbotPlugins) {
+                        Optional<WebWxResponse> responseOptional = chatBotPlugin.handleLocation(locationMessage);
+                        if (responseOptional.isPresent()) {
+                            responses.add(responseOptional.get());
+                            if (chatBotPlugin.isExclusive()) {
+                                break;
+                            }
+                        }
+                    }
                     break;
                 case SHARE_LOCATION:
                     break;
@@ -140,11 +146,6 @@ public class WeChatListener {
 
     @PostConstruct
     public void init() {
-        // 清空redis
-        Set<String> keys = stringRedisTemplate.keys("chatbot:server:*");
-        if (keys != null && !keys.isEmpty()) {
-            stringRedisTemplate.delete(keys);
-        }
         admin.declareQueue(new Queue(RabbitConfig.RECEIVE_QUEUE, false));
         admin.declareQueue(new Queue(RabbitConfig.SEND_QUEUE, false));
         // 清空消息队列

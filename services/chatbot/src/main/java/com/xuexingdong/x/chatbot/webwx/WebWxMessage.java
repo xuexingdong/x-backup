@@ -9,6 +9,7 @@ public class WebWxMessage {
     private String fromRemarkName;
     private String toRemarkName;
     private MsgType msgType;
+    private String content;
     private int createTime;
 
     public String getMsgId() {
@@ -73,6 +74,14 @@ public class WebWxMessage {
 
     public void setMsgType(MsgType msgType) {
         this.msgType = msgType;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public int getCreateTime() {

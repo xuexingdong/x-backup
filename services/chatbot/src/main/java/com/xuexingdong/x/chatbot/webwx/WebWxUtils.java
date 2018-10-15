@@ -60,7 +60,7 @@ public class WebWxUtils {
      * @param text
      * @return pair, which left is from username, right is the message
      */
-    public static Optional<Pair<String, String>> parseFromChatroomTextMessage(@Nonnull String text) {
+    public static Optional<Pair<String, String>> parseFromChatroomContent(@Nonnull String text) {
         Matcher m = FROM_CHATROOM_TEXT_MESSAGE_PATTERN.matcher(text);
         if (m.matches()) {
             return Optional.of(Pair.of(m.group(1), m.group(2)));
@@ -71,7 +71,7 @@ public class WebWxUtils {
     public static void main(String[] args) {
         System.out.println(Integer.parseInt("🤖"));
         String a = "@a09db96a3ec41c6436af8dc40a094a3bc7f173bcd9d69938d84acc45a99a14e8:<br/>早上好@️🤖";
-        Optional<Pair<String, String>> pairOptional = WebWxUtils.parseFromChatroomTextMessage(a);
+        Optional<Pair<String, String>> pairOptional = WebWxUtils.parseFromChatroomContent(a);
         if (pairOptional.isPresent()) {
             Pair<String, String> pair = pairOptional.get();
             boolean atme = WebWxUtils.parseAtedUsernames(pair.getRight()).contains("🤖");
