@@ -15,7 +15,7 @@ public class WebWxUtils {
     private static final String OUTOFCHAT_AT_UNICODE = "\u2005";
     private static final Pattern OUTOFCHAT_AT_PATTERN = Pattern.compile("@(.+?)(\\ufe0f)?\\u2005");
 
-    private static final Pattern FROM_CHATROOM_TEXT_MESSAGE_PATTERN = Pattern.compile("@(\\w+):<br/>(.*)");
+    private static final Pattern FROM_CHATROOM_TEXT_MESSAGE_PATTERN = Pattern.compile("(@\\w+):<br/>(.*)");
 
     public static boolean isPerson(String fromUsername) {
         if (StringUtils.isEmpty(fromUsername)) {
@@ -39,7 +39,8 @@ public class WebWxUtils {
         return isChatroom(webWxMessage.getFromUsername());
     }
 
-    public static List<String> parseAtedUsernames(@Nonnull String text) {
+    public static Pair<List<String>, String> parseAtedUsernamesAndRealContent(@Nonnull String text) {
+        // TODO 电脑版微信在@人和正文之前有个空格
         List<String> result = new ArrayList<>();
         Matcher m;
         // somebody at you when you are not in the chatroom interface
@@ -48,10 +49,12 @@ public class WebWxUtils {
         } else {
             m = IN_CHAT_AT_PATTERN.matcher(text);
         }
+        int lastIndex = 0;
         while (m.find()) {
             result.add(m.group(1));
+            lastIndex = m.end();
         }
-        return result;
+        return Pair.of(result, text.substring(lastIndex));
     }
 
     /**
@@ -69,15 +72,12 @@ public class WebWxUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(Integer.parseInt("🤖"));
-        String a = "@a09db96a3ec41c6436af8dc40a094a3bc7f173bcd9d69938d84acc45a99a14e8:<br/>早上好@️🤖";
+        String a = "@85bc8d0b0c84e4f5adfe73e18f4066c30a0c6b3a40ca42345115f1f739c6ce6a:<br/>@🤖️ 统计";
         Optional<Pair<String, String>> pairOptional = WebWxUtils.parseFromChatroomContent(a);
         if (pairOptional.isPresent()) {
             Pair<String, String> pair = pairOptional.get();
-            boolean atme = WebWxUtils.parseAtedUsernames(pair.getRight()).contains("🤖");
-            if (atme) {
-                System.out.println(1);
-            }
+            System.out.println(pair.getLeft());
+            System.out.println(parseAtedUsernamesAndRealContent(pair.getRight()));
         }
     }
 }

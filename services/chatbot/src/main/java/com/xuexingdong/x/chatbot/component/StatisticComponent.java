@@ -22,7 +22,7 @@ public class StatisticComponent {
         Map<MsgType, Integer> result = new HashMap<>();
         Map<Object, Object> map = stringRedisTemplate.opsForHash().entries("chatbot:server:statistic:" + fromUsername + "-" + toUsername);
         for (Map.Entry<Object, Object> entry : map.entrySet()) {
-            result.put(MsgType.valueOf(String.valueOf(entry)), (int) entry.getValue());
+            result.put(MsgType.valueOf(String.valueOf(entry.getKey())), Integer.parseInt(String.valueOf(entry.getValue())));
         }
         return result;
     }
