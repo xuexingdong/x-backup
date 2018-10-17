@@ -50,22 +50,21 @@ public class LocationPlugin implements ChatbotPlugin {
     @Override
     public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
         // 必须是个人号
-        if (WebWxUtils.isPerson(textMessage.getFromUsername())
+        if (WebWxUtils.isFromPerson(textMessage)
                 && "#定位".equals(textMessage.getContent())) {
             Optional<Location> locationOptional = locationRepository.findAll(PageRequest.of(0, 1,
                     Sort.by(Sort.Order.desc("created_at")))).stream().findFirst();
             WebWxResponse response = new WebWxResponse();
             response.setToUsername(textMessage.getFromUsername());
-            if (!locationOptional.isPresent()) {
-                response.setContent("暂无地理信息");
-            } else {
+            if (locationOptional.isPresent()) {
                 Location location = locationOptional.get();
                 // 谷歌卫星到高德的坐标转换
                 double[] transformedLocation = GPSUtil.gps84_To_Gcj02(location.getLatitude(), location.getLongitude());
                 getAddressText(transformedLocation[1], transformedLocation[0]).ifPresent(address ->
                         response.setContent("主人所在地理位置为: \n" + address + "\n最后更新于\n"
                                 + location.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
-
+            } else {
+                response.setContent("暂无地理信息");
             }
             return Optional.of(response);
         }
@@ -75,6 +74,7 @@ public class LocationPlugin implements ChatbotPlugin {
 
     /**
      * Get address text use gaode regeo API
+     *
      * @param lat
      * @param lng
      * @return

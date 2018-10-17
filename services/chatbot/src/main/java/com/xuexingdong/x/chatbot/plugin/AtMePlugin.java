@@ -1,15 +1,18 @@
 package com.xuexingdong.x.chatbot.plugin;
 
+import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
 import com.xuexingdong.x.chatbot.component.StatisticComponent;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
-import com.xuexingdong.x.chatbot.webwx.*;
+import com.xuexingdong.x.chatbot.webwx.MsgType;
+import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
+import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
+import com.xuexingdong.x.chatbot.webwx.WebWxUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,15 +22,12 @@ public class AtMePlugin implements ChatbotPlugin {
 
     private static final Logger logger = LoggerFactory.getLogger(AtMePlugin.class);
 
-    private static final Map<MsgType, String> MAP = new HashMap<MsgType, String>() {{
-        put(MsgType.TEXT, "文本");
-        put(MsgType.IMAGE, "图片");
-        put(MsgType.EMOTION, "表情");
-        put(MsgType.LOCATION, "定位");
-    }};
 
     @Autowired
     private StatisticComponent statisticComponent;
+
+    @Autowired
+    private ChatbotClientComponent chatbotClientComponent;
 
     @Override
     public int order() {
@@ -54,17 +54,15 @@ public class AtMePlugin implements ChatbotPlugin {
                     response.setToUsername(textMessage.getFromUsername());
                     switch (realContent) {
                         case "统计":
-                            Map<MsgType, Integer> result = statisticComponent.count(realFromUsername, textMessage.getToUsername());
-                            if (result.isEmpty()) {
-                                response.setContent("今天你还没有说过话");
+                            Map<MsgType, Integer> result = statisticComponent.analyze(realFromUsername, textMessage.getToUsername());
+                            Optional<String> realNicknameOptional = chatbotClientComponent.getNicknameByUsername(realFromUsername);
+                            if (realNicknameOptional.isPresent()) {
+                                String reply = String.format("用户【%s】的发言情况如下\n", realNicknameOptional.get());
+                                String content = reply + statisticComponent.mapToString(result);
+                                response.setContent(content);
                             } else {
-                                StringBuilder sb = new StringBuilder();
-                                sb.append("发言情况如下:\n");
-                                for (Map.Entry<MsgType, Integer> entry : result.entrySet()) {
-                                    sb.append(String.format("%s类消息%s条\n", MAP.getOrDefault(entry.getKey(), "未知"), entry.getValue()));
-                                }
-                                sb.append("粗略统计，重启后台统计清零");
-                                response.setContent(sb.toString());
+                                logger.warn("Can't find nickname for username {}", realFromUsername);
+                                response.setContent("获取用户昵称出错");
                             }
                             break;
                         default:

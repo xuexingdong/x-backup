@@ -13,22 +13,24 @@ import java.util.regex.Pattern;
 public class WebWxUtils {
     private static final Pattern IN_CHAT_AT_PATTERN = Pattern.compile("@(.+?)\\ufe0f");
     private static final String OUTOFCHAT_AT_UNICODE = "\u2005";
-    private static final Pattern OUTOFCHAT_AT_PATTERN = Pattern.compile("@(.+?)(\\ufe0f)?\\u2005");
+    // PC wechat use char '\u2005' to split ated members
+    // PC wechat use char ' ' to split ated members
+    private static final Pattern OUTOFCHAT_AT_PATTERN = Pattern.compile("@(.+?)(\\ufe0f)?(\\u2005| )");
 
     private static final Pattern FROM_CHATROOM_TEXT_MESSAGE_PATTERN = Pattern.compile("(@\\w+):<br/>(.*)");
 
-    public static boolean isPerson(String fromUsername) {
-        if (StringUtils.isEmpty(fromUsername)) {
+    private static boolean isPerson(String username) {
+        if (StringUtils.isEmpty(username)) {
             return false;
         }
-        return !fromUsername.startsWith("@@") && fromUsername.startsWith("@");
+        return !username.startsWith("@@") && username.startsWith("@");
     }
 
-    public static boolean isChatroom(String fromUsername) {
-        if (StringUtils.isEmpty(fromUsername)) {
+    private static boolean isChatroom(String username) {
+        if (StringUtils.isEmpty(username)) {
             return false;
         }
-        return fromUsername.startsWith("@@");
+        return username.startsWith("@@");
     }
 
     public static boolean isPrivateChat(WebWxMessage webWxMessage) {
@@ -36,7 +38,13 @@ public class WebWxUtils {
     }
 
     public static boolean isFromChatroom(WebWxMessage webWxMessage) {
-        return isChatroom(webWxMessage.getFromUsername());
+        String fromUsername = webWxMessage.getFromUsername();
+        return isChatroom(fromUsername);
+    }
+
+    public static boolean isFromPerson(WebWxMessage webWxMessage) {
+        String fromUsername = webWxMessage.getFromUsername();
+        return isPerson(fromUsername);
     }
 
     public static Pair<List<String>, String> parseAtedUsernamesAndRealContent(@Nonnull String text) {
@@ -72,7 +80,8 @@ public class WebWxUtils {
     }
 
     public static void main(String[] args) {
-        String a = "@85bc8d0b0c84e4f5adfe73e18f4066c30a0c6b3a40ca42345115f1f739c6ce6a:<br/>@🤖️ 统计";
+        String a = "@85bc8d0b0c84e4f5adfe73e18f4066c30a0c6b3a40ca42345115f1f739c6ce6a:<br/>@🤖️ @🤖️\u2005统计";
+        System.out.println(a.toCharArray());
         Optional<Pair<String, String>> pairOptional = WebWxUtils.parseFromChatroomContent(a);
         if (pairOptional.isPresent()) {
             Pair<String, String> pair = pairOptional.get();

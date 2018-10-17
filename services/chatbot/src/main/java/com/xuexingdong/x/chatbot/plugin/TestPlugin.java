@@ -41,8 +41,8 @@ public class TestPlugin implements ChatbotPlugin {
     @Override
     public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
         // 不是发给filehelper的消息不会触发该测试
-        String self = stringRedisTemplate.opsForValue().get("chatbot:self_chatid");
-        if (!textMessage.getFromUsername().equals(self)) {
+        String selfUsername = stringRedisTemplate.opsForValue().get("chatbot:self_chatid");
+        if (!textMessage.getFromUsername().equals(selfUsername)) {
             return Optional.empty();
         }
         WebWxResponse response = new WebWxResponse();

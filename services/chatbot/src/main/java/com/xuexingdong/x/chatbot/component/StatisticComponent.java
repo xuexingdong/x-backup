@@ -11,6 +11,13 @@ import java.util.Map;
 @Component
 public class StatisticComponent {
 
+    private static final Map<MsgType, String> MAP = new HashMap<MsgType, String>() {{
+        put(MsgType.TEXT, "文本");
+        put(MsgType.IMAGE, "图片");
+        put(MsgType.EMOTION, "表情");
+        put(MsgType.LOCATION, "定位");
+    }};
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -18,7 +25,7 @@ public class StatisticComponent {
         stringRedisTemplate.opsForHash().increment("chatbot:server:statistic:" + fromUsername + "-" + toUsername, msgType.name(), 1);
     }
 
-    public Map<MsgType, Integer> count(String fromUsername, String toUsername) {
+    public Map<MsgType, Integer> analyze(String fromUsername, String toUsername) {
         Map<MsgType, Integer> result = new HashMap<>();
         Map<Object, Object> map = stringRedisTemplate.opsForHash().entries("chatbot:server:statistic:" + fromUsername + "-" + toUsername);
         for (Map.Entry<Object, Object> entry : map.entrySet()) {
@@ -26,4 +33,19 @@ public class StatisticComponent {
         }
         return result;
     }
+
+    public String mapToString(Map<MsgType, Integer> result) {
+        StringBuilder sb = new StringBuilder();
+        if (result.isEmpty()) {
+            sb.append("暂无发言记录");
+        } else {
+            for (Map.Entry<MsgType, Integer> entry : result.entrySet()) {
+                sb.append(String.format("%s类消息%s条\n", MAP.getOrDefault(entry.getKey(), "未知"), entry.getValue()));
+            }
+            sb.append("粗略统计，重启后台统计清零");
+        }
+        return sb.toString();
+
+    }
+
 }

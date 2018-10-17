@@ -73,9 +73,6 @@ public class QRCodeController {
             default:
                 break;
         }
-        if (!username.isPresent()) {
-            return null;
-        }
-        return XMonoResp.data(username.get());
+        return username.map(XMonoResp::data).orElse(null);
     }
 }

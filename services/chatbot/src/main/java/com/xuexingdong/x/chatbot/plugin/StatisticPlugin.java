@@ -1,5 +1,6 @@
 package com.xuexingdong.x.chatbot.plugin;
 
+import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
 import com.xuexingdong.x.chatbot.component.StatisticComponent;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.webwx.*;
@@ -25,6 +26,9 @@ public class StatisticPlugin implements ChatbotPlugin {
     @Autowired
     private StatisticComponent statisticComponent;
 
+    @Autowired
+    private ChatbotClientComponent chatbotClientComponent;
+
     @Override
     public boolean isExclusive() {
         return false;
@@ -37,14 +41,14 @@ public class StatisticPlugin implements ChatbotPlugin {
 
     @Override
     public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
-        countChatroomMessage(textMessage);
+        countMessage(textMessage);
         logger.info("【{}】->【{}】, type: 【{}】, content: 【{}】", textMessage.getFromUsername(), textMessage.getToUsername(), textMessage.getMsgType(), textMessage.getContent());
         return Optional.empty();
     }
 
     @Override
     public Optional<WebWxResponse> handleImage(WebWxImageMessage imageMessage) {
-        countChatroomMessage(imageMessage);
+        countMessage(imageMessage);
         String filename = download(imageMessage.getBase64Content());
         if (StringUtils.isEmpty(filename)) {
             return Optional.empty();
@@ -55,14 +59,14 @@ public class StatisticPlugin implements ChatbotPlugin {
 
     @Override
     public Optional<WebWxResponse> handleEmotion(WebWxEmotionMessage emotionMessage) {
-        countChatroomMessage(emotionMessage);
+        countMessage(emotionMessage);
         logger.info("【{}】->【{}】, type: 【{}】, url: 【{}】", emotionMessage.getFromUsername(), emotionMessage.getToUsername(), emotionMessage.getMsgType(), emotionMessage.getUrl());
         return Optional.empty();
     }
 
     @Override
     public Optional<WebWxResponse> handleLocation(WebWxLocationMessage locationMessage) {
-        countChatroomMessage(locationMessage);
+        countMessage(locationMessage);
         String filename = download(locationMessage.getBase64Content());
         if (StringUtils.isEmpty(filename)) {
             return Optional.empty();
@@ -83,7 +87,12 @@ public class StatisticPlugin implements ChatbotPlugin {
         return filename;
     }
 
-    private void countChatroomMessage(WebWxMessage webWxMessage) {
+    private void countMessage(WebWxMessage webWxMessage) {
+        if (isSelfSendingMessage(webWxMessage)) {
+            // TODO self-sending message handle logic
+            return;
+        }
+        // message from chatroom (not self-sending)
         if (WebWxUtils.isFromChatroom(webWxMessage)) {
             // when a text message is from a chatroom
             // it must be start with the message sender's username+:<br/>
@@ -93,7 +102,20 @@ public class StatisticPlugin implements ChatbotPlugin {
                 String realFromUsername = pair.getLeft();
                 statisticComponent.add(realFromUsername, webWxMessage.getToUsername(), webWxMessage.getMsgType());
             }
-
         }
+        // message from other person
+        else if (WebWxUtils.isFromPerson(webWxMessage)) {
+            statisticComponent.add(webWxMessage.getFromUsername(), webWxMessage.getToUsername(), webWxMessage.getMsgType());
+        }
+        // unknown source
+        else {
+            // TODO unknown source message handle logic
+            logger.warn("Unknown message from {} to {}: {} ", webWxMessage.getFromUsername(), webWxMessage.getToUsername(), webWxMessage.getContent());
+        }
+    }
+
+    private boolean isSelfSendingMessage(WebWxMessage webWxMessage) {
+        Optional<String> selfUsernameOptional = chatbotClientComponent.getSelfUsername();
+        return selfUsernameOptional.map(s -> s.equals(webWxMessage.getFromUsername())).orElse(false);
     }
 }
