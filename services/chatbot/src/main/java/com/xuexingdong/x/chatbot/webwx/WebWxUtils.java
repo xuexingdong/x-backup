@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WebWxUtils {
-    private static final Pattern IN_CHAT_AT_PATTERN = Pattern.compile("@(.+?)\\ufe0f");
+    private static final Pattern IN_CHAT_AT_PATTERN = Pattern.compile("@(.+?)\\ufe0f ?");
     private static final String OUTOFCHAT_AT_UNICODE = "\u2005";
     // PC wechat use char '\u2005' to split ated members
     // PC wechat use char ' ' to split ated members
@@ -80,7 +80,7 @@ public class WebWxUtils {
     }
 
     public static void main(String[] args) {
-        String a = "@85bc8d0b0c84e4f5adfe73e18f4066c30a0c6b3a40ca42345115f1f739c6ce6a:<br/>@🤖️ @🤖️\u2005统计";
+        String a = "@85bc8d0b0c84e4f5adfe73e18f4066c30a0c6b3a40ca42345115f1f739c6ce6a:<br/>@🤖️  统计";
         System.out.println(a.toCharArray());
         Optional<Pair<String, String>> pairOptional = WebWxUtils.parseFromChatroomContent(a);
         if (pairOptional.isPresent()) {

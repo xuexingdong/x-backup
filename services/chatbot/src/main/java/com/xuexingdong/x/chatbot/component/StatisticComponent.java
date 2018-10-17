@@ -21,13 +21,20 @@ public class StatisticComponent {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    public void add(String fromUsername, String toUsername, MsgType msgType) {
-        stringRedisTemplate.opsForHash().increment("chatbot:server:statistic:" + fromUsername + "-" + toUsername, msgType.name(), 1);
+    public void addPersonal(String fromUsername, MsgType msgType) {
+        String redisKey = getPersonalRedisKey(fromUsername);
+        stringRedisTemplate.opsForHash().increment(redisKey, msgType.name(), 1);
     }
 
-    public Map<MsgType, Integer> analyze(String fromUsername, String toUsername) {
+    public void addChatroom(String chatroomUsername, String fromUsername, MsgType msgType) {
+        String redisKey = getChatroomRedisKey(chatroomUsername, fromUsername);
+        stringRedisTemplate.opsForHash().increment(redisKey, msgType.name(), 1);
+    }
+
+    public Map<MsgType, Integer> analyze(String chatroomUsername, String fromUsername) {
+        String redisKey = getChatroomRedisKey(chatroomUsername, fromUsername);
         Map<MsgType, Integer> result = new HashMap<>();
-        Map<Object, Object> map = stringRedisTemplate.opsForHash().entries("chatbot:server:statistic:" + fromUsername + "-" + toUsername);
+        Map<Object, Object> map = stringRedisTemplate.opsForHash().entries(redisKey);
         for (Map.Entry<Object, Object> entry : map.entrySet()) {
             result.put(MsgType.valueOf(String.valueOf(entry.getKey())), Integer.parseInt(String.valueOf(entry.getValue())));
         }
@@ -39,13 +46,23 @@ public class StatisticComponent {
         if (result.isEmpty()) {
             sb.append("暂无发言记录");
         } else {
+            int total = 0;
             for (Map.Entry<MsgType, Integer> entry : result.entrySet()) {
-                sb.append(String.format("%s类消息%s条\n", MAP.getOrDefault(entry.getKey(), "未知"), entry.getValue()));
+                Integer count = entry.getValue();
+                total += count;
+                sb.append(String.format("%s类消息%s条\n", MAP.getOrDefault(entry.getKey(), "未知"), count));
             }
-            sb.append("粗略统计，重启后台统计清零");
+            sb.append(String.format("共计%d条\n", total));
+            sb.append("重启机器人清零");
         }
         return sb.toString();
-
     }
 
+    private String getPersonalRedisKey(String fromUsername) {
+        return "chatbot:statistic:" + fromUsername;
+    }
+
+    private String getChatroomRedisKey(String chatroomUsername, String fromUsername) {
+        return "chatbot:statistic:" + chatroomUsername + ":" + fromUsername;
+    }
 }

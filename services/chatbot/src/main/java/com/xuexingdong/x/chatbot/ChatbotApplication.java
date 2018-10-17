@@ -15,10 +15,14 @@ public class ChatbotApplication {
 
     @Bean
     public RestTemplate restTemplate() {
-        return new RestTemplateBuilder().build();
+        return new RestTemplateBuilder()
+                .setReadTimeout(3000)
+                .setConnectTimeout(3000)
+                .build();
     }
 
     public static void main(String[] args) {
+
         SpringApplication.run(ChatbotApplication.class);
     }
 }

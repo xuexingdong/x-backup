@@ -7,6 +7,7 @@ import com.xuexingdong.x.chatbot.webwx.MsgType;
 import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
 import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 import com.xuexingdong.x.chatbot.webwx.WebWxUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,15 +55,25 @@ public class AtMePlugin implements ChatbotPlugin {
                     response.setToUsername(textMessage.getFromUsername());
                     switch (realContent) {
                         case "统计":
-                            Map<MsgType, Integer> result = statisticComponent.analyze(realFromUsername, textMessage.getToUsername());
-                            Optional<String> realNicknameOptional = chatbotClientComponent.getNicknameByUsername(realFromUsername);
-                            if (realNicknameOptional.isPresent()) {
-                                String reply = String.format("用户【%s】的发言情况如下\n", realNicknameOptional.get());
+                            Map<MsgType, Integer> result = statisticComponent.analyze(textMessage.getFromUsername(), realFromUsername);
+                            // the name to show to the user
+                            String finalName = null;
+                            Optional<String> displayNameOptional = chatbotClientComponent.getDisplayNameInChatroomByUsername(textMessage.getFromUsername(), realFromUsername);
+                            if (displayNameOptional.isPresent() && StringUtils.isNotEmpty(displayNameOptional.get())) {
+                                finalName = displayNameOptional.get();
+                            } else {
+                                Optional<String> realNicknameOptional = chatbotClientComponent.getNicknameByUsername(realFromUsername);
+                                if (realNicknameOptional.isPresent()) {
+                                    finalName = realNicknameOptional.get();
+                                }
+                            }
+                            Optional<String> chatroomNickname = chatbotClientComponent.getNicknameByUsername(textMessage.getFromUsername());
+                            if (chatroomNickname.isPresent() && finalName != null) {
+                                String reply = String.format("用户【%s】在群【%s】发言情况如下\n", chatroomNickname, finalName);
                                 String content = reply + statisticComponent.mapToString(result);
                                 response.setContent(content);
                             } else {
-                                logger.warn("Can't find nickname for username {}", realFromUsername);
-                                response.setContent("获取用户昵称出错");
+                                response.setContent("获取用户出错");
                             }
                             break;
                         default:

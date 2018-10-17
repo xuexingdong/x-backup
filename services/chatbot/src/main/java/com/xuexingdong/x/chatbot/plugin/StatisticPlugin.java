@@ -100,12 +100,12 @@ public class StatisticPlugin implements ChatbotPlugin {
             if (pairOptional.isPresent()) {
                 Pair<String, String> pair = pairOptional.get();
                 String realFromUsername = pair.getLeft();
-                statisticComponent.add(realFromUsername, webWxMessage.getToUsername(), webWxMessage.getMsgType());
+                statisticComponent.addChatroom(webWxMessage.getFromUsername(), realFromUsername, webWxMessage.getMsgType());
             }
         }
         // message from other person
         else if (WebWxUtils.isFromPerson(webWxMessage)) {
-            statisticComponent.add(webWxMessage.getFromUsername(), webWxMessage.getToUsername(), webWxMessage.getMsgType());
+            statisticComponent.addPersonal(webWxMessage.getFromUsername(), webWxMessage.getMsgType());
         }
         // unknown source
         else {

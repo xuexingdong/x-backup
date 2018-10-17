@@ -2,6 +2,7 @@ package com.xuexingdong.x.chatbot.plugin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
 import com.xuexingdong.x.chatbot.config.RabbitConfig;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.webwx.MsgType;
@@ -10,7 +11,7 @@ import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -21,15 +22,16 @@ public class TestPlugin implements ChatbotPlugin {
 
     private static final Logger logger = LoggerFactory.getLogger(TestPlugin.class);
 
-    private final StringRedisTemplate stringRedisTemplate;
+    private final ChatbotClientComponent chatbotClientComponent;
 
     private final RabbitTemplate rabbitTemplate;
 
     private final ObjectMapper objectMapper;
 
-    public TestPlugin(StringRedisTemplate stringRedisTemplate, RabbitTemplate rabbitTemplate, ObjectMapper objectMapper) {
-        this.stringRedisTemplate = stringRedisTemplate;
+    @Autowired
+    public TestPlugin(RabbitTemplate rabbitTemplate, ChatbotClientComponent chatbotClientComponent, ObjectMapper objectMapper) {
         this.rabbitTemplate = rabbitTemplate;
+        this.chatbotClientComponent = chatbotClientComponent;
         this.objectMapper = objectMapper;
     }
 
@@ -41,7 +43,12 @@ public class TestPlugin implements ChatbotPlugin {
     @Override
     public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
         // 不是发给filehelper的消息不会触发该测试
-        String selfUsername = stringRedisTemplate.opsForValue().get("chatbot:self_chatid");
+        Optional<String> selfUsernameOptional = chatbotClientComponent.getSelfUsername();
+        if (!selfUsernameOptional.isPresent()) {
+            logger.warn("Self chat id is empty");
+            return Optional.empty();
+        }
+        String selfUsername = selfUsernameOptional.get();
         if (!textMessage.getFromUsername().equals(selfUsername)) {
             return Optional.empty();
         }

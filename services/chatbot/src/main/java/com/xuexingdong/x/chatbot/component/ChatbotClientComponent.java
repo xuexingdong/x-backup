@@ -35,7 +35,15 @@ public class ChatbotClientComponent {
     }
 
     public Optional<String> getNicknameByUsername(String username) {
-        Object res = stringRedisTemplate.opsForHash().get(REDIS_KEY_PREFIX + "username_remark_name_mapping", username);
+        Object res = stringRedisTemplate.opsForHash().get(REDIS_KEY_PREFIX + "username_nickname_mapping", username);
+        if (res == null) {
+            return Optional.empty();
+        }
+        return Optional.of((String) res);
+    }
+
+    public Optional<String> getDisplayNameInChatroomByUsername(String chatroomUsername, String username) {
+        Object res = stringRedisTemplate.opsForHash().get(REDIS_KEY_PREFIX + "chatroom:+" + chatroomUsername + ":username_display_name_mapping", username);
         if (res == null) {
             return Optional.empty();
         }

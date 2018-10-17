@@ -88,7 +88,7 @@ public class LocationPlugin implements ChatbotPlugin {
         try {
             node = objectMapper.readTree(resp);
         } catch (IOException e) {
-            logger.error("访问高德出错");
+            logger.error("解析json出错");
             return Optional.empty();
         }
         if (!"1".equals(node.get("status").asText())) {
