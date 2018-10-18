@@ -118,10 +118,10 @@ public class PointsPlugin implements ChatbotPlugin {
                 boolean success = userMapper.plusPointsToUser(otherUserId, chatPoint);
                 // 更新失败
                 if (!success) {
-                    logger.debug("User {} addChatroom points failed", otherUserId);
+                    logger.debug("User {} add points failed", otherUserId);
                     return new ArrayList<>();
                 }
-                logger.info("User {} addChatroom {} points", otherChatId, chatPoint);
+                logger.info("User {} add {} points", otherChatId, chatPoint);
             }
             // 记录和这个人的消息收发情况
             setLastChatStatusToChatId(otherChatId, currentChatStatus);

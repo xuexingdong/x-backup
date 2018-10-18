@@ -21,18 +21,13 @@ public class StatisticComponent {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    public void addPersonal(String fromUsername, MsgType msgType) {
-        String redisKey = getPersonalRedisKey(fromUsername);
+    public void add(String fromUsername, String toUsername, MsgType msgType) {
+        String redisKey = getStatisticRedisKey(fromUsername, toUsername);
         stringRedisTemplate.opsForHash().increment(redisKey, msgType.name(), 1);
     }
 
-    public void addChatroom(String chatroomUsername, String fromUsername, MsgType msgType) {
-        String redisKey = getChatroomRedisKey(chatroomUsername, fromUsername);
-        stringRedisTemplate.opsForHash().increment(redisKey, msgType.name(), 1);
-    }
-
-    public Map<MsgType, Integer> analyze(String chatroomUsername, String fromUsername) {
-        String redisKey = getChatroomRedisKey(chatroomUsername, fromUsername);
+    public Map<MsgType, Integer> count(String fromUsername, String toUsername) {
+        String redisKey = getStatisticRedisKey(fromUsername, toUsername);
         Map<MsgType, Integer> result = new HashMap<>();
         Map<Object, Object> map = stringRedisTemplate.opsForHash().entries(redisKey);
         for (Map.Entry<Object, Object> entry : map.entrySet()) {
@@ -58,11 +53,7 @@ public class StatisticComponent {
         return sb.toString();
     }
 
-    private String getPersonalRedisKey(String fromUsername) {
-        return "chatbot:statistic:" + fromUsername;
-    }
-
-    private String getChatroomRedisKey(String chatroomUsername, String fromUsername) {
-        return "chatbot:statistic:" + chatroomUsername + ":" + fromUsername;
+    private String getStatisticRedisKey(String fromUsername, String toUsername) {
+        return "chatbot:statistic:" + fromUsername + ":" + toUsername;
     }
 }

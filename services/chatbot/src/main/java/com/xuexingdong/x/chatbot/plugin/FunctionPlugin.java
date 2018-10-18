@@ -1,12 +1,13 @@
 package com.xuexingdong.x.chatbot.plugin;
 
+import com.xuexingdong.x.chatbot.component.StatisticComponent;
 import com.xuexingdong.x.chatbot.config.PluginConfig;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.event.Event;
 import com.xuexingdong.x.chatbot.event.WebWxEvents;
+import com.xuexingdong.x.chatbot.webwx.MsgType;
 import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 import com.xuexingdong.x.chatbot.webwx.WebWxUtils;
-import com.xuexingdong.x.common.utils.XDateTimeUtils;
 import com.xuexingdong.x.entity.User;
 import com.xuexingdong.x.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 
 @Component
 public class FunctionPlugin implements ChatbotPlugin {
@@ -25,6 +26,9 @@ public class FunctionPlugin implements ChatbotPlugin {
 
     @Autowired
     private PluginConfig pluginConfig;
+
+    @Autowired
+    private StatisticComponent statisticComponent;
 
     @Override
     public int order() {
@@ -45,6 +49,11 @@ public class FunctionPlugin implements ChatbotPlugin {
                     for (String function : pluginConfig.getFunctions()) {
                         sb.append("#").append(function).append("\n");
                     }
+                    break;
+                case "统计":
+                    Map<MsgType, Integer> result = statisticComponent.count(textMessage.getFromUsername(), textMessage.getToUsername());
+                    String content = statisticComponent.mapToString(result);
+                    sb.append("今日聊天情况如下\n").append(content);
                     break;
                 case "积分":
                     if (Objects.isNull(user)) {

@@ -56,7 +56,7 @@ public class AtMePlugin implements ChatbotPlugin {
                     String returnText;
                     switch (realContent) {
                         case "统计":
-                            Map<MsgType, Integer> result = statisticComponent.analyze(textMessage.getFromUsername(), realFromUsername);
+                            Map<MsgType, Integer> result = statisticComponent.count(realFromUsername, textMessage.getFromUsername());
                             // the name to show to the user
                             String finalName = null;
                             Optional<String> displayNameOptional = chatbotClientComponent.getDisplayNameInChatroomByUsername(textMessage.getFromUsername(), realFromUsername);
