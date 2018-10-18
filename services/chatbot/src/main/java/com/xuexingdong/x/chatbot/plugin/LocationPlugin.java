@@ -3,10 +3,11 @@ package com.xuexingdong.x.chatbot.plugin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
+import com.xuexingdong.x.chatbot.event.Event;
+import com.xuexingdong.x.chatbot.event.WebWxEvents;
 import com.xuexingdong.x.chatbot.model.Location;
 import com.xuexingdong.x.chatbot.repository.LocationRepository;
 import com.xuexingdong.x.chatbot.util.GPSUtil;
-import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
 import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 import com.xuexingdong.x.chatbot.webwx.WebWxUtils;
 import org.slf4j.Logger;
@@ -20,9 +21,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class LocationPlugin implements ChatbotPlugin {
@@ -48,27 +47,27 @@ public class LocationPlugin implements ChatbotPlugin {
     }
 
     @Override
-    public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
+    public List<Event> handleText(WebWxTextMessage textMessage) {
+        List<Event> events = new ArrayList<>();
         // 必须是个人号
         if (WebWxUtils.isFromPerson(textMessage)
                 && "#定位".equals(textMessage.getContent())) {
             Optional<Location> locationOptional = locationRepository.findAll(PageRequest.of(0, 1,
                     Sort.by(Sort.Order.desc("created_at")))).stream().findFirst();
-            WebWxResponse response = new WebWxResponse();
-            response.setToUsername(textMessage.getFromUsername());
+            StringBuilder sb = new StringBuilder();
             if (locationOptional.isPresent()) {
                 Location location = locationOptional.get();
                 // 谷歌卫星到高德的坐标转换
                 double[] transformedLocation = GPSUtil.gps84_To_Gcj02(location.getLatitude(), location.getLongitude());
                 getAddressText(transformedLocation[1], transformedLocation[0]).ifPresent(address ->
-                        response.setContent("主人所在地理位置为: \n" + address + "\n最后更新于\n"
-                                + location.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
+                        sb.append(String.format("主人所在地理位置为: \n%s\n最后更新于\n"
+                                + location.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), address)));
             } else {
-                response.setContent("暂无地理信息");
+                sb.append("暂无地理信息");
             }
-            return Optional.of(response);
+            events.add(WebWxEvents.sendText(textMessage.getFromUsername(), sb.toString()));
         }
-        return Optional.empty();
+        return events;
     }
 
 

@@ -3,7 +3,7 @@ package com.xuexingdong.x.chatbot.plugin;
 import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.enumeration.ChatStatus;
-import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
+import com.xuexingdong.x.chatbot.event.Event;
 import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 import com.xuexingdong.x.chatbot.webwx.WebWxUtils;
 import com.xuexingdong.x.common.utils.XDateTimeUtils;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -61,71 +62,71 @@ public class PointsPlugin implements ChatbotPlugin {
     }
 
     @Override
-    public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
-        if (!WebWxUtils.isPrivateChat(textMessage)) {
-            return Optional.empty();
-        }
-        Optional<String> selfChatIdOptional = chatbotClientComponent.getSelfUsername();
-        if (!selfChatIdOptional.isPresent()) {
-            logger.warn("Self chat id is empty");
-            return Optional.empty();
-        }
-        String selfChatId = selfChatIdOptional.get();
-        ChatStatus currentChatStatus;
-        String otherChatId;
-        String otherRemarkName;
-        if (selfChatId.equals(textMessage.getFromUsername())) {
-            // send by me
-            currentChatStatus = ChatStatus.SEND;
-            otherChatId = textMessage.getToUsername();
-            otherRemarkName = textMessage.getToRemarkName();
-        } else {
-            // send to me
-            currentChatStatus = ChatStatus.RECEIVE;
-            otherChatId = textMessage.getFromUsername();
-            otherRemarkName = textMessage.getFromRemarkName();
-        }
-        // filter empty remark name
-        if (StringUtils.isEmpty(otherRemarkName)) {
-            return Optional.empty();
-        }
-        Optional<ChatStatus> lastChatStatusOptional = getLastChatStatusByChatId(otherChatId);
-        // 如果上条消息状态与此次相反，则代表产生了一次对话，可以加积分
-        if (lastChatStatusOptional.isPresent() && lastChatStatusOptional.get() != currentChatStatus) {
-            String otherUserId = (String) stringRedisTemplate.opsForHash().get("chatbot:server:chatid_user_id_mapping", otherChatId);
-            // 未注册用户
-            if (StringUtils.isEmpty(otherUserId)) {
-                String userId = XRandomUtils.randomUUID();
-                User user = new User()
-                        .setId(userId)
-                        .setUsername("用户" + XDateTimeUtils.get13TimestampStr())
-                        .setRemarkName(otherRemarkName)
-                        .setPassword("")
-                        .setSalt("")
-                        .setPoints(initPoint + chatPoint);
-                try {
-                    userMapper.insert(user);
-                } catch (Exception ex) {
-                    logger.error("Insert user {} failed", textMessage.getFromRemarkName());
-                    return Optional.empty();
-                }
+    public List<Event> handleText(WebWxTextMessage textMessage) {
+        List<Event> events = new ArrayList<>();
+        if (WebWxUtils.isPrivateChat(textMessage)) {
+            Optional<String> selfChatIdOptional = chatbotClientComponent.getSelfUsername();
+            if (!selfChatIdOptional.isPresent()) {
+                logger.warn("Self chat id is empty");
+                return events;
+            }
+            String selfChatId = selfChatIdOptional.get();
+            ChatStatus currentChatStatus;
+            String otherChatId;
+            String otherRemarkName;
+            if (selfChatId.equals(textMessage.getFromUsername())) {
+                // send by me
+                currentChatStatus = ChatStatus.SEND;
+                otherChatId = textMessage.getToUsername();
+                otherRemarkName = textMessage.getToRemarkName();
+            } else {
+                // send to me
+                currentChatStatus = ChatStatus.RECEIVE;
+                otherChatId = textMessage.getFromUsername();
+                otherRemarkName = textMessage.getFromRemarkName();
+            }
+            // filter empty remark name
+            if (StringUtils.isEmpty(otherRemarkName)) {
+                return events;
+            }
+            Optional<ChatStatus> lastChatStatusOptional = getLastChatStatusByChatId(otherChatId);
+            // 如果上条消息状态与此次相反，则代表产生了一次对话，可以加积分
+            if (lastChatStatusOptional.isPresent() && lastChatStatusOptional.get() != currentChatStatus) {
+                String otherUserId = (String) stringRedisTemplate.opsForHash().get("chatbot:server:chatid_user_id_mapping", otherChatId);
+                // 未注册用户
+                if (StringUtils.isEmpty(otherUserId)) {
+                    String userId = XRandomUtils.randomUUID();
+                    User user = new User()
+                            .setId(userId)
+                            .setUsername("用户" + XDateTimeUtils.get13TimestampStr())
+                            .setRemarkName(otherRemarkName)
+                            .setPassword("")
+                            .setSalt("")
+                            .setPoints(initPoint + chatPoint);
+                    try {
+                        userMapper.insert(user);
+                    } catch (Exception ex) {
+                        logger.error("Insert user {} failed", textMessage.getFromRemarkName());
+                        return new ArrayList<>();
+                    }
 
-                otherUserId = userId;
-                // 存储chatId与userId的关系
-                stringRedisTemplate.opsForHash().put("chatbot:server:chatid_user_id_mapping", otherChatId, userId);
-                logger.info("User {} registered with chatId {}", userId, otherUserId);
+                    otherUserId = userId;
+                    // 存储chatId与userId的关系
+                    stringRedisTemplate.opsForHash().put("chatbot:server:chatid_user_id_mapping", otherChatId, userId);
+                    logger.info("User {} registered with chatId {}", userId, otherUserId);
+                }
+                boolean success = userMapper.plusPointsToUser(otherUserId, chatPoint);
+                // 更新失败
+                if (!success) {
+                    logger.debug("User {} addChatroom points failed", otherUserId);
+                    return new ArrayList<>();
+                }
+                logger.info("User {} addChatroom {} points", otherChatId, chatPoint);
             }
-            boolean success = userMapper.plusPointsToUser(otherUserId, chatPoint);
-            // 更新失败
-            if (!success) {
-                logger.debug("User {} addChatroom points failed", otherUserId);
-                return Optional.empty();
-            }
-            logger.info("User {} addChatroom {} points", otherChatId, chatPoint);
+            // 记录和这个人的消息收发情况
+            setLastChatStatusToChatId(otherChatId, currentChatStatus);
         }
-        // 记录和这个人的消息收发情况
-        setLastChatStatusToChatId(otherChatId, currentChatStatus);
-        return Optional.empty();
+        return events;
     }
 
     private Optional<ChatStatus> getLastChatStatusByChatId(String chatId) {

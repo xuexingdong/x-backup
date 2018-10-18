@@ -1,8 +1,13 @@
 package com.xuexingdong.x.chatbot.core;
 
-import com.xuexingdong.x.chatbot.webwx.*;
+import com.xuexingdong.x.chatbot.event.Event;
+import com.xuexingdong.x.chatbot.webwx.WebWxEmotionMessage;
+import com.xuexingdong.x.chatbot.webwx.WebWxImageMessage;
+import com.xuexingdong.x.chatbot.webwx.WebWxLocationMessage;
+import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface ChatbotPlugin {
 
@@ -14,27 +19,27 @@ public interface ChatbotPlugin {
         return true;
     }
 
-    default Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
-        return Optional.empty();
+    default List<Event> handleText(WebWxTextMessage textMessage) {
+        return new ArrayList<>();
     }
 
-    default Optional<WebWxResponse> handleImage(WebWxImageMessage imageMessage) {
-        return Optional.empty();
+    default List<Event> handleImage(WebWxImageMessage imageMessage) {
+        return new ArrayList<>();
     }
 
-    default Optional<WebWxResponse> handleVoice(WebWxTextMessage textMessage) {
-        return Optional.empty();
+    default List<Event> handleVoice(WebWxTextMessage textMessage) {
+        return new ArrayList<>();
     }
 
-    default Optional<WebWxResponse> handleVideo(WebWxTextMessage textMessage) {
-        return Optional.empty();
+    default List<Event> handleVideo(WebWxTextMessage textMessage) {
+        return new ArrayList<>();
     }
 
-    default Optional<WebWxResponse> handleLocation(WebWxLocationMessage locationMessage) {
-        return Optional.empty();
+    default List<Event> handleLocation(WebWxLocationMessage locationMessage) {
+        return new ArrayList<>();
     }
 
-    default Optional<WebWxResponse> handleEmotion(WebWxEmotionMessage emotionMessage) {
-        return Optional.empty();
+    default List<Event> handleEmotion(WebWxEmotionMessage emotionMessage) {
+        return new ArrayList<>();
     }
 }

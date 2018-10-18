@@ -3,6 +3,7 @@ package com.xuexingdong.x.chatbot.plugin;
 import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
 import com.xuexingdong.x.chatbot.component.StatisticComponent;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
+import com.xuexingdong.x.chatbot.event.Event;
 import com.xuexingdong.x.chatbot.webwx.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,9 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 public class StatisticPlugin implements ChatbotPlugin {
@@ -40,39 +39,39 @@ public class StatisticPlugin implements ChatbotPlugin {
     }
 
     @Override
-    public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
+    public List<Event> handleText(WebWxTextMessage textMessage) {
         countMessage(textMessage);
         logger.info("【{}】->【{}】, type: 【{}】, content: 【{}】", textMessage.getFromUsername(), textMessage.getToUsername(), textMessage.getMsgType(), textMessage.getContent());
-        return Optional.empty();
+        return new ArrayList<>();
     }
 
     @Override
-    public Optional<WebWxResponse> handleImage(WebWxImageMessage imageMessage) {
+    public List<Event> handleImage(WebWxImageMessage imageMessage) {
         countMessage(imageMessage);
         String filename = download(imageMessage.getBase64Content());
         if (StringUtils.isEmpty(filename)) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
         logger.info("【{}】->【{}】, type: 【{}】, path: 【{}】", imageMessage.getFromUsername(), imageMessage.getToUsername(), imageMessage.getMsgType(), filename);
-        return Optional.empty();
+        return new ArrayList<>();
     }
 
     @Override
-    public Optional<WebWxResponse> handleEmotion(WebWxEmotionMessage emotionMessage) {
+    public List<Event> handleEmotion(WebWxEmotionMessage emotionMessage) {
         countMessage(emotionMessage);
         logger.info("【{}】->【{}】, type: 【{}】, url: 【{}】", emotionMessage.getFromUsername(), emotionMessage.getToUsername(), emotionMessage.getMsgType(), emotionMessage.getUrl());
-        return Optional.empty();
+        return new ArrayList<>();
     }
 
     @Override
-    public Optional<WebWxResponse> handleLocation(WebWxLocationMessage locationMessage) {
+    public List<Event> handleLocation(WebWxLocationMessage locationMessage) {
         countMessage(locationMessage);
         String filename = download(locationMessage.getBase64Content());
         if (StringUtils.isEmpty(filename)) {
-            return Optional.empty();
+            return new ArrayList<>();
         }
         logger.info("【{}】->【{}】, type: 【{}】, url: 【{}】", locationMessage.getFromUsername(), locationMessage.getToUsername(), locationMessage.getMsgType(), filename);
-        return Optional.empty();
+        return new ArrayList<>();
     }
 
     private String download(String base64Content) {
@@ -82,7 +81,7 @@ public class StatisticPlugin implements ChatbotPlugin {
             FileUtils.writeByteArrayToFile(new File(filename), base64Bytes);
         } catch (IOException e) {
             logger.error("Write image file error");
-            return null;
+            return "";
         }
         return filename;
     }

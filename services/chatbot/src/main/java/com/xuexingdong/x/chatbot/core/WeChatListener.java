@@ -3,6 +3,8 @@ package com.xuexingdong.x.chatbot.core;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xuexingdong.x.chatbot.config.RabbitConfig;
+import com.xuexingdong.x.chatbot.event.Event;
+import com.xuexingdong.x.chatbot.event.EventType;
 import com.xuexingdong.x.chatbot.webwx.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +53,7 @@ public class WeChatListener {
     @RabbitListener(queues = RabbitConfig.RECEIVE_QUEUE)
     @RabbitHandler
     public void process(@Payload Message message) {
-        List<WebWxResponse> responses = new ArrayList<>();
+        List<Event> events = new ArrayList<>();
         WebWxMessage wxMessage;
         String msg = new String(message.getBody(), StandardCharsets.UTF_8);
         // persist chat record
@@ -63,9 +65,9 @@ public class WeChatListener {
                     WebWxTextMessage textMessage = objectMapper.readValue(
                             msg, WebWxTextMessage.class);
                     for (ChatbotPlugin chatBotPlugin : chatbotPlugins) {
-                        Optional<WebWxResponse> responseOptional = chatBotPlugin.handleText(textMessage);
-                        if (responseOptional.isPresent()) {
-                            responses.add(responseOptional.get());
+                        List<Event> pluginEvents = chatBotPlugin.handleText(textMessage);
+                        if (!pluginEvents.isEmpty()) {
+                            events.addAll(pluginEvents);
                             if (chatBotPlugin.isExclusive()) {
                                 break;
                             }
@@ -75,10 +77,12 @@ public class WeChatListener {
                 case IMAGE:
                     WebWxImageMessage imageMessage = objectMapper.readValue(msg, WebWxImageMessage.class);
                     for (ChatbotPlugin chatBotPlugin : chatbotPlugins) {
-                        Optional<WebWxResponse> responseOptional = chatBotPlugin.handleImage(imageMessage);
-                        responseOptional.ifPresent(responses::add);
-                        if (chatBotPlugin.isExclusive()) {
-                            break;
+                        List<Event> pluginEvents = chatBotPlugin.handleImage(imageMessage);
+                        if (!pluginEvents.isEmpty()) {
+                            events.addAll(pluginEvents);
+                            if (chatBotPlugin.isExclusive()) {
+                                break;
+                            }
                         }
                     }
                     break;
@@ -89,9 +93,9 @@ public class WeChatListener {
                 case EMOTION:
                     WebWxEmotionMessage emotionMessage = objectMapper.readValue(msg, WebWxEmotionMessage.class);
                     for (ChatbotPlugin chatBotPlugin : chatbotPlugins) {
-                        Optional<WebWxResponse> responseOptional = chatBotPlugin.handleEmotion(emotionMessage);
-                        if (responseOptional.isPresent()) {
-                            responses.add(responseOptional.get());
+                        List<Event> pluginEvents = chatBotPlugin.handleEmotion(emotionMessage);
+                        if (!pluginEvents.isEmpty()) {
+                            events.addAll(pluginEvents);
                             if (chatBotPlugin.isExclusive()) {
                                 break;
                             }
@@ -105,9 +109,9 @@ public class WeChatListener {
                 case LOCATION:
                     WebWxLocationMessage locationMessage = objectMapper.readValue(msg, WebWxLocationMessage.class);
                     for (ChatbotPlugin chatBotPlugin : chatbotPlugins) {
-                        Optional<WebWxResponse> responseOptional = chatBotPlugin.handleLocation(locationMessage);
-                        if (responseOptional.isPresent()) {
-                            responses.add(responseOptional.get());
+                        List<Event> pluginEvents = chatBotPlugin.handleLocation(locationMessage);
+                        if (!pluginEvents.isEmpty()) {
+                            events.addAll(pluginEvents);
                             if (chatBotPlugin.isExclusive()) {
                                 break;
                             }
@@ -129,10 +133,10 @@ public class WeChatListener {
             logger.error("Error decoding json: {}", msg);
             return;
         }
-        responses.forEach(r -> {
+        events.forEach(r -> {
             // r.setToUsername("filehelper");
             // 文本消息追加机器人后缀
-            if (r.getMsgType() == MsgType.TEXT) {
+            if (EventType.SEND_MESSAGE == r.getEventType() && MsgType.TEXT == r.getMsgType()) {
                 r.setContent(r.getContent() + "\n(response by 🤖)");
             }
             logger.info("向用户【{}】发送消息: {}", r.getToUsername(), r.getContent());

@@ -15,7 +15,7 @@ public class WebWxUtils {
     private static final String OUTOFCHAT_AT_UNICODE = "\u2005";
     // PC wechat use char '\u2005' to split ated members
     // PC wechat use char ' ' to split ated members
-    private static final Pattern OUTOFCHAT_AT_PATTERN = Pattern.compile("@(.+?)(\\ufe0f)?(\\u2005| )");
+    private static final Pattern OUTOFCHAT_AT_PATTERN = Pattern.compile("@(.+?)(\\ufe0f)?([\\u2005 ])");
 
     private static final Pattern FROM_CHATROOM_TEXT_MESSAGE_PATTERN = Pattern.compile("(@\\w+):<br/>(.*)");
 
@@ -68,7 +68,7 @@ public class WebWxUtils {
     /**
      * parse the chat
      *
-     * @param text
+     * @param text text to parse
      * @return pair, which left is from username, right is the message
      */
     public static Optional<Pair<String, String>> parseFromChatroomContent(@Nonnull String text) {

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
 import com.xuexingdong.x.chatbot.config.RabbitConfig;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
-import com.xuexingdong.x.chatbot.webwx.MsgType;
-import com.xuexingdong.x.chatbot.webwx.WebWxResponse;
+import com.xuexingdong.x.chatbot.event.Event;
+import com.xuexingdong.x.chatbot.event.WebWxEvents;
 import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -41,45 +43,41 @@ public class TestPlugin implements ChatbotPlugin {
     }
 
     @Override
-    public Optional<WebWxResponse> handleText(WebWxTextMessage textMessage) {
+    public List<Event> handleText(WebWxTextMessage textMessage) {
+        List<Event> events = new ArrayList<>();
         // 不是发给filehelper的消息不会触发该测试
         Optional<String> selfUsernameOptional = chatbotClientComponent.getSelfUsername();
         if (!selfUsernameOptional.isPresent()) {
             logger.warn("Self chat id is empty");
-            return Optional.empty();
+            return events;
         }
         String selfUsername = selfUsernameOptional.get();
         if (!textMessage.getFromUsername().equals(selfUsername)) {
-            return Optional.empty();
+            return events;
         }
-        WebWxResponse response = new WebWxResponse();
-        // send test message to filehelper
-        response.setToUsername("filehelper");
+        Event event;
+        String toUsername = "filehelper";
         switch (textMessage.getContent()) {
             case "测试":
-                response.setMsgType(MsgType.TEXT);
-                response.setContent("测试类型: 文字,emoji,图片,文件");
+                event = WebWxEvents.sendText(toUsername, "测试类型: 文字,emoji,图片,文件");
                 break;
             case "测试文字":
-                response.setMsgType(MsgType.TEXT);
-                response.setContent(textMessage.getFromUsername());
+                event = WebWxEvents.sendText(toUsername, toUsername);
                 break;
             case "测试emoji":
-                response.setMsgType(MsgType.TEXT);
-                response.setContent("😍");
+                event = WebWxEvents.sendText(toUsername, "😍");
                 break;
             case "测试图片":
-                response.setMsgType(MsgType.IMAGE);
-                response.setContent("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2665386746,1443186566&fm=27&gp=0.jpg");
+                event = WebWxEvents.sendImage(toUsername, "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2665386746,1443186566&fm=27&gp=0.jpg");
                 break;
             case "测试文件":
-                response.setMsgType(MsgType.FILE);
-                response.setContent("https://github.com/xuexingdong/chatbot/blob/master/README.md");
+                event = WebWxEvents.sendFile(toUsername, "https://raw.githubusercontent.com/xuexingdong/chatbot/master/README.md");
                 break;
             default:
-                return Optional.empty();
+                return events;
         }
-        return Optional.of(response);
+        events.add(event);
+        return events;
     }
 
     /**
@@ -89,10 +87,8 @@ public class TestPlugin implements ChatbotPlugin {
      */
     @Scheduled(fixedRate = 10 * 60 * 1000)
     public void heartbeat() throws JsonProcessingException {
-        WebWxResponse response = new WebWxResponse();
-        response.setToUsername("filehelper");
-        response.setContent("心跳检测");
-        rabbitTemplate.convertAndSend(RabbitConfig.SEND_QUEUE, objectMapper.writeValueAsString(response));
+        Event event = WebWxEvents.sendText("filehelper", "心跳检测");
+        rabbitTemplate.convertAndSend(RabbitConfig.SEND_QUEUE, objectMapper.writeValueAsString(event));
         logger.info("心跳检测");
     }
 }
