@@ -30,7 +30,8 @@ CREATE TABLE `user` (
   `points`      int(10) unsigned                        NOT NULL DEFAULT '0',
   `created_at`  datetime                                NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq_username` (`username`) USING BTREE
+  UNIQUE KEY `uniq_username` (`username`) USING BTREE,
+  UNIQUE KEY `uniq_remark_name` (`remark_name`) USING BTREE
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
