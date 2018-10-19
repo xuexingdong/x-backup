@@ -90,8 +90,6 @@ public class StatisticPlugin implements ChatbotPlugin {
         LocalDate date = LocalDateTime.ofInstant(Instant.ofEpochSecond(webWxMessage.getCreateTime()), ZoneId.systemDefault()).toLocalDate();
         // message from chatroom (not self-sending)
         if (WebWxUtils.isFromChatroom(webWxMessage)) {
-            // when a text message is from a chatroom
-            // it must be start with the message sender's username+:<br/>
             Optional<Pair<String, String>> pairOptional = WebWxUtils.parseFromChatroomContent(webWxMessage.getContent());
             if (pairOptional.isPresent()) {
                 Pair<String, String> pair = pairOptional.get();
