@@ -1,5 +1,6 @@
 package com.xuexingdong.x.chatbot.plugin;
 
+import com.xuexingdong.x.chatbot.component.LocationComponent;
 import com.xuexingdong.x.chatbot.component.StatisticComponent;
 import com.xuexingdong.x.chatbot.config.PluginConfig;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
@@ -31,6 +32,9 @@ public class FunctionPlugin implements ChatbotPlugin {
     @Autowired
     private StatisticComponent statisticComponent;
 
+    @Autowired
+    private LocationComponent locationComponent;
+
     @Override
     public int order() {
         return -1;
@@ -55,6 +59,9 @@ public class FunctionPlugin implements ChatbotPlugin {
                     Map<MsgType, Integer> result = statisticComponent.count(textMessage.getFromUsername(), textMessage.getToUsername(), LocalDate.now());
                     String content = statisticComponent.mapToString(result);
                     sb.append("今日聊天情况如下\n").append(content);
+                    break;
+                case "定位":
+                    sb.append(locationComponent.getLocationInfo());
                     break;
                 case "积分":
                     if (Objects.isNull(user)) {

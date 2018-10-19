@@ -1,6 +1,7 @@
 package com.xuexingdong.x.chatbot.plugin;
 
 import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
+import com.xuexingdong.x.chatbot.component.LocationComponent;
 import com.xuexingdong.x.chatbot.component.StatisticComponent;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.event.Event;
@@ -31,6 +32,9 @@ public class AtMePlugin implements ChatbotPlugin {
 
     @Autowired
     private ChatbotClientComponent chatbotClientComponent;
+
+    @Autowired
+    private LocationComponent locationComponent;
 
     @Override
     public int order() {
@@ -69,13 +73,16 @@ public class AtMePlugin implements ChatbotPlugin {
                                     finalName = realNicknameOptional.get();
                                 }
                             }
-                            Optional<String> chatroomNickname = chatbotClientComponent.getNicknameByUsername(textMessage.getFromUsername());
-                            if (chatroomNickname.isPresent() && finalName != null) {
-                                String reply = String.format("用户【%s】在群【%s】发言情况如下\n", chatroomNickname, finalName);
+                            Optional<String> chatroomNicknameOptional = chatbotClientComponent.getNicknameByUsername(textMessage.getFromUsername());
+                            if (chatroomNicknameOptional.isPresent() && finalName != null) {
+                                String reply = String.format("用户【%s】在群【%s】发言情况如下\n", finalName, chatroomNicknameOptional.get());
                                 returnText = reply + statisticComponent.mapToString(result);
                             } else {
                                 returnText = "获取用户出错";
                             }
+                            break;
+                        case "定位":
+                            returnText = locationComponent.getLocationInfo();
                             break;
                         default:
                             returnText = "暂无对应指令";

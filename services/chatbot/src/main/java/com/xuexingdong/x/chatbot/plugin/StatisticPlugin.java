@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @Component
@@ -86,7 +87,7 @@ public class StatisticPlugin implements ChatbotPlugin {
     }
 
     private void countMessage(WebWxMessage webWxMessage) {
-        LocalDate date = LocalDate.from(Instant.ofEpochSecond(webWxMessage.getCreateTime()));
+        LocalDate date = LocalDateTime.ofInstant(Instant.ofEpochSecond(webWxMessage.getCreateTime()), ZoneId.systemDefault()).toLocalDate();
         // message from chatroom (not self-sending)
         if (WebWxUtils.isFromChatroom(webWxMessage)) {
             // when a text message is from a chatroom
@@ -97,7 +98,8 @@ public class StatisticPlugin implements ChatbotPlugin {
                 String realFromUsername = pair.getLeft();
                 statisticComponent.add(realFromUsername, webWxMessage.getFromUsername(), webWxMessage.getMsgType(), date);
             }
+        } else {
+            statisticComponent.add(webWxMessage.getFromUsername(), webWxMessage.getToUsername(), webWxMessage.getMsgType(), date);
         }
-        statisticComponent.add(webWxMessage.getFromUsername(), webWxMessage.getToUsername(), webWxMessage.getMsgType(), date);
     }
 }

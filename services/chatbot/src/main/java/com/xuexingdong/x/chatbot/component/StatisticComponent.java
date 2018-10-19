@@ -29,7 +29,7 @@ public class StatisticComponent {
     public void add(String fromUsername, String toUsername, MsgType msgType, LocalDate localDate) {
         String redisKey = getStatisticRedisKey(fromUsername, toUsername, localDate);
         stringRedisTemplate.opsForHash().increment(redisKey, msgType.name(), 1);
-        stringRedisTemplate.expireAt(redisKey, localDateToDate(localDate));
+        stringRedisTemplate.expireAt(redisKey, localDateToDate(localDate.plusDays(1)));
     }
 
     public Map<MsgType, Integer> count(String fromUsername, String toUsername, LocalDate localDate) {
