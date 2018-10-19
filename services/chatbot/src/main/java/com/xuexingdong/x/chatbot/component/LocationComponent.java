@@ -47,7 +47,7 @@ public class LocationComponent {
             Location location = locationOptional.get();
             // 谷歌卫星到高德的坐标转换
             double[] transformedLocation = GPSUtil.gps84_To_Gcj02(location.getLatitude(), location.getLongitude());
-            getAddressText(transformedLocation[1], transformedLocation[0]).ifPresent(address ->
+            getAddressText(transformedLocation[0], transformedLocation[1]).ifPresent(address ->
                     sb.append(String.format("主人所在地理位置为: \n%s\n最后更新于\n"
                             + location.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), address)));
         } else {
@@ -59,8 +59,8 @@ public class LocationComponent {
     /**
      * Get address text use gaode regeo API
      *
-     * @param lat
-     * @param lng
+     * @param lat 精度
+     * @param lng 纬度
      * @return
      */
     private Optional<String> getAddressText(double lat, double lng) {
