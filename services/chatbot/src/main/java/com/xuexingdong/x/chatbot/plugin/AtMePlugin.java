@@ -88,7 +88,7 @@ public class AtMePlugin implements ChatbotPlugin {
                             returnText = "暂无对应指令";
                             break;
                     }
-                    events.add(WebWxEvents.sendText(textMessage.getToUsername(), returnText));
+                    events.add(WebWxEvents.sendText(textMessage.getFromUsername(), returnText));
                 }
             }
         }
