@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/x
+    username: root
+    password: 123456
+  rabbitmq:
+      host: localhost
+      port: 5672
+      username: guest
+      password: guest
+      virtual-host: x
+
+jwt:
+  secret-key: xuexingdong
+  expiration: 1d
+
+point:
+  register: 50
+  create-activity: -100
+
+server:
+  port: 8081

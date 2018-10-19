@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuexingdong.x.mapper.UserMapper">
+    <insert id="insert">
+        insert into user (id, username, remark_name, password, salt, points, created_at)
+        values (#{id}, #{username}, #{remarkName}, #{password}, #{salt}, #{points}, now());
+    </insert>
+
+    <update id="plusPoints">
+        update user
+        set points = points + #{points}
+        where id = #{id};
+    </update>
+
+    <update id="minusPoints">
+        update user
+        set points = points - #{points}
+        where id = #{id};
+    </update>
+
+    <update id="plusPointsToUser">
+        update user
+        set points = points + #{points}
+        where id = #{userId};
+    </update>
+
+    <update id="minusPointsToUser">
+        update user
+        set points = points - #{points}
+        where id = #{userId};
+    </update>
+
+    <select id="findByUsername" resultType="User">
+        select *
+        from user
+        where username = #{username};
+    </select>
+
+    <select id="findByOpenid" resultType="User">
+        select *
+        from user
+        where openid = #{openid};
+    </select>
+
+    <select id="findById" resultType="User">
+        select *
+        from user
+        where id = #{id};
+    </select>
+
+    <select id="findByUsernameAndPassword" resultType="User">
+        select *
+        from user
+        where username = #{username}
+          and password = #{password};
+    </select>
+
+    <select id="findAll" resultType="User">
+        select *
+        from user
+    </select>
+
+    <select id="findByRemarkName" resultType="User">
+        select *
+        from user
+        where remark_name = #{remarkName};
+    </select>
+</mapper>

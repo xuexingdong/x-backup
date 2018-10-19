@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: chatbot
+  profiles:
+    active: dev
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+      WRITE_ENUMS_USING_TO_STRING: true
+    deserialization:
+      READ_ENUMS_USING_TO_STRING: true
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
+
+mybatis:
+  mapper-locations: classpath:com/xuexingdong/x/mapper/*Mapper.xml
+  type-aliases-package: com.xuexingdong.x.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+point:
+  init: 50
+  chat: 1
+
+plugin:
+  functions:
+  - 帮助：查看功能列表。
+  - 定位：查看机器人定位。
+  - 统计：查看今日对话次数。
+  - 积分：查看积分，积分可以在其他功能中使用，每次【产生对话】积分+1

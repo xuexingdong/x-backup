@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: chatbot
+  profiles:
+    active: dev
+  jackson:
+    serialization:
+      WRITE_ENUMS_USING_TO_STRING: true
+    deserialization:
+      READ_ENUMS_USING_TO_STRING: true
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
+
+mybatis:
+  mapper-locations: classpath:com/xuexingdong/x/mapper/*Mapper.xml
+  type-aliases-package: com.xuexingdong.x.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+plugin:
+  functions:
+    - 帮助：查看功能列表。
+    - 注册：先注册，先注册，先注册，要不其他都没得玩。
+    - 积分：查看积分，积分可以在其他功能中使用。
