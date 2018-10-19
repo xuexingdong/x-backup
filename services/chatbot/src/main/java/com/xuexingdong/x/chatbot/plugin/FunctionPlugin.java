@@ -13,6 +13,7 @@ import com.xuexingdong.x.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class FunctionPlugin implements ChatbotPlugin {
                     }
                     break;
                 case "统计":
-                    Map<MsgType, Integer> result = statisticComponent.count(textMessage.getFromUsername(), textMessage.getToUsername());
+                    Map<MsgType, Integer> result = statisticComponent.count(textMessage.getFromUsername(), textMessage.getToUsername(), LocalDate.now());
                     String content = statisticComponent.mapToString(result);
                     sb.append("今日聊天情况如下\n").append(content);
                     break;

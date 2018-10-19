@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,7 @@ public class AtMePlugin implements ChatbotPlugin {
                     String returnText;
                     switch (realContent) {
                         case "统计":
-                            Map<MsgType, Integer> result = statisticComponent.count(realFromUsername, textMessage.getFromUsername());
+                            Map<MsgType, Integer> result = statisticComponent.count(realFromUsername, textMessage.getFromUsername(), LocalDate.now());
                             // the name to show to the user
                             String finalName = null;
                             Optional<String> displayNameOptional = chatbotClientComponent.getDisplayNameInChatroomByUsername(textMessage.getFromUsername(), realFromUsername);

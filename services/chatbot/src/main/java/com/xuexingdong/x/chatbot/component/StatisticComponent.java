@@ -5,6 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,13 +26,14 @@ public class StatisticComponent {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
-    public void add(String fromUsername, String toUsername, MsgType msgType) {
-        String redisKey = getStatisticRedisKey(fromUsername, toUsername);
+    public void add(String fromUsername, String toUsername, MsgType msgType, LocalDate localDate) {
+        String redisKey = getStatisticRedisKey(fromUsername, toUsername, localDate);
         stringRedisTemplate.opsForHash().increment(redisKey, msgType.name(), 1);
+        stringRedisTemplate.expireAt(redisKey, localDateToDate(localDate));
     }
 
-    public Map<MsgType, Integer> count(String fromUsername, String toUsername) {
-        String redisKey = getStatisticRedisKey(fromUsername, toUsername);
+    public Map<MsgType, Integer> count(String fromUsername, String toUsername, LocalDate localDate) {
+        String redisKey = getStatisticRedisKey(fromUsername, toUsername, localDate);
         Map<MsgType, Integer> result = new HashMap<>();
         Map<Object, Object> map = stringRedisTemplate.opsForHash().entries(redisKey);
         for (Map.Entry<Object, Object> entry : map.entrySet()) {
@@ -53,7 +59,14 @@ public class StatisticComponent {
         return sb.toString();
     }
 
-    private String getStatisticRedisKey(String fromUsername, String toUsername) {
-        return "chatbot:statistic:" + fromUsername + ":" + toUsername;
+    private String getStatisticRedisKey(String fromUsername, String toUsername, LocalDate localDate) {
+        String dateString = DateTimeFormatter.ISO_LOCAL_DATE.format(localDate);
+        return String.format("chatbot:statistic:%s:%s:%s", dateString, fromUsername, toUsername);
+    }
+
+    private Date localDateToDate(LocalDate localDate) {
+        ZoneId zoneId = ZoneId.systemDefault();
+        ZonedDateTime zdt = localDate.atStartOfDay(zoneId);
+        return Date.from(zdt.toInstant());
     }
 }

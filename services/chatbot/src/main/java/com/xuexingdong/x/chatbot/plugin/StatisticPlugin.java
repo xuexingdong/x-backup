@@ -1,6 +1,5 @@
 package com.xuexingdong.x.chatbot.plugin;
 
-import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
 import com.xuexingdong.x.chatbot.component.StatisticComponent;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.event.Event;
@@ -15,6 +14,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
@@ -24,9 +26,6 @@ public class StatisticPlugin implements ChatbotPlugin {
 
     @Autowired
     private StatisticComponent statisticComponent;
-
-    @Autowired
-    private ChatbotClientComponent chatbotClientComponent;
 
     @Override
     public boolean isExclusive() {
@@ -87,10 +86,7 @@ public class StatisticPlugin implements ChatbotPlugin {
     }
 
     private void countMessage(WebWxMessage webWxMessage) {
-        if (isSelfSendingMessage(webWxMessage)) {
-            // TODO self-sending message handle logic
-            return;
-        }
+        LocalDate date = LocalDate.from(Instant.ofEpochSecond(webWxMessage.getCreateTime()));
         // message from chatroom (not self-sending)
         if (WebWxUtils.isFromChatroom(webWxMessage)) {
             // when a text message is from a chatroom
@@ -99,25 +95,9 @@ public class StatisticPlugin implements ChatbotPlugin {
             if (pairOptional.isPresent()) {
                 Pair<String, String> pair = pairOptional.get();
                 String realFromUsername = pair.getLeft();
-                statisticComponent.add(realFromUsername, webWxMessage.getFromUsername(), webWxMessage.getMsgType());
+                statisticComponent.add(realFromUsername, webWxMessage.getFromUsername(), webWxMessage.getMsgType(), date);
             }
         }
-        // message from other person
-        else if (WebWxUtils.isFromPerson(webWxMessage)) {
-            Optional<String> selfUsernameOptional = chatbotClientComponent.getSelfUsername();
-            selfUsernameOptional.ifPresent(s ->
-                    statisticComponent.add(webWxMessage.getFromUsername(), s, webWxMessage.getMsgType())
-            );
-        }
-        // unknown source
-        else {
-            // TODO unknown source message handle logic
-            logger.warn("Unknown message from {} to {}: {} ", webWxMessage.getFromUsername(), webWxMessage.getToUsername(), webWxMessage.getContent());
-        }
-    }
-
-    private boolean isSelfSendingMessage(WebWxMessage webWxMessage) {
-        Optional<String> selfUsernameOptional = chatbotClientComponent.getSelfUsername();
-        return selfUsernameOptional.map(s -> s.equals(webWxMessage.getFromUsername())).orElse(false);
+        statisticComponent.add(webWxMessage.getFromUsername(), webWxMessage.getToUsername(), webWxMessage.getMsgType(), date);
     }
 }
