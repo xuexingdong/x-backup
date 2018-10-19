@@ -24,7 +24,7 @@ import java.util.*;
 public class StatisticPlugin implements ChatbotPlugin {
 
     private static final Logger logger = LoggerFactory.getLogger(StatisticPlugin.class);
-
+    
     @Autowired
     private StatisticComponent statisticComponent;
 

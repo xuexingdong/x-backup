@@ -29,6 +29,7 @@ public class LocationComponent {
 
     @Autowired
     private LocationRepository locationRepository;
+
     @Autowired
     private RestTemplate restTemplate;
 

@@ -69,17 +69,10 @@ public class AtMePlugin implements ChatbotPlugin {
                                 finalName = displayNameOptional.get();
                             } else {
                                 Optional<String> realNicknameOptional = chatbotClientComponent.getNicknameByUsername(realFromUsername);
-                                if (realNicknameOptional.isPresent()) {
-                                    finalName = realNicknameOptional.get();
-                                }
+                                finalName = realNicknameOptional.orElse("未知用户");
                             }
-                            Optional<String> chatroomNicknameOptional = chatbotClientComponent.getNicknameByUsername(textMessage.getFromUsername());
-                            if (chatroomNicknameOptional.isPresent() && finalName != null) {
-                                String reply = String.format("用户【%s】在群【%s】发言情况如下\n", finalName, chatroomNicknameOptional.get());
-                                returnText = reply + statisticComponent.mapToString(result);
-                            } else {
-                                returnText = "获取用户出错";
-                            }
+                            String reply = String.format("今日用户【%s】在群内的发言情况如下\n", finalName);
+                            returnText = reply + statisticComponent.mapToString(result);
                             break;
                         case "定位":
                             returnText = locationComponent.getLocationInfo();
