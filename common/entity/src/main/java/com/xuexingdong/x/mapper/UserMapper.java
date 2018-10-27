@@ -3,6 +3,7 @@ package com.xuexingdong.x.mapper;
 import com.xuexingdong.x.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public interface UserMapper {
     boolean minusPointsToUser(@Param("userId") String userId, @Param("points") int points);
 
     List<User> findAll();
+
+    List<User> findPageable();
 
     User findByRemarkName(String remarkName);
 }

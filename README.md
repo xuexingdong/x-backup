@@ -46,3 +46,8 @@
 下载后解压，可以看到local_policy.jar和US_export_policy.jar。
 将两个jar文件放到%JDK_HOME%\jre\lib\security目录下覆盖原来文件即可。
 
+## 启动
+
+admin: 8081
+backend: 8082
+
