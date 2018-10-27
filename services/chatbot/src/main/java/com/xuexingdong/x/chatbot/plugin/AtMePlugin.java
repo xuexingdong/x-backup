@@ -63,7 +63,7 @@ public class AtMePlugin implements ChatbotPlugin {
                         case "统计":
                             Map<MsgType, Integer> result = statisticComponent.count(realFromUsername, textMessage.getFromUsername(), LocalDate.now());
                             // the name to show to the user
-                            String finalName = null;
+                            String finalName;
                             Optional<String> displayNameOptional = chatbotClientComponent.getDisplayNameInChatroomByUsername(textMessage.getFromUsername(), realFromUsername);
                             if (displayNameOptional.isPresent() && StringUtils.isNotEmpty(displayNameOptional.get())) {
                                 finalName = displayNameOptional.get();
@@ -71,7 +71,7 @@ public class AtMePlugin implements ChatbotPlugin {
                                 Optional<String> realNicknameOptional = chatbotClientComponent.getNicknameByUsername(realFromUsername);
                                 finalName = realNicknameOptional.orElse("未知用户");
                             }
-                            String reply = String.format("今日【%s】的发言情况如下\n", finalName);
+                            String reply = String.format("今日【%s】在群内的发言情况如下\n", finalName);
                             returnText = reply + statisticComponent.mapToString(result);
                             break;
                         case "定位":

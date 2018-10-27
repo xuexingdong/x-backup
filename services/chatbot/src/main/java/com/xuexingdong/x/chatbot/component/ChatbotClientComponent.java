@@ -43,7 +43,7 @@ public class ChatbotClientComponent {
     }
 
     public Optional<String> getDisplayNameInChatroomByUsername(String chatroomUsername, String username) {
-        Object res = stringRedisTemplate.opsForHash().get(REDIS_KEY_PREFIX + "chatroom:+" + chatroomUsername + ":username_display_name_mapping", username);
+        Object res = stringRedisTemplate.opsForHash().get(REDIS_KEY_PREFIX + "chatroom:" + chatroomUsername + ":username_display_name_mapping", username);
         if (res == null) {
             return Optional.empty();
         }
