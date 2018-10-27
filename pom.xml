@@ -13,10 +13,12 @@
         <module>parent</module>
 
         <module>common/entity</module>
+        <module>common/exception</module>
         <module>common/util</module>
 
-        <module>services/common/jwt</module>
         <module>services/service-parent</module>
+        <module>services/common/jwt</module>
+        <module>services/auth</module>
         <module>services/admin</module>
         <module>services/backend</module>
         <module>services/chatbot</module>

@@ -48,6 +48,7 @@
 
 ## 启动
 
+auth: 8888
 admin: 8081
 backend: 8082
 

@@ -1,7 +1,7 @@
 package com.xuexingdong.x.wechat.plugin;// package com.xuexingdong.wechat.plugin;
 //
 // import com.xuexingdong.wechat.builder.TextBuilder;
-// import com.xuexingdong.wechat.com.xuexingdong.ucenter.config.WechatConfig;
+// import com.xuexingdong.wechat.com.xuexingdong.ucenter.constant.WechatConfig;
 // import com.xuexingdong.wechat.sdk.com.xuexingdong.ucenter.model.message.request.common.TextMessage;
 // import com.xuexingdong.wechat.sdk.com.xuexingdong.ucenter.model.message.response.TextResponse;
 // import com.xuexingdong.wechat.sdk.com.xuexingdong.ucenter.model.message.response.WechatResponseMessage;
