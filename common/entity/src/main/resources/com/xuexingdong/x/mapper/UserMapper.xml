@@ -67,4 +67,9 @@
         from user
         where remark_name = #{remarkName};
     </select>
+
+    <select id="findPageable" resultType="User">
+        select *
+        from user
+    </select>
 </mapper>

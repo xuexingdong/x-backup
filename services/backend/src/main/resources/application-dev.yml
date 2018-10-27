@@ -20,3 +20,11 @@ point:
 
 server:
   port: 8081
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.xuexingdong.x: debug
