@@ -3,7 +3,7 @@
 // import com.xuexingdong.x.common.http.XMonoResp;
 // import com.xuexingdong.x.common.utils.XDateTimeUtils;
 // import com.xuexingdong.x.common.utils.XRandomUtils;
-// import com.xuexingdong.x.wechat.config.WechatConfig;
+// import com.xuexingdong.x.wechat.constant.WechatConfig;
 // import com.xuexingdong.x.wechat.model.JsSdkConfig;
 // import com.xuexingdong.x.wechat.service.WechatService;
 // import org.apache.commons.lang3.RandomStringUtils;

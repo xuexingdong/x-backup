@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/x
+    username: root
+    password: 123456
+  data:
+    mongodb:
+      host: 10.0.0.122
+      database: crawler
+
+server:
+  port: 8082
+
+logging:
+  level:
+    com.xuexingdong.x: DEBUG
+
+gaode-key: ad31f6fa47d59bf034e379aa7d6c916a

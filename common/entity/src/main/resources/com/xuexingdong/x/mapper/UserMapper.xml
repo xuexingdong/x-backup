@@ -72,4 +72,9 @@
         select *
         from user
     </select>
+    <select id="getRoleByUserId" resultType="String">
+        select role
+        from rel_user_role
+        where user_id = #{userId}
+    </select>
 </mapper>

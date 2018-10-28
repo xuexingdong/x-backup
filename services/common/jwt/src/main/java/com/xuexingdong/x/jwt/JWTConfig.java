@@ -4,12 +4,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.time.Duration;
 
 @Configuration
 @ConfigurationProperties(prefix = "jwt")
-public class JwtConfig {
+public class JWTConfig {
 
+    @NotEmpty
     private String secretKey;
 
     @Min(0)

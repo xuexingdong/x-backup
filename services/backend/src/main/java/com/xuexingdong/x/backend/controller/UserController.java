@@ -4,7 +4,7 @@ import com.xuexingdong.x.backend.dto.RegisterDTO;
 import com.xuexingdong.x.backend.service.UserService;
 import com.xuexingdong.x.backend.vo.UserVO;
 import com.xuexingdong.x.common.http.XResp;
-import com.xuexingdong.x.jwt.JwtService;
+import com.xuexingdong.x.jwt.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -16,10 +16,10 @@ public class UserController {
 
     private final UserService userService;
 
-    private final JwtService jwtService;
+    private final JWTService jwtService;
 
     @Autowired
-    public UserController(UserService userService, JwtService jwtService) {
+    public UserController(UserService userService, JWTService jwtService) {
         this.userService = userService;
         this.jwtService = jwtService;
     }

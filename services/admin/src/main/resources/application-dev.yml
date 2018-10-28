@@ -11,7 +11,7 @@ spring:
     virtual-host: x
 
 jwt:
-  secret-key: xuexingdong
+  secret-key: 0Q20PjZkaJ1SHin0Yu6DULS8fNHJkWXlJa6LNtPSA9paxRVLWB7Xfnlptm5tgxUS
   expiration: 1d
 
 server:

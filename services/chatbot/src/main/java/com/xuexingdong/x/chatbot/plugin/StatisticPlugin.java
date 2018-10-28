@@ -4,7 +4,6 @@ import com.xuexingdong.x.chatbot.component.StatisticComponent;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.event.Event;
 import com.xuexingdong.x.chatbot.webwx.*;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -12,8 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,7 +24,7 @@ import java.util.*;
 public class StatisticPlugin implements ChatbotPlugin {
 
     private static final Logger logger = LoggerFactory.getLogger(StatisticPlugin.class);
-    
+
     @Autowired
     private StatisticComponent statisticComponent;
 
@@ -77,12 +77,14 @@ public class StatisticPlugin implements ChatbotPlugin {
     private String download(String base64Content) {
         byte[] base64Bytes = Base64.getDecoder().decode(base64Content);
         String filename = "data/" + UUID.randomUUID().toString() + ".jpg";
+
         try {
-            FileUtils.writeByteArrayToFile(new File(filename), base64Bytes);
+            Files.write(Paths.get(filename), base64Bytes);
         } catch (IOException e) {
             logger.error("Write image file error");
             return "";
         }
+
         return filename;
     }
 

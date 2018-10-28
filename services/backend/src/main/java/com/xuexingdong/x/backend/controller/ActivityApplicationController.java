@@ -6,7 +6,7 @@ import com.xuexingdong.x.backend.service.ActivityApplicationService;
 import com.xuexingdong.x.backend.vo.ActivityApplicationVO;
 import com.xuexingdong.x.common.http.XFluxResp;
 import com.xuexingdong.x.common.http.XResp;
-import com.xuexingdong.x.jwt.JwtService;
+import com.xuexingdong.x.jwt.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -21,10 +21,10 @@ public class ActivityApplicationController {
 
     private final ActivityApplicationService activityApplicationService;
 
-    private final JwtService jwtService;
+    private final JWTService jwtService;
 
     @Autowired
-    public ActivityApplicationController(ActivityApplicationService activityApplicationService, JwtService jwtService) {
+    public ActivityApplicationController(ActivityApplicationService activityApplicationService, JWTService jwtService) {
         this.activityApplicationService = activityApplicationService;
         this.jwtService = jwtService;
     }
