@@ -1,6 +1,6 @@
 package com.xuexingdong.x.chatbot.plugin;
 
-import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
+import com.xuexingdong.x.chatbot.client.ChatbotDataContainer;
 import com.xuexingdong.x.chatbot.component.LocationComponent;
 import com.xuexingdong.x.chatbot.component.StatisticComponent;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
@@ -31,7 +31,7 @@ public class AtMePlugin implements ChatbotPlugin {
     private StatisticComponent statisticComponent;
 
     @Autowired
-    private ChatbotClientComponent chatbotClientComponent;
+    private ChatbotDataContainer chatbotDataContainer;
 
     @Autowired
     private LocationComponent locationComponent;
@@ -64,11 +64,11 @@ public class AtMePlugin implements ChatbotPlugin {
                             Map<MsgType, Integer> result = statisticComponent.count(realFromUsername, textMessage.getFromUsername(), LocalDate.now());
                             // the name to show to the user
                             String finalName;
-                            Optional<String> displayNameOptional = chatbotClientComponent.getDisplayNameInChatroomByUsername(textMessage.getFromUsername(), realFromUsername);
+                            Optional<String> displayNameOptional = chatbotDataContainer.getDisplayNameInChatroomByUsername(textMessage.getFromUsername(), realFromUsername);
                             if (displayNameOptional.isPresent() && StringUtils.isNotEmpty(displayNameOptional.get())) {
                                 finalName = displayNameOptional.get();
                             } else {
-                                Optional<String> realNicknameOptional = chatbotClientComponent.getNicknameByUsername(realFromUsername);
+                                Optional<String> realNicknameOptional = chatbotDataContainer.getNicknameByUsername(realFromUsername);
                                 finalName = realNicknameOptional.orElse("未知用户");
                             }
                             String reply = String.format("今日【%s】在群内的发言情况如下\n", finalName);
