@@ -1,18 +1,26 @@
-package com.xuexingdong.x.chatbot.component;
+package com.xuexingdong.x.chatbot.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
-public class ChatbotClientComponent {
+public class ChatbotDataContainer implements CommandLineRunner {
 
     private static final String REDIS_KEY_PREFIX = "chatbot:client:";
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
+    private List<Map<String, String>> friends;
+
+    public List<Map<String, String>> getFriends() {
+        return friends;
+    }
 
     public Optional<String> getSelfUsername() {
         return Optional.ofNullable(stringRedisTemplate.opsForValue().get(REDIS_KEY_PREFIX + "self_chatid"));
@@ -48,5 +56,21 @@ public class ChatbotClientComponent {
             return Optional.empty();
         }
         return Optional.of((String) res);
+    }
+
+    @Override
+    public void run(String... args) {
+        friends = initFriends();
+    }
+
+    private List<Map<String, String>> initFriends() {
+        Set<String> keys = stringRedisTemplate.keys(REDIS_KEY_PREFIX + "friend:");
+        if (keys == null) {
+            return new ArrayList<>();
+        }
+        return keys.parallelStream().map(key -> {
+            Map<Object, Object> map = stringRedisTemplate.opsForHash().entries(key);
+            return map.entrySet().parallelStream().collect(Collectors.toMap(k -> (String) k.getKey(), v -> (String) v.getValue()));
+        }).collect(Collectors.toList());
     }
 }

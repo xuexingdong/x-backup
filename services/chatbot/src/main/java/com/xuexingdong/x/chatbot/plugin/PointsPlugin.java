@@ -1,6 +1,6 @@
 package com.xuexingdong.x.chatbot.plugin;
 
-import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
+import com.xuexingdong.x.chatbot.client.ChatbotDataContainer;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.enumeration.ChatStatus;
 import com.xuexingdong.x.chatbot.event.Event;
@@ -43,7 +43,7 @@ public class PointsPlugin implements ChatbotPlugin {
     private int initPoint;
 
     @Autowired
-    private ChatbotClientComponent chatbotClientComponent;
+    private ChatbotDataContainer chatbotDataContainer;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -65,7 +65,7 @@ public class PointsPlugin implements ChatbotPlugin {
     public List<Event> handleText(WebWxTextMessage textMessage) {
         List<Event> events = new ArrayList<>();
         if (WebWxUtils.isPrivateChat(textMessage)) {
-            Optional<String> selfChatIdOptional = chatbotClientComponent.getSelfUsername();
+            Optional<String> selfChatIdOptional = chatbotDataContainer.getSelfUsername();
             if (!selfChatIdOptional.isPresent()) {
                 logger.warn("Self chat id is empty");
                 return events;
@@ -99,8 +99,8 @@ public class PointsPlugin implements ChatbotPlugin {
                     User user = new User()
                             .setId(userId)
                             .setUsername("用户" + XDateTimeUtils.get13TimestampStr())
-                            .setRemarkName(otherRemarkName)
                             .setPassword("")
+                            .setRemarkName(otherRemarkName)
                             .setSalt("")
                             .setPoints(initPoint + chatPoint);
                     try {
@@ -151,7 +151,7 @@ public class PointsPlugin implements ChatbotPlugin {
         // chatid user_id mapping init
         List<User> users = userMapper.findAll();
         for (User user : users) {
-            Optional<String> usernameOptional = chatbotClientComponent.getUsernameByRemarkName(user.getRemarkName());
+            Optional<String> usernameOptional = chatbotDataContainer.getUsernameByRemarkName(user.getRemarkName());
             usernameOptional.ifPresent(username ->
                     stringRedisTemplate.opsForHash().put("chatbot:server:chatid_user_id_mapping", username, user.getId()));
         }

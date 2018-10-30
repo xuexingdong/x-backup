@@ -2,7 +2,7 @@ package com.xuexingdong.x.chatbot.plugin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xuexingdong.x.chatbot.component.ChatbotClientComponent;
+import com.xuexingdong.x.chatbot.client.ChatbotDataContainer;
 import com.xuexingdong.x.chatbot.config.RabbitConfig;
 import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
 import com.xuexingdong.x.chatbot.event.Event;
@@ -24,16 +24,16 @@ public class TestPlugin implements ChatbotPlugin {
 
     private static final Logger logger = LoggerFactory.getLogger(TestPlugin.class);
 
-    private final ChatbotClientComponent chatbotClientComponent;
+    private final ChatbotDataContainer chatbotDataContainer;
 
     private final RabbitTemplate rabbitTemplate;
 
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public TestPlugin(RabbitTemplate rabbitTemplate, ChatbotClientComponent chatbotClientComponent, ObjectMapper objectMapper) {
+    public TestPlugin(RabbitTemplate rabbitTemplate, ChatbotDataContainer chatbotDataContainer, ObjectMapper objectMapper) {
         this.rabbitTemplate = rabbitTemplate;
-        this.chatbotClientComponent = chatbotClientComponent;
+        this.chatbotDataContainer = chatbotDataContainer;
         this.objectMapper = objectMapper;
     }
 
@@ -46,7 +46,7 @@ public class TestPlugin implements ChatbotPlugin {
     public List<Event> handleText(WebWxTextMessage textMessage) {
         List<Event> events = new ArrayList<>();
         // 不是发给filehelper的消息不会触发该测试
-        Optional<String> selfUsernameOptional = chatbotClientComponent.getSelfUsername();
+        Optional<String> selfUsernameOptional = chatbotDataContainer.getSelfUsername();
         if (!selfUsernameOptional.isPresent()) {
             logger.warn("Self chat id is empty");
             return events;
