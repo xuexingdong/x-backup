@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public class User implements Identifiable<String> {
 
     private String id;
-    private String openid;
+    private String avatar;
     private String username;
     private String remarkName;
     private transient String password;
@@ -25,13 +25,12 @@ public class User implements Identifiable<String> {
         return this;
     }
 
-    public String getOpenid() {
-        return openid;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public User setOpenid(String openid) {
-        this.openid = openid;
-        return this;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getUsername() {

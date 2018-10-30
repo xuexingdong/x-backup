@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
 @Validated
+@RestController
 @RequestMapping("users")
 public class UserController {
 
@@ -28,14 +28,13 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserVO>> get(@RequestParam(defaultValue = "0") int page, @RequestParam(value = "per_page", defaultValue = "10") int perPage) {
         Page<User> userPage = userService.getPageable(PageRequest.of(page, perPage, Sort.by(Sort.Order.desc("created_at"))));
-        List<UserVO> userVOs = userPage.getContent().stream().map(user -> {
-            UserVO userVO = new UserVO();
-            userVO.setId(user.getId());
-            userVO.setPoints(user.getPoints());
-            userVO.setRemarkName(user.getRemarkName());
-            userVO.setCreatedAt(user.getCreatedAt());
-            return userVO;
-        }).collect(Collectors.toList());
+        List<UserVO> userVOs = userPage.getContent().stream().map(user -> new UserVO()
+                .setId(user.getId())
+                .setUsername(user.getUsername())
+                .setAvatar(user.getAvatar())
+                .setRemarkName(user.getRemarkName())
+                .setPoints(user.getPoints())
+                .setCreatedAt(user.getCreatedAt())).collect(Collectors.toList());
         return ResponseEntity.ok()
                 .header("X-Total-Count", String.valueOf(userPage.getTotalElements()))
                 .body(userVOs);
