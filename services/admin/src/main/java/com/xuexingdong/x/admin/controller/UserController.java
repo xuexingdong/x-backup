@@ -31,7 +31,6 @@ public class UserController {
         List<UserVO> userVOs = userPage.getContent().stream().map(user -> new UserVO()
                 .setId(user.getId())
                 .setUsername(user.getUsername())
-                .setAvatar(user.getAvatar())
                 .setRemarkName(user.getRemarkName())
                 .setPoints(user.getPoints())
                 .setCreatedAt(user.getCreatedAt())).collect(Collectors.toList());

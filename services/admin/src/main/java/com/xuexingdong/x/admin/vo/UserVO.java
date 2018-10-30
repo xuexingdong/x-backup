@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 public class UserVO {
     private String id;
     private String username;
-    private String avatar;
     private String remarkName;
     private int points;
     private LocalDateTime createdAt;
@@ -25,15 +24,6 @@ public class UserVO {
 
     public UserVO setUsername(String username) {
         this.username = username;
-        return this;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public UserVO setAvatar(String avatar) {
-        this.avatar = avatar;
         return this;
     }
 

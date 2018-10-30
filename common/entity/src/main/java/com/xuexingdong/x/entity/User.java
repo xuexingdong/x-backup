@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 public class User implements Identifiable<String> {
 
     private String id;
-    private String avatar;
     private String username;
     private String remarkName;
     private transient String password;
@@ -23,14 +22,6 @@ public class User implements Identifiable<String> {
     public User setId(String id) {
         this.id = id;
         return this;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public String getUsername() {
