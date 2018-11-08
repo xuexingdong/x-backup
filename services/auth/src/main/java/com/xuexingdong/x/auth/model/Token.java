@@ -1,8 +1,13 @@
-package com.xuexingdong.x.admin.model;
+package com.xuexingdong.x.auth.model;
 
 public class Token {
     private String token;
     private long expiration;
+
+    public Token(String token, long expiration) {
+        this.token = token;
+        this.expiration = expiration;
+    }
 
     public String getToken() {
         return token;

@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.xuexingdong.x</groupId>
-            <artifactId>jwt</artifactId>
+            <artifactId>auth</artifactId>
             <version>${x.version}</version>
         </dependency>
         <dependency>

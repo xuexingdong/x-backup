@@ -2,7 +2,7 @@ package com.xuexingdong.x.backend.controller;
 
 import com.xuexingdong.x.backend.service.ActivityService;
 import com.xuexingdong.x.backend.vo.ActivityVO;
-import com.xuexingdong.x.jwt.JwtService;
+import com.xuexingdong.x.jwt.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,10 +18,10 @@ import java.util.List;
 public class ActivityController {
 
     private final ActivityService activityService;
-    private final JwtService jwtService;
+    private final JWTService jwtService;
 
     @Autowired
-    public ActivityController(ActivityService activityService, JwtService jwtService) {
+    public ActivityController(ActivityService activityService, JWTService jwtService) {
         this.activityService = activityService;
         this.jwtService = jwtService;
     }

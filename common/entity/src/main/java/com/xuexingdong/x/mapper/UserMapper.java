@@ -35,4 +35,6 @@ public interface UserMapper {
     List<User> findPageable();
 
     User findByRemarkName(String remarkName);
+
+    String getRoleByUserId(String userId);
 }

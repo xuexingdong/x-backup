@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public class UserVO {
     private String id;
-    private String openid;
-    private int points;
+    private String username;
     private String remarkName;
+    private int points;
     private LocalDateTime createdAt;
 
     public String getId() {
@@ -18,12 +18,12 @@ public class UserVO {
         return this;
     }
 
-    public String getOpenid() {
-        return openid;
+    public String getUsername() {
+        return username;
     }
 
-    public UserVO setOpenid(String openid) {
-        this.openid = openid;
+    public UserVO setUsername(String username) {
+        this.username = username;
         return this;
     }
 

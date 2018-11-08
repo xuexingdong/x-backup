@@ -1,9 +1,7 @@
-package com.xuexingdong.x.jwt;
+package com.xuexingdong.x.backend.interceptor;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.web.servlet.HandlerInterceptor;
-
+import com.xuexingdong.x.jwt.JWTService;
+import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -14,13 +12,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Key;
-import java.util.Base64;
+import java.util.Optional;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
@@ -28,7 +24,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(AuthInterceptor.class);
 
     @Autowired
-    private JwtConfig jwtConfig;
+    private JWTService jwtService;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -40,26 +36,18 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String token = authorization.substring(7);
         logger.info("Authorization: {}", authorization);
         if (StringUtils.isEmpty(authorization) || !authorization.startsWith("Bearer ")) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return false;
         }
-        String token = authorization.substring(7);
-        byte[] encodedKey = Base64.getEncoder().encode(jwtConfig.getSecretKey().getBytes());
-        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        Jws<Claims> claims;
-        try {
-            claims = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token);
-        } catch (JwtException e) {
-            logger.error("JWT exception: {}", e.getMessage());
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        Optional<Claims> claimsOptional = jwtService.parseJWTToken(token);
+        if (!claimsOptional.isPresent()) {
             return false;
         }
-        String userId = claims.getBody().getSubject();
-        if (BooleanUtils.isNotTrue(stringRedisTemplate.hasKey("backend:jwt:" + userId))) {
+        String userId = claimsOptional.get().getSubject();
+        if (BooleanUtils.isNotTrue(stringRedisTemplate.hasKey("auth:jwt:" + userId))) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return false;
         }
