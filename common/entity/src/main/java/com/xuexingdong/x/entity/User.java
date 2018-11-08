@@ -3,7 +3,6 @@ package com.xuexingdong.x.entity;
 import com.xuexingdong.x.entity.core.Identifiable;
 
 import java.time.LocalDateTime;
-
 public class User implements Identifiable<String> {
 
     private String id;
