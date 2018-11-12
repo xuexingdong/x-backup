@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: backend
   profiles:
     active: dev
   jackson:
@@ -14,3 +12,9 @@ mybatis:
 server:
   servlet:
     context-path: /admin
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

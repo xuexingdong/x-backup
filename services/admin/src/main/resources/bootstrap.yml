@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: admin
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        health-check-path: ${server.servlet.context-path}/actuator/health
