@@ -13,6 +13,6 @@ server:
 
 logging:
   level:
-    com.xuexingdong.x: DEBUG
+    com.xxd.x: DEBUG
 
 gaode-key: ad31f6fa47d59bf034e379aa7d6c916a

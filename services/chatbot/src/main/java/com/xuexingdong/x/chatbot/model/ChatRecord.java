@@ -1,4 +1,4 @@
-package com.xuexingdong.x.chatbot.model;
+package com.xxd.x.chatbot.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

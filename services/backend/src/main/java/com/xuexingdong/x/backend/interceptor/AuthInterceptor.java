@@ -1,6 +1,6 @@
-package com.xuexingdong.x.backend.interceptor;
+package com.xxd.x.backend.interceptor;
 
-import com.xuexingdong.x.jwt.JWTService;
+import com.xxd.x.jwt.JWTService;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;

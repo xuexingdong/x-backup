@@ -12,7 +12,7 @@
     },
     {
       "name": "wechat.encrypt-mode",
-      "type": "java.lang.Enum<com.xuexingdong.x.wechat.sdk.constant.WechatEncryptMode>",
+      "type": "java.lang.Enum<com.xxd.x.wechat.sdk.constant.WechatEncryptMode>",
       "defaultValue": "CLEAR",
       "description": "Description for wechat.encrypt-mode."
     },

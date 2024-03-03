@@ -1,9 +1,9 @@
-package com.xuexingdong.x.admin.service.impl;
+package com.xxd.x.admin.service.impl;
 
 import com.sun.tools.javac.jvm.Items;
-import com.xuexingdong.x.admin.dto.ItemDTO;
-import com.xuexingdong.x.admin.service.ItemService;
-import com.xuexingdong.x.entity.Item;
+import com.xxd.x.admin.dto.ItemDTO;
+import com.xxd.x.admin.service.ItemService;
+import com.xxd.x.entity.Item;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

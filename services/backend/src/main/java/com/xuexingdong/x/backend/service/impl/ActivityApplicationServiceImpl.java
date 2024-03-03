@@ -1,16 +1,16 @@
-package com.xuexingdong.x.backend.service.impl;
+package com.xxd.x.backend.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.xuexingdong.x.backend.dto.ActivityApplicationDTO;
-import com.xuexingdong.x.backend.exception.Exceptions;
-import com.xuexingdong.x.backend.service.ActivityApplicationService;
-import com.xuexingdong.x.backend.vo.ActivityApplicationVO;
-import com.xuexingdong.x.entity.ActivityApplication;
-import com.xuexingdong.x.entity.User;
-import com.xuexingdong.x.enumeration.AuditStatus;
-import com.xuexingdong.x.mapper.ActivityApplicationMapper;
-import com.xuexingdong.x.mapper.UserMapper;
+import com.xxd.x.backend.dto.ActivityApplicationDTO;
+import com.xxd.x.backend.exception.Exceptions;
+import com.xxd.x.backend.service.ActivityApplicationService;
+import com.xxd.x.backend.vo.ActivityApplicationVO;
+import com.xxd.x.entity.ActivityApplication;
+import com.xxd.x.entity.User;
+import com.xxd.x.enumeration.AuditStatus;
+import com.xxd.x.mapper.ActivityApplicationMapper;
+import com.xxd.x.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;

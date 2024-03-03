@@ -1,6 +1,6 @@
-package com.xuexingdong.x.chatbot.event;
+package com.xxd.x.chatbot.event;
 
-import com.xuexingdong.x.chatbot.webwx.MsgType;
+import com.xxd.x.chatbot.webwx.MsgType;
 
 public class Event {
     private String toUsername;

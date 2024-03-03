@@ -1,4 +1,4 @@
-package com.xuexingdong.x.admin.controller;
+package com.xxd.x.admin.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,6 +1,6 @@
-package com.xuexingdong.x.admin.vo;
+package com.xxd.x.admin.vo;
 
-import com.xuexingdong.x.entity.ChatRecord;
+import com.xxd.x.entity.ChatRecord;
 
 public class ChatRecordVO extends ChatRecord {
 }

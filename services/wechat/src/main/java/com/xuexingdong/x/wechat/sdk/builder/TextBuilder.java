@@ -1,7 +1,7 @@
-package com.xuexingdong.x.wechat.sdk.builder;
+package com.xxd.x.wechat.sdk.builder;
 
 
-import com.xuexingdong.x.wechat.sdk.message.response.TextResponse;
+import com.xxd.x.wechat.sdk.message.response.TextResponse;
 
 public final class TextBuilder implements Builder<TextResponse> {
 

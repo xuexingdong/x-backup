@@ -1,11 +1,11 @@
-package com.xuexingdong.x.wechat.service.impl;
+package com.xxd.x.wechat.service.impl;
 
-import com.xuexingdong.x.common.http.XHttp;
-import com.xuexingdong.x.common.serialization.XSerialization;
-import com.xuexingdong.x.common.utils.XRegexUtils;
-import com.xuexingdong.x.wechat.enumeration.QRCodeScanStatus;
-import com.xuexingdong.x.wechat.model.QRCode;
-import com.xuexingdong.x.wechat.service.QRCodeService;
+import com.xxd.x.common.http.XHttp;
+import com.xxd.x.common.serialization.XSerialization;
+import com.xxd.x.common.utils.XRegexUtils;
+import com.xxd.x.wechat.enumeration.QRCodeScanStatus;
+import com.xxd.x.wechat.model.QRCode;
+import com.xxd.x.wechat.service.QRCodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.xuexingdong.x.backend.exception;
+package com.xxd.x.backend.exception;
 
 public class ClientException extends RuntimeException {
 

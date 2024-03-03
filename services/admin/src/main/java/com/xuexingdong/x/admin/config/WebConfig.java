@@ -1,6 +1,6 @@
-package com.xuexingdong.x.admin.config;
+package com.xxd.x.admin.config;
 
-import com.xuexingdong.x.admin.interceptor.AuthInterceptor;
+import com.xxd.x.admin.interceptor.AuthInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

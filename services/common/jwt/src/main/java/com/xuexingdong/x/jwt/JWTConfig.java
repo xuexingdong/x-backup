@@ -1,4 +1,4 @@
-package com.xuexingdong.x.jwt;
+package com.xxd.x.jwt;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

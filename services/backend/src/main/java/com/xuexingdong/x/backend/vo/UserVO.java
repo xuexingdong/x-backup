@@ -1,4 +1,4 @@
-package com.xuexingdong.x.backend.vo;
+package com.xxd.x.backend.vo;
 
 import java.time.LocalDateTime;
 

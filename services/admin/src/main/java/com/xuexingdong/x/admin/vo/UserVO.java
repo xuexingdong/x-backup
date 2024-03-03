@@ -1,4 +1,4 @@
-package com.xuexingdong.x.admin.vo;
+package com.xxd.x.admin.vo;
 
 import java.time.LocalDateTime;
 

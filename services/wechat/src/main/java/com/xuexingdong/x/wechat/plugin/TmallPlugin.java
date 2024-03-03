@@ -1,10 +1,10 @@
-// package com.xuexingdong.x.wechat.plugin;
+// package com.xxd.x.wechat.plugin;
 //
-// import com.xuexingdong.x.wechat.sdk.builder.TextBuilder;
-// import com.xuexingdong.x.wechat.sdk.handler.TextHandler;
-// import com.xuexingdong.x.wechat.sdk.message.request.common.TextMessage;
-// import com.xuexingdong.x.wechat.sdk.message.response.TextResponse;
-// import com.xuexingdong.x.wechat.sdk.message.response.WechatResponseMessage;
+// import com.xxd.x.wechat.sdk.builder.TextBuilder;
+// import com.xxd.x.wechat.sdk.handler.TextHandler;
+// import com.xxd.x.wechat.sdk.message.request.common.TextMessage;
+// import com.xxd.x.wechat.sdk.message.response.TextResponse;
+// import com.xxd.x.wechat.sdk.message.response.WechatResponseMessage;
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
 // import org.springframework.amqp.core.AmqpAdmin;

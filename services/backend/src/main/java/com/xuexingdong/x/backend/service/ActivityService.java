@@ -1,6 +1,6 @@
-package com.xuexingdong.x.backend.service;
+package com.xxd.x.backend.service;
 
-import com.xuexingdong.x.backend.vo.ActivityVO;
+import com.xxd.x.backend.vo.ActivityVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,7 +1,7 @@
-package com.xuexingdong.x.admin.controller;
+package com.xxd.x.admin.controller;
 
-import com.xuexingdong.x.admin.service.ChatRecordService;
-import com.xuexingdong.x.admin.vo.ChatRecordVO;
+import com.xxd.x.admin.service.ChatRecordService;
+import com.xxd.x.admin.vo.ChatRecordVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.xuexingdong.x.chatbot.client;
+package com.xxd.x.chatbot.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

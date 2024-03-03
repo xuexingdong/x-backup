@@ -1,11 +1,11 @@
-package com.xuexingdong.x.wechat.controller;
+package com.xxd.x.wechat.controller;
 
-import com.xuexingdong.x.common.crypto.CryptoException;
-import com.xuexingdong.x.common.crypto.XCrypto;
-import com.xuexingdong.x.common.serialization.XSerialization;
-import com.xuexingdong.x.wechat.config.WechatConfig;
-import com.xuexingdong.x.wechat.plugin.WechatPlugin;
-import com.xuexingdong.x.wechat.sdk.message.response.WechatResponseMessage;
+import com.xxd.x.common.crypto.CryptoException;
+import com.xxd.x.common.crypto.XCrypto;
+import com.xxd.x.common.serialization.XSerialization;
+import com.xxd.x.wechat.config.WechatConfig;
+import com.xxd.x.wechat.plugin.WechatPlugin;
+import com.xxd.x.wechat.sdk.message.response.WechatResponseMessage;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;

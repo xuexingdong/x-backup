@@ -1,4 +1,4 @@
-package com.xuexingdong.x.chatbot.event;
+package com.xxd.x.chatbot.event;
 
 public enum EventType {
     SEND_MESSAGE(101),

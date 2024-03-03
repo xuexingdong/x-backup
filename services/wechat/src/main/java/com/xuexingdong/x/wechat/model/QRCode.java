@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.model;
+package com.xxd.x.wechat.model;
 
 public class QRCode {
     private String url;

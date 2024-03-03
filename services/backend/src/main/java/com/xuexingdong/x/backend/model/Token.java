@@ -1,4 +1,4 @@
-package com.xuexingdong.x.backend.model;
+package com.xxd.x.backend.model;
 
 public class Token {
     private String token;

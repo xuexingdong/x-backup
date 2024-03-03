@@ -1,4 +1,4 @@
-package com.xuexingdong.x.chatbot.webwx;
+package com.xxd.x.chatbot.webwx;
 
 public class WebWxEmotionMessage extends WebWxMessage {
     private String url;

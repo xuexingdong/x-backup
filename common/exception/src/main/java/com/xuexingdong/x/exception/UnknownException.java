@@ -1,4 +1,4 @@
-package com.xuexingdong.x.exception;
+package com.xxd.x.exception;
 
 public final class UnknownException extends BusinessException {
     private int code = -1;

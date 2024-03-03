@@ -1,4 +1,4 @@
-package com.xuexingdong.x.mapper;
+package com.xxd.x.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

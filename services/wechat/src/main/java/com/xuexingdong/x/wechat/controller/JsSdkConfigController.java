@@ -1,11 +1,11 @@
-// package com.xuexingdong.x.wechat.controller;
+// package com.xxd.x.wechat.controller;
 //
-// import com.xuexingdong.x.common.http.XMonoResp;
-// import com.xuexingdong.x.common.utils.XDateTimeUtils;
-// import com.xuexingdong.x.common.utils.XRandomUtils;
-// import com.xuexingdong.x.wechat.constant.WechatConfig;
-// import com.xuexingdong.x.wechat.model.JsSdkConfig;
-// import com.xuexingdong.x.wechat.service.WechatService;
+// import com.xxd.x.common.http.XMonoResp;
+// import com.xxd.x.common.utils.XDateTimeUtils;
+// import com.xxd.x.common.utils.XRandomUtils;
+// import com.xxd.x.wechat.constant.WechatConfig;
+// import com.xxd.x.wechat.model.JsSdkConfig;
+// import com.xxd.x.wechat.service.WechatService;
 // import org.apache.commons.lang3.RandomStringUtils;
 // import org.apache.commons.lang3.time.DateUtils;
 // import org.slf4j.Logger;

@@ -1,7 +1,7 @@
-package com.xuexingdong.x.admin.service;
+package com.xxd.x.admin.service;
 
-import com.xuexingdong.x.admin.dto.ItemDTO;
-import com.xuexingdong.x.entity.Item;
+import com.xxd.x.admin.dto.ItemDTO;
+import com.xxd.x.entity.Item;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

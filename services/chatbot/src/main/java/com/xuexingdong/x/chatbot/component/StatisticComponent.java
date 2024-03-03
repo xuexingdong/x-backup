@@ -1,6 +1,6 @@
-package com.xuexingdong.x.chatbot.component;
+package com.xxd.x.chatbot.component;
 
-import com.xuexingdong.x.chatbot.webwx.MsgType;
+import com.xxd.x.chatbot.webwx.MsgType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;

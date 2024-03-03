@@ -1,6 +1,6 @@
-package com.xuexingdong.x.wechat.exception;
+package com.xxd.x.wechat.exception;
 
-import com.xuexingdong.x.common.http.XResp;
+import com.xxd.x.common.http.XResp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

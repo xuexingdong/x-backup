@@ -1,8 +1,8 @@
-package com.xuexingdong.x.backend.controller;
+package com.xxd.x.backend.controller;
 
-import com.xuexingdong.x.backend.service.ActivityService;
-import com.xuexingdong.x.backend.vo.ActivityVO;
-import com.xuexingdong.x.jwt.JWTService;
+import com.xxd.x.backend.service.ActivityService;
+import com.xxd.x.backend.vo.ActivityVO;
+import com.xxd.x.jwt.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

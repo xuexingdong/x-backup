@@ -1,9 +1,9 @@
-package com.xuexingdong.x.backend.exception;
+package com.xxd.x.backend.exception;
 
-import com.xuexingdong.x.backend.exception.activity.PointNotEnoughException;
-import com.xuexingdong.x.backend.exception.common.SecretKeyErrorException;
-import com.xuexingdong.x.backend.exception.common.UserAlreadyExistsException;
-import com.xuexingdong.x.backend.exception.common.UserNotExistException;
+import com.xxd.x.backend.exception.activity.PointNotEnoughException;
+import com.xxd.x.backend.exception.common.SecretKeyErrorException;
+import com.xxd.x.backend.exception.common.UserAlreadyExistsException;
+import com.xxd.x.backend.exception.common.UserNotExistException;
 
 public final class Exceptions {
     public static final UnknownException UNKNOWN = new UnknownException();

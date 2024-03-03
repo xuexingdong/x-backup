@@ -1,8 +1,8 @@
-package com.xuexingdong.x.wechat.service.impl;
+package com.xxd.x.wechat.service.impl;
 
-import com.xuexingdong.x.wechat.sdk.WechatClient;
-import com.xuexingdong.x.wechat.sdk.model.TicketType;
-import com.xuexingdong.x.wechat.service.WechatService;
+import com.xxd.x.wechat.sdk.WechatClient;
+import com.xxd.x.wechat.sdk.model.TicketType;
+import com.xxd.x.wechat.service.WechatService;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

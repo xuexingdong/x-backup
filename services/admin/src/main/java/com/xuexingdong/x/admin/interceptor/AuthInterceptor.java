@@ -1,7 +1,7 @@
-package com.xuexingdong.x.admin.interceptor;
+package com.xxd.x.admin.interceptor;
 
-import com.xuexingdong.x.admin.constant.Role;
-import com.xuexingdong.x.jwt.JWTService;
+import com.xxd.x.admin.constant.Role;
+import com.xxd.x.jwt.JWTService;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

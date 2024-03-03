@@ -1,13 +1,13 @@
-package com.xuexingdong.x.chatbot.plugin;
+package com.xxd.x.chatbot.plugin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xuexingdong.x.chatbot.client.ChatbotDataContainer;
-import com.xuexingdong.x.chatbot.config.RabbitConfig;
-import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
-import com.xuexingdong.x.chatbot.event.Event;
-import com.xuexingdong.x.chatbot.event.WebWxEvents;
-import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
+import com.xxd.x.chatbot.client.ChatbotDataContainer;
+import com.xxd.x.chatbot.config.RabbitConfig;
+import com.xxd.x.chatbot.core.ChatbotPlugin;
+import com.xxd.x.chatbot.event.Event;
+import com.xxd.x.chatbot.event.WebWxEvents;
+import com.xxd.x.chatbot.webwx.WebWxTextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

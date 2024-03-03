@@ -1,6 +1,6 @@
-package com.xuexingdong.x.admin.controller;
+package com.xxd.x.admin.controller;
 
-import com.xuexingdong.x.admin.service.ChatFriendService;
+import com.xxd.x.admin.service.ChatFriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,14 +1,14 @@
-package com.xuexingdong.x.backend.service.impl;
+package com.xxd.x.backend.service.impl;
 
-import com.xuexingdong.x.backend.dto.RegisterDTO;
-import com.xuexingdong.x.backend.exception.BusinessException;
-import com.xuexingdong.x.backend.exception.Exceptions;
-import com.xuexingdong.x.backend.service.UserService;
-import com.xuexingdong.x.backend.vo.UserVO;
-import com.xuexingdong.x.common.crypto.XCrypto;
-import com.xuexingdong.x.common.utils.XRandomUtils;
-import com.xuexingdong.x.entity.User;
-import com.xuexingdong.x.mapper.UserMapper;
+import com.xxd.x.backend.dto.RegisterDTO;
+import com.xxd.x.backend.exception.BusinessException;
+import com.xxd.x.backend.exception.Exceptions;
+import com.xxd.x.backend.service.UserService;
+import com.xxd.x.backend.vo.UserVO;
+import com.xxd.x.common.crypto.XCrypto;
+import com.xxd.x.common.utils.XRandomUtils;
+import com.xxd.x.entity.User;
+import com.xxd.x.mapper.UserMapper;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;

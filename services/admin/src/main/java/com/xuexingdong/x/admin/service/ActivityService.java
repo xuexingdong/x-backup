@@ -1,6 +1,6 @@
-package com.xuexingdong.x.admin.service;
+package com.xxd.x.admin.service;
 
-import com.xuexingdong.x.admin.vo.ActivityVO;
+import com.xxd.x.admin.vo.ActivityVO;
 
 import java.util.List;
 

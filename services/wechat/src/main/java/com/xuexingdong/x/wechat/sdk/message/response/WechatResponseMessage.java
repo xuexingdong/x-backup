@@ -1,6 +1,6 @@
-package com.xuexingdong.x.wechat.sdk.message.response;
+package com.xxd.x.wechat.sdk.message.response;
 
-import com.xuexingdong.x.wechat.sdk.message.request.WechatMessage;
+import com.xxd.x.wechat.sdk.message.request.WechatMessage;
 
 public class WechatResponseMessage extends WechatMessage {
 

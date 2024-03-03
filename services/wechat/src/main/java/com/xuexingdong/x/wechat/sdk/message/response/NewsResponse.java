@@ -1,7 +1,7 @@
-package com.xuexingdong.x.wechat.sdk.message.response;
+package com.xxd.x.wechat.sdk.message.response;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
-import com.xuexingdong.x.wechat.sdk.constant.MsgType;
+import com.xxd.x.wechat.sdk.constant.MsgType;
 
 public class NewsResponse extends WechatResponseMessage {
     private final MsgType msgType = MsgType.TEXT;

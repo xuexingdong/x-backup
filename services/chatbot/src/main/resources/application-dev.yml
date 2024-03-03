@@ -14,4 +14,4 @@ siteurl: 10.0.0.32:9000
 
 logging:
   level:
-    com.xuexingdong.x: DEBUG
+    com.xxd.x: DEBUG

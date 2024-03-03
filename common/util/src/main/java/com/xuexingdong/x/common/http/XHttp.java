@@ -1,4 +1,4 @@
-package com.xuexingdong.x.common.http;
+package com.xxd.x.common.http;
 
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;

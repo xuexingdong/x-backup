@@ -1,8 +1,8 @@
-package com.xuexingdong.x.wechat.controller;
+package com.xxd.x.wechat.controller;
 
-import com.xuexingdong.x.common.http.XMonoResp;
-import com.xuexingdong.x.wechat.config.WechatConfig;
-import com.xuexingdong.x.wechat.service.WechatService;
+import com.xxd.x.common.http.XMonoResp;
+import com.xxd.x.wechat.config.WechatConfig;
+import com.xxd.x.wechat.service.WechatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

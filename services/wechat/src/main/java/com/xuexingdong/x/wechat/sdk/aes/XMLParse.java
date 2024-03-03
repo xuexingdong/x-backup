@@ -6,7 +6,7 @@
 
 // ------------------------------------------------------------------------
 
-package com.xuexingdong.x.wechat.sdk.aes;
+package com.xxd.x.wechat.sdk.aes;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

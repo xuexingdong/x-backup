@@ -1,4 +1,4 @@
-package com.xuexingdong.x.chatbot.config;
+package com.xxd.x.chatbot.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;

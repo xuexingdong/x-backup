@@ -1,7 +1,7 @@
-package com.xuexingdong.x.admin.service.impl;
+package com.xxd.x.admin.service.impl;
 
-import com.xuexingdong.x.admin.component.ChatbotComponent;
-import com.xuexingdong.x.admin.service.ChatFriendService;
+import com.xxd.x.admin.component.ChatbotComponent;
+import com.xxd.x.admin.service.ChatFriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;

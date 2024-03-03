@@ -1,4 +1,4 @@
-package com.xuexingdong.x.admin.constant;
+package com.xxd.x.admin.constant;
 
 public enum Role {
     ADMIN("ADMIN");

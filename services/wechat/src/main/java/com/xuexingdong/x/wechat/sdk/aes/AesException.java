@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.sdk.aes;
+package com.xxd.x.wechat.sdk.aes;
 
 @SuppressWarnings("serial")
 public class AesException extends Exception {

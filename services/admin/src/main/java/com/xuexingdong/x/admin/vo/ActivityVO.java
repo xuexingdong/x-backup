@@ -1,7 +1,7 @@
-package com.xuexingdong.x.admin.vo;
+package com.xxd.x.admin.vo;
 
-import com.xuexingdong.x.entity.core.DeletedObject;
-import com.xuexingdong.x.enumeration.AuditStatus;
+import com.xxd.x.entity.core.DeletedObject;
+import com.xxd.x.enumeration.AuditStatus;
 
 import java.time.LocalDateTime;
 

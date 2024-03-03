@@ -1,6 +1,6 @@
-package com.xuexingdong.x.admin.service;
+package com.xxd.x.admin.service;
 
-import com.xuexingdong.x.admin.vo.ActivityApplicationVO;
+import com.xxd.x.admin.vo.ActivityApplicationVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

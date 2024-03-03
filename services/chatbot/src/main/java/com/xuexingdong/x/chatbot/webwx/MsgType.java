@@ -1,4 +1,4 @@
-package com.xuexingdong.x.chatbot.webwx;
+package com.xxd.x.chatbot.webwx;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

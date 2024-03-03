@@ -1,6 +1,6 @@
-package com.xuexingdong.x.admin;
+package com.xxd.x.admin;
 
-import com.xuexingdong.x.jwt.JWTService;
+import com.xxd.x.jwt.JWTService;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@MapperScan("com.xuexingdong.x.mapper")
+@MapperScan("com.xxd.x.mapper")
 @ComponentScan(basePackageClasses = {AdminApplication.class, JWTService.class})
 public class AdminApplication {
     public static void main(String[] args) {

@@ -9,7 +9,7 @@ spring:
     basename: i18n/messages/messages
 mybatis:
   mapper-locations: classpath:com/xuexingdong/x/mapper/*Mapper.xml
-  type-aliases-package: com.xuexingdong.x.entity
+  type-aliases-package: com.xxd.x.entity
   configuration:
     map-underscore-to-camel-case: true
 

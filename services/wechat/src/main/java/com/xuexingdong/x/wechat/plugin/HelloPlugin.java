@@ -1,10 +1,10 @@
-// package com.xuexingdong.x.wechat.plugin;// package com.xuexingdong.wechat.plugin;
+// package com.xxd.x.wechat.plugin;// package com.xxd.wechat.plugin;
 //
-// import com.xuexingdong.x.wechat.sdk.builder.TextBuilder;
-// import com.xuexingdong.x.wechat.sdk.message.request.common.TextMessage;
-// import com.xuexingdong.x.wechat.sdk.message.request.event.SubscribeEvent;
-// import com.xuexingdong.x.wechat.sdk.message.response.TextResponse;
-// import com.xuexingdong.x.wechat.sdk.message.response.WechatResponseMessage;
+// import com.xxd.x.wechat.sdk.builder.TextBuilder;
+// import com.xxd.x.wechat.sdk.message.request.common.TextMessage;
+// import com.xxd.x.wechat.sdk.message.request.event.SubscribeEvent;
+// import com.xxd.x.wechat.sdk.message.response.TextResponse;
+// import com.xxd.x.wechat.sdk.message.response.WechatResponseMessage;
 // import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.data.redis.core.StringRedisTemplate;
 // import org.springframework.stereotype.Component;

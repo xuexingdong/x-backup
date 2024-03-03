@@ -1,7 +1,7 @@
-package com.xuexingdong.x.backend.service;
+package com.xxd.x.backend.service;
 
-import com.xuexingdong.x.backend.dto.RegisterDTO;
-import com.xuexingdong.x.backend.vo.UserVO;
+import com.xxd.x.backend.dto.RegisterDTO;
+import com.xxd.x.backend.vo.UserVO;
 
 public interface UserService {
 

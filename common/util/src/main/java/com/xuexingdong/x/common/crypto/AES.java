@@ -1,4 +1,4 @@
-package com.xuexingdong.x.common.crypto;
+package com.xxd.x.common.crypto;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 

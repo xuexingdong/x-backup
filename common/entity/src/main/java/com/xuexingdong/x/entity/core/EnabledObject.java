@@ -1,4 +1,4 @@
-package com.xuexingdong.x.entity.core;
+package com.xxd.x.entity.core;
 
 public class EnabledObject extends DeletedObject {
     private Boolean enabled;

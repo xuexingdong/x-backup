@@ -1,0 +1,66 @@
+@startuml
+
+class PayType {
+    String payTypeCode
+}
+
+class PayTypeAttr {
+    String payTypeCode
+    String code
+    String name
+}
+
+class PayProduct {
+    String payTypeCode
+    String code
+    String name
+}
+
+class App {
+    String appId
+}
+
+class Merchant {
+    String appId
+    String mchId
+}
+
+class PayChannel {
+    String mchId
+    String payTypeCode
+    String code
+}
+
+class PayChannelAttr {
+    String payChannelCode
+    String attrCode
+    String attrValue
+}
+
+class PayOrder {
+    String mchId
+    String paySerialNo
+    String payChannelCode
+    String status
+    String outTradeNo
+    BigDecimal amount
+    String thirdSerialNo
+    String notifyUrl
+    String attach
+}
+
+class PayOrderLog {
+    request
+    response
+}
+
+PayType ||..o{ PayTypeAttr
+
+App ||..o{ Merchant
+(Merchant, PayType) .. PayChannel
+PayChannel ||..o{ PayChannelAttr
+PayChannel ||..o{ PayOrder
+PayOrder ||..o{ PayOrderLog
+
+
+@enduml

@@ -1,9 +1,9 @@
-package com.xuexingdong.x.wechat.aop;
+package com.xxd.x.wechat.aop;
 
-import com.xuexingdong.x.common.utils.XDateTimeUtils;
-import com.xuexingdong.x.wechat.config.WechatConfig;
-import com.xuexingdong.x.wechat.sdk.aes.AesException;
-import com.xuexingdong.x.wechat.sdk.aes.WXBizMsgCrypt;
+import com.xxd.x.common.utils.XDateTimeUtils;
+import com.xxd.x.wechat.config.WechatConfig;
+import com.xxd.x.wechat.sdk.aes.AesException;
+import com.xxd.x.wechat.sdk.aes.WXBizMsgCrypt;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -31,7 +31,7 @@ public class WechatAESAspect {
     @Autowired
     private WechatConfig wechatConfig;
 
-    @Around("execution(* com.xuexingdong.x.wechat.controller..WechatController.handleMessage(..))")
+    @Around("execution(* com.xxd.x.wechat.controller..WechatController.handleMessage(..))")
     public String messagePointcut(ProceedingJoinPoint point) throws Throwable {
         Object[] args = point.getArgs();
         String msgSignature = (String) args[0];

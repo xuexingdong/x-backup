@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.sdk.message.request.common;
+package com.xxd.x.wechat.sdk.message.request.common;
 
 /**
  * 多媒体消息

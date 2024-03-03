@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.dto;
+package com.xxd.x.wechat.dto;
 
 public class BindDTO {
     private String openid;

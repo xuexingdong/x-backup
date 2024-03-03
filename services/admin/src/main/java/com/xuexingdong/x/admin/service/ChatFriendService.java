@@ -1,4 +1,4 @@
-package com.xuexingdong.x.admin.service;
+package com.xxd.x.admin.service;
 
 import java.util.List;
 import java.util.Map;

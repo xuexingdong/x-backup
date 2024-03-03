@@ -6,7 +6,7 @@
 
 // ------------------------------------------------------------------------
 
-package com.xuexingdong.x.wechat.sdk.aes;
+package com.xxd.x.wechat.sdk.aes;
 
 import java.security.MessageDigest;
 import java.util.Arrays;

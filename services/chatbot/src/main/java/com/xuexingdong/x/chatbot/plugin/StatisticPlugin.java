@@ -1,9 +1,9 @@
-package com.xuexingdong.x.chatbot.plugin;
+package com.xxd.x.chatbot.plugin;
 
-import com.xuexingdong.x.chatbot.component.StatisticComponent;
-import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
-import com.xuexingdong.x.chatbot.event.Event;
-import com.xuexingdong.x.chatbot.webwx.*;
+import com.xxd.x.chatbot.component.StatisticComponent;
+import com.xxd.x.chatbot.core.ChatbotPlugin;
+import com.xxd.x.chatbot.event.Event;
+import com.xxd.x.chatbot.webwx.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;

@@ -1,8 +1,8 @@
-package com.xuexingdong.x.backend.service;
+package com.xxd.x.backend.service;
 
 import com.github.pagehelper.PageInfo;
-import com.xuexingdong.x.backend.dto.ActivityApplicationDTO;
-import com.xuexingdong.x.backend.vo.ActivityApplicationVO;
+import com.xxd.x.backend.dto.ActivityApplicationDTO;
+import com.xxd.x.backend.vo.ActivityApplicationVO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

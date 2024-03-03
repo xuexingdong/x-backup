@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.sdk.message.request.common;
+package com.xxd.x.wechat.sdk.message.request.common;
 
 public class LocationMessage extends CommonMessage {
     private String locationX;

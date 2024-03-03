@@ -1,7 +1,7 @@
-package com.xuexingdong.x.mapper;
+package com.xxd.x.mapper;
 
-import com.xuexingdong.x.entity.Activity;
-import com.xuexingdong.x.enumeration.AuditStatus;
+import com.xxd.x.entity.Activity;
+import com.xxd.x.enumeration.AuditStatus;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

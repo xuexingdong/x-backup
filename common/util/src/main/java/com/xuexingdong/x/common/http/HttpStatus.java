@@ -1,4 +1,4 @@
-package com.xuexingdong.x.common.http;
+package com.xxd.x.common.http;
 
 /**
  * refer: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes

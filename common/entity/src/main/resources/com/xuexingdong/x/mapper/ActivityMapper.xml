@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xuexingdong.x.mapper.ActivityMapper">
+<mapper namespace="com.xxd.x.mapper.ActivityMapper">
     <insert id="insert">
         insert into "activity" (name, description, start_date_time, end_date_time, audit_status, created_at, created_by)
         values (#{name}, #{description}, #{startDateTime}, #{endDateTime}, #{auditStatus}, now(), #{createdBy});

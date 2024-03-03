@@ -1,11 +1,11 @@
-package com.xuexingdong.x.wechat.plugin;
+package com.xxd.x.wechat.plugin;
 
-import com.xuexingdong.x.common.serialization.XSerialization;
-import com.xuexingdong.x.wechat.sdk.constant.Event;
-import com.xuexingdong.x.wechat.sdk.constant.MsgType;
-import com.xuexingdong.x.wechat.sdk.message.request.common.*;
-import com.xuexingdong.x.wechat.sdk.message.request.event.SubscribeEvent;
-import com.xuexingdong.x.wechat.sdk.message.response.WechatResponseMessage;
+import com.xxd.x.common.serialization.XSerialization;
+import com.xxd.x.wechat.sdk.constant.Event;
+import com.xxd.x.wechat.sdk.constant.MsgType;
+import com.xxd.x.wechat.sdk.message.request.common.*;
+import com.xxd.x.wechat.sdk.message.request.event.SubscribeEvent;
+import com.xxd.x.wechat.sdk.message.response.WechatResponseMessage;
 import org.dom4j.Document;
 import org.dom4j.Element;
 

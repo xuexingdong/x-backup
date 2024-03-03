@@ -1,4 +1,4 @@
-package com.xuexingdong.x.chatbot.webwx;
+package com.xxd.x.chatbot.webwx;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;

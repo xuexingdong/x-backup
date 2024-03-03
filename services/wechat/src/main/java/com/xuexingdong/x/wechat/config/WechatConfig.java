@@ -1,7 +1,7 @@
-package com.xuexingdong.x.wechat.config;
+package com.xxd.x.wechat.config;
 
-import com.xuexingdong.x.wechat.sdk.WechatClient;
-import com.xuexingdong.x.wechat.sdk.constant.WechatEncryptMode;
+import com.xxd.x.wechat.sdk.WechatClient;
+import com.xxd.x.wechat.sdk.constant.WechatEncryptMode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

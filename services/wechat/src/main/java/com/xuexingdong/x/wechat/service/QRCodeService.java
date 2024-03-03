@@ -1,8 +1,8 @@
-package com.xuexingdong.x.wechat.service;
+package com.xxd.x.wechat.service;
 
 
-import com.xuexingdong.x.wechat.enumeration.QRCodeScanStatus;
-import com.xuexingdong.x.wechat.model.QRCode;
+import com.xxd.x.wechat.enumeration.QRCodeScanStatus;
+import com.xxd.x.wechat.model.QRCode;
 
 import java.util.Optional;
 

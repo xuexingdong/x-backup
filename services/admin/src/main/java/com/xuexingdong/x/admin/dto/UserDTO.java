@@ -1,4 +1,4 @@
-package com.xuexingdong.x.admin.dto;
+package com.xxd.x.admin.dto;
 
 import org.hibernate.validator.constraints.Length;
 

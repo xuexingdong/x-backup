@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.sdk.constant;
+package com.xxd.x.wechat.sdk.constant;
 
 public enum WechatEncryptMode {
     CLEAR, BOTH, CIPHER

@@ -1,10 +1,10 @@
-package com.xuexingdong.x.chatbot.component;
+package com.xxd.x.chatbot.component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xuexingdong.x.chatbot.model.Location;
-import com.xuexingdong.x.chatbot.repository.LocationRepository;
-import com.xuexingdong.x.chatbot.util.GPSUtil;
+import com.xxd.x.chatbot.model.Location;
+import com.xxd.x.chatbot.repository.LocationRepository;
+import com.xxd.x.chatbot.util.GPSUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
-package com.xuexingdong.x.wechat.sdk;
+package com.xxd.x.wechat.sdk;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xuexingdong.x.common.serialization.XSerialization;
-import com.xuexingdong.x.wechat.sdk.model.TicketType;
+import com.xxd.x.common.serialization.XSerialization;
+import com.xxd.x.wechat.sdk.model.TicketType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;

@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.sdk.model;
+package com.xxd.x.wechat.sdk.model;
 
 public enum TicketType {
     JSAPI("jsapi"),

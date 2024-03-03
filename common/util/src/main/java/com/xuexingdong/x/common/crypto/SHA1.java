@@ -1,4 +1,4 @@
-package com.xuexingdong.x.common.crypto;
+package com.xxd.x.common.crypto;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 
-import static com.xuexingdong.x.common.crypto.Constants.HEX_DIGITS;
+import static com.xxd.x.common.crypto.Constants.HEX_DIGITS;
 
 public class SHA1 implements Encryption {
 

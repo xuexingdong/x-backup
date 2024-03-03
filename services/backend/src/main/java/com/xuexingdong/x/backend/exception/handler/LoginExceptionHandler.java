@@ -1,4 +1,4 @@
-// package com.xuexingdong.x.backend.exception.handler;
+// package com.xxd.x.backend.exception.handler;
 //
 // import org.springframework.validation.BindException;
 // import org.springframework.web.bind.annotation.ExceptionHandler;

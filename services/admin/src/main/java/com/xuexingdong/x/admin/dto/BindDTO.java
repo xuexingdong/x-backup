@@ -1,4 +1,4 @@
-package com.xuexingdong.x.admin.dto;
+package com.xxd.x.admin.dto;
 
 import javax.validation.constraints.NotEmpty;
 

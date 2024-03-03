@@ -1,11 +1,11 @@
-package com.xuexingdong.x.chatbot.core;
+package com.xxd.x.chatbot.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xuexingdong.x.chatbot.config.RabbitConfig;
-import com.xuexingdong.x.chatbot.event.Event;
-import com.xuexingdong.x.chatbot.event.EventType;
-import com.xuexingdong.x.chatbot.webwx.*;
+import com.xxd.x.chatbot.config.RabbitConfig;
+import com.xxd.x.chatbot.event.Event;
+import com.xxd.x.chatbot.event.EventType;
+import com.xxd.x.chatbot.webwx.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpAdmin;

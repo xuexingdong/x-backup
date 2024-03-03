@@ -1,4 +1,4 @@
-package com.xuexingdong.x.entity;
+package com.xxd.x.entity;
 
 public class Item {
     private String name;

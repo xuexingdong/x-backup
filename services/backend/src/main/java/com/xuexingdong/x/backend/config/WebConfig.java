@@ -1,6 +1,6 @@
-package com.xuexingdong.x.backend.config;
+package com.xxd.x.backend.config;
 
-import com.xuexingdong.x.backend.interceptor.AuthInterceptor;
+import com.xxd.x.backend.interceptor.AuthInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

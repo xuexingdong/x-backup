@@ -1,4 +1,4 @@
-package com.xuexingdong.x.exception;
+package com.xxd.x.exception;
 
 public class ClientException extends RuntimeException {
 

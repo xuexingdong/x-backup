@@ -1,4 +1,4 @@
-package com.xuexingdong.x.chatbot;
+package com.xxd.x.chatbot;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 @EnableScheduling
 @SpringBootApplication
-@MapperScan("com.xuexingdong.x.mapper")
+@MapperScan("com.xxd.x.mapper")
 public class ChatbotApplication {
 
     @Bean

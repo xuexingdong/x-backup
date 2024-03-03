@@ -1,6 +1,6 @@
-package com.xuexingdong.x.entity;
+package com.xxd.x.entity;
 
-import com.xuexingdong.x.entity.core.Identifiable;
+import com.xxd.x.entity.core.Identifiable;
 
 import java.time.LocalDateTime;
 public class User implements Identifiable<String> {

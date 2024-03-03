@@ -1,9 +1,9 @@
-package com.xuexingdong.x.exception;
+package com.xxd.x.exception;
 
 
-import com.xuexingdong.x.exception.common.UserAlreadyExistsException;
-import com.xuexingdong.x.exception.common.UserNotExistException;
-import com.xuexingdong.x.exception.common.WrongPasswordException;
+import com.xxd.x.exception.common.UserAlreadyExistsException;
+import com.xxd.x.exception.common.UserNotExistException;
+import com.xxd.x.exception.common.WrongPasswordException;
 
 public final class Exceptions {
     public static final UnknownException UNKNOWN = new UnknownException();

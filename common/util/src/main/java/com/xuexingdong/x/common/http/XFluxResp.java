@@ -1,4 +1,4 @@
-package com.xuexingdong.x.common.http;
+package com.xxd.x.common.http;
 
 public class XFluxResp<T> extends XResp {
     private Page page;

@@ -1,14 +1,14 @@
-package com.xuexingdong.x.admin.service.impl;
+package com.xxd.x.admin.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.xuexingdong.x.admin.service.ActivityApplicationService;
-import com.xuexingdong.x.admin.vo.ActivityApplicationVO;
-import com.xuexingdong.x.entity.Activity;
-import com.xuexingdong.x.entity.ActivityApplication;
-import com.xuexingdong.x.enumeration.AuditStatus;
-import com.xuexingdong.x.mapper.ActivityApplicationMapper;
-import com.xuexingdong.x.mapper.ActivityMapper;
+import com.xxd.x.admin.service.ActivityApplicationService;
+import com.xxd.x.admin.vo.ActivityApplicationVO;
+import com.xxd.x.entity.Activity;
+import com.xxd.x.entity.ActivityApplication;
+import com.xxd.x.enumeration.AuditStatus;
+import com.xxd.x.mapper.ActivityApplicationMapper;
+import com.xxd.x.mapper.ActivityMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

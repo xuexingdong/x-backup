@@ -1,7 +1,7 @@
-package com.xuexingdong.x.admin.service.impl;
+package com.xxd.x.admin.service.impl;
 
-import com.xuexingdong.x.admin.service.ChatRecordService;
-import com.xuexingdong.x.entity.ChatRecord;
+import com.xxd.x.admin.service.ChatRecordService;
+import com.xxd.x.entity.ChatRecord;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

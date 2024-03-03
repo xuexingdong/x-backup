@@ -1,11 +1,11 @@
-package com.xuexingdong.x.wechat.plugin;
+package com.xxd.x.wechat.plugin;
 
-import com.xuexingdong.x.entity.User;
-import com.xuexingdong.x.mapper.UserMapper;
-import com.xuexingdong.x.wechat.config.PluginConfig;
-import com.xuexingdong.x.wechat.sdk.message.request.common.TextMessage;
-import com.xuexingdong.x.wechat.sdk.message.response.TextResponse;
-import com.xuexingdong.x.wechat.sdk.message.response.WechatResponseMessage;
+import com.xxd.x.entity.User;
+import com.xxd.x.mapper.UserMapper;
+import com.xxd.x.wechat.config.PluginConfig;
+import com.xxd.x.wechat.sdk.message.request.common.TextMessage;
+import com.xxd.x.wechat.sdk.message.response.TextResponse;
+import com.xxd.x.wechat.sdk.message.response.WechatResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.xuexingdong.x.chatbot.enumeration;
+package com.xxd.x.chatbot.enumeration;
 
 public enum ChatStatus {
     SEND,

@@ -1,7 +1,7 @@
-package com.xuexingdong.x.admin.controller;
+package com.xxd.x.admin.controller;
 
-import com.xuexingdong.x.admin.service.ActivityApplicationService;
-import com.xuexingdong.x.admin.vo.ActivityApplicationVO;
+import com.xxd.x.admin.service.ActivityApplicationService;
+import com.xxd.x.admin.vo.ActivityApplicationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.sdk;
+package com.xxd.x.wechat.sdk;
 
 public enum WechatReturnCode {
 

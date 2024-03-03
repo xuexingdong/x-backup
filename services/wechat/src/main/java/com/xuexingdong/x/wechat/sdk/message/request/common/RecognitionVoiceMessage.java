@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.sdk.message.request.common;
+package com.xxd.x.wechat.sdk.message.request.common;
 
 public class RecognitionVoiceMessage extends VoiceMessage {
     private String recognition;

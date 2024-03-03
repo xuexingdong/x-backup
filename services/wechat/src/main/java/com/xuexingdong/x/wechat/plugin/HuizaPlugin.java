@@ -1,9 +1,9 @@
-// package com.xuexingdong.x.wechat.plugin;
+// package com.xxd.x.wechat.plugin;
 //
-// import com.xuexingdong.x.wechat.sdk.builder.TextBuilder;
-// import com.xuexingdong.x.wechat.sdk.message.request.common.RecognitionVoiceMessage;
-// import com.xuexingdong.x.wechat.sdk.message.response.TextResponse;
-// import com.xuexingdong.x.wechat.sdk.message.response.WechatResponseMessage;
+// import com.xxd.x.wechat.sdk.builder.TextBuilder;
+// import com.xxd.x.wechat.sdk.message.request.common.RecognitionVoiceMessage;
+// import com.xxd.x.wechat.sdk.message.response.TextResponse;
+// import com.xxd.x.wechat.sdk.message.response.WechatResponseMessage;
 // import net.sourceforge.pinyin4j.PinyinHelper;
 // import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 // import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;

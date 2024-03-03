@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.service;
+package com.xxd.x.wechat.service;
 
 public interface WechatService {
 

@@ -1,4 +1,4 @@
-package com.xuexingdong.x.wechat.sdk.message.request;
+package com.xxd.x.wechat.sdk.message.request;
 
 
 import java.time.Clock;

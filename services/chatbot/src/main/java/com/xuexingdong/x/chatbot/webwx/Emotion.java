@@ -1,4 +1,4 @@
-package com.xuexingdong.x.chatbot.webwx;
+package com.xxd.x.chatbot.webwx;
 
 import java.util.HashSet;
 import java.util.Set;

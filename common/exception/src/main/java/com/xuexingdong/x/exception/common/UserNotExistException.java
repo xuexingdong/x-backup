@@ -1,7 +1,7 @@
-package com.xuexingdong.x.exception.common;
+package com.xxd.x.exception.common;
 
 
-import com.xuexingdong.x.exception.BusinessException;
+import com.xxd.x.exception.BusinessException;
 
 public final class UserNotExistException extends BusinessException {
     private int code = 5001002;

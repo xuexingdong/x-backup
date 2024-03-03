@@ -1,10 +1,10 @@
-package com.xuexingdong.x.chatbot.core;
+package com.xxd.x.chatbot.core;
 
-import com.xuexingdong.x.chatbot.event.Event;
-import com.xuexingdong.x.chatbot.webwx.WebWxEmotionMessage;
-import com.xuexingdong.x.chatbot.webwx.WebWxImageMessage;
-import com.xuexingdong.x.chatbot.webwx.WebWxLocationMessage;
-import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
+import com.xxd.x.chatbot.event.Event;
+import com.xxd.x.chatbot.webwx.WebWxEmotionMessage;
+import com.xxd.x.chatbot.webwx.WebWxImageMessage;
+import com.xxd.x.chatbot.webwx.WebWxLocationMessage;
+import com.xxd.x.chatbot.webwx.WebWxTextMessage;
 
 import java.util.ArrayList;
 import java.util.List;

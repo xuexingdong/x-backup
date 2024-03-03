@@ -1,10 +1,10 @@
-package com.xuexingdong.x.admin.service.impl;
+package com.xxd.x.admin.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.xuexingdong.x.admin.service.UserService;
-import com.xuexingdong.x.entity.User;
-import com.xuexingdong.x.mapper.UserMapper;
+import com.xxd.x.admin.service.UserService;
+import com.xxd.x.entity.User;
+import com.xxd.x.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

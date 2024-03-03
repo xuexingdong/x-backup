@@ -1,11 +1,11 @@
-package com.xuexingdong.x.backend.service.impl;
+package com.xxd.x.backend.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.xuexingdong.x.backend.service.ActivityService;
-import com.xuexingdong.x.backend.vo.ActivityVO;
-import com.xuexingdong.x.entity.Activity;
-import com.xuexingdong.x.mapper.ActivityMapper;
-import com.xuexingdong.x.mapper.RoleMapper;
+import com.xxd.x.backend.service.ActivityService;
+import com.xxd.x.backend.vo.ActivityVO;
+import com.xxd.x.entity.Activity;
+import com.xxd.x.mapper.ActivityMapper;
+import com.xxd.x.mapper.RoleMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

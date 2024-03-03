@@ -1,4 +1,4 @@
-package com.xuexingdong.x.admin.component;
+package com.xxd.x.admin.component;
 
 import okhttp3.*;
 import org.slf4j.Logger;

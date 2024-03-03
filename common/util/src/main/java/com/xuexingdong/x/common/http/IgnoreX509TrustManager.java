@@ -1,4 +1,4 @@
-package com.xuexingdong.x.common.http;
+package com.xxd.x.common.http;
 
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.CertificateException;

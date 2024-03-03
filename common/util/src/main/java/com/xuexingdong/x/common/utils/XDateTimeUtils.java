@@ -1,4 +1,4 @@
-package com.xuexingdong.x.common.utils;
+package com.xxd.x.common.utils;
 
 import java.time.Clock;
 import java.time.LocalTime;

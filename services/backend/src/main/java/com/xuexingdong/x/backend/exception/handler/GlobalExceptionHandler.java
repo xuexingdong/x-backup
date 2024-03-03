@@ -1,7 +1,7 @@
-package com.xuexingdong.x.backend.exception.handler;
+package com.xxd.x.backend.exception.handler;
 
-import com.xuexingdong.x.backend.exception.BusinessException;
-import com.xuexingdong.x.backend.exception.ClientException;
+import com.xxd.x.backend.exception.BusinessException;
+import com.xxd.x.backend.exception.ClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

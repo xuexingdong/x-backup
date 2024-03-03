@@ -1,6 +1,6 @@
-package com.xuexingdong.x.admin.service;
+package com.xxd.x.admin.service;
 
-import com.xuexingdong.x.entity.ChatRecord;
+import com.xxd.x.entity.ChatRecord;
 
 import java.util.List;
 

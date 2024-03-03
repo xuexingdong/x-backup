@@ -1,15 +1,15 @@
-package com.xuexingdong.x.chatbot.plugin;
+package com.xxd.x.chatbot.plugin;
 
-import com.xuexingdong.x.chatbot.client.ChatbotDataContainer;
-import com.xuexingdong.x.chatbot.core.ChatbotPlugin;
-import com.xuexingdong.x.chatbot.enumeration.ChatStatus;
-import com.xuexingdong.x.chatbot.event.Event;
-import com.xuexingdong.x.chatbot.webwx.WebWxTextMessage;
-import com.xuexingdong.x.chatbot.webwx.WebWxUtils;
-import com.xuexingdong.x.common.utils.XDateTimeUtils;
-import com.xuexingdong.x.common.utils.XRandomUtils;
-import com.xuexingdong.x.entity.User;
-import com.xuexingdong.x.mapper.UserMapper;
+import com.xxd.x.chatbot.client.ChatbotDataContainer;
+import com.xxd.x.chatbot.core.ChatbotPlugin;
+import com.xxd.x.chatbot.enumeration.ChatStatus;
+import com.xxd.x.chatbot.event.Event;
+import com.xxd.x.chatbot.webwx.WebWxTextMessage;
+import com.xxd.x.chatbot.webwx.WebWxUtils;
+import com.xxd.x.common.utils.XDateTimeUtils;
+import com.xxd.x.common.utils.XRandomUtils;
+import com.xxd.x.entity.User;
+import com.xxd.x.mapper.UserMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
-package com.xuexingdong.x.backend.exception.common;
+package com.xxd.x.backend.exception.common;
 
-import com.xuexingdong.x.backend.exception.BusinessException;
+import com.xxd.x.backend.exception.BusinessException;
 
 public final class UserAlreadyExistsException extends BusinessException {
     private int code = 5001001;

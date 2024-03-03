@@ -1,6 +1,6 @@
-package com.xuexingdong.x.backend.exception.activity;
+package com.xxd.x.backend.exception.activity;
 
-import com.xuexingdong.x.backend.exception.BusinessException;
+import com.xxd.x.backend.exception.BusinessException;
 
 public final class PointNotEnoughException extends BusinessException {
     private int code = 5002001;

@@ -1,10 +1,10 @@
-package com.xuexingdong.x.backend.controller;
+package com.xxd.x.backend.controller;
 
-import com.xuexingdong.x.backend.dto.RegisterDTO;
-import com.xuexingdong.x.backend.service.UserService;
-import com.xuexingdong.x.backend.vo.UserVO;
-import com.xuexingdong.x.common.http.XResp;
-import com.xuexingdong.x.jwt.JWTService;
+import com.xxd.x.backend.dto.RegisterDTO;
+import com.xxd.x.backend.service.UserService;
+import com.xxd.x.backend.vo.UserVO;
+import com.xxd.x.common.http.XResp;
+import com.xxd.x.jwt.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;

@@ -1,6 +1,6 @@
-package com.xuexingdong.x.jwt;
+package com.xxd.x.jwt;
 
-import com.xuexingdong.x.jwt.constant.RedisKeys;
+import com.xxd.x.jwt.constant.RedisKeys;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

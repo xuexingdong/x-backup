@@ -1,8 +1,8 @@
-package com.xuexingdong.x.admin.controller;
+package com.xxd.x.admin.controller;
 
-import com.xuexingdong.x.admin.service.UserService;
-import com.xuexingdong.x.admin.vo.UserVO;
-import com.xuexingdong.x.entity.User;
+import com.xxd.x.admin.service.UserService;
+import com.xxd.x.admin.vo.UserVO;
+import com.xxd.x.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,6 +1,6 @@
-package com.xuexingdong.x.mapper;
+package com.xxd.x.mapper;
 
-import com.xuexingdong.x.entity.User;
+import com.xxd.x.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
